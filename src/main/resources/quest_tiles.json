@@ -1,0 +1,4194 @@
+﻿[
+    {
+        "id":  "druidic_ritual",
+        "displayName":  "Druidic Ritual",
+        "tier":  1,
+        "type":  "quest",
+        "cost":  15,
+        "prerequisites":  [
+                              "taverley"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Druidic Ritual",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "lost_city",
+        "displayName":  "Lost City",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "lumbridge",
+                              "31 Crafting",
+                              "36 Woodcutting"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Lost City",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "witchs_house",
+        "displayName":  "Witch\u0027s House",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                                "taverley"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Witch\u0027s House",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "merlins_crystal",
+        "displayName":  "Merlin\u0027s Crystal",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "camelot_seers"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Merlin\u0027s Crystal",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "heroes_quest",
+        "displayName":  "Heroes\u0027 Quest",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "taverley",
+                              "55 Quest points",
+                              "53 Cooking",
+                              "53 Fishing",
+                              "25 Herblore",
+                              "50 Mining",
+                              "Shield of Arrav",
+                              "Lost City",
+                              "Merlin\u0027s Crystal",
+                              "Dragon Slayer I"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Heroes\u0027 Quest",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "scorpion_catcher",
+        "displayName":  "Scorpion Catcher",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "camelot_seers",
+                              "31 Prayer",
+                              "Alfred Grimhand\u0027s Barcrawl"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Scorpion Catcher",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "family_crest",
+        "displayName":  "Family Crest",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "varrock",
+                              "40 Mining",
+                              "40 Smithing",
+                              "59 Magic",
+                              "40 Crafting"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Family Crest",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "fishing_contest",
+        "displayName":  "Fishing Contest",
+        "tier":  1,
+        "type":  "quest",
+        "cost":  15,
+        "prerequisites":  [
+                              "taverley, catherby",
+                              "10 Fishing"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Fishing Contest",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "tribal_totem",
+        "displayName":  "Tribal Totem",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "musa_point",
+                              "21 Thieving"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Tribal Totem",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "monks_friend",
+        "displayName":  "Monk\u0027s Friend",
+        "tier":  1,
+        "type":  "quest",
+        "cost":  15,
+        "prerequisites":  [
+                              "ardougne"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Monk\u0027s Friend",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "temple_of_ikov",
+        "displayName":  "Temple of Ikov",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "ardougne",
+                              "42 Thieving"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Temple of Ikov",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "clock_tower",
+        "displayName":  "Clock Tower",
+        "tier":  1,
+        "type":  "quest",
+        "cost":  15,
+        "prerequisites":  [
+                              "ardougne"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Clock Tower",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "holy_grail",
+        "displayName":  "Holy Grail",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "camelot_seers",
+                              "Merlin\u0027s Crystal",
+                              "20 Attack"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Holy Grail",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "tree_gnome_village",
+        "displayName":  "Tree Gnome Village",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "khazard_battlegrounds"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Tree Gnome Village",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "fight_arena",
+        "displayName":  "Fight Arena",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "khazard_battlegrounds"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Fight Arena",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "hazeel_cult",
+        "displayName":  "Hazeel Cult",
+        "tier":  1,
+        "type":  "quest",
+        "cost":  15,
+        "prerequisites":  [
+                              "ardougne"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Hazeel Cult",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "sheep_herder",
+        "displayName":  "Sheep Herder",
+        "tier":  1,
+        "type":  "quest",
+        "cost":  15,
+        "prerequisites":  [
+                              "ardougne"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Sheep Herder",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "plague_city",
+        "displayName":  "Plague City",
+        "tier":  1,
+        "type":  "quest",
+        "cost":  15,
+        "prerequisites":  [
+                              "ardougne"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Plague City",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "sea_slug",
+        "displayName":  "Sea Slug",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "ardougne",
+                              "30 Firemaking"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Sea Slug",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "waterfall_quest",
+        "displayName":  "Waterfall Quest",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "barbarian_waterfall"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Waterfall Quest",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "jungle_potion",
+        "displayName":  "Jungle Potion",
+        "tier":  1,
+        "type":  "quest",
+        "cost":  15,
+        "prerequisites":  [
+                              "karamja",
+                              "Druidic Ritual",
+                              "3 Herblore"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Jungle Potion",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "the_grand_tree",
+        "displayName":  "The Grand Tree",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "gnome_stronghold",
+                              "25 Agility"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "The Grand Tree",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "underground_pass",
+        "displayName":  "Underground Pass",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "ardougne",
+                              "25 Ranged",
+                              "Biohazard",
+                              "Plague City"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Underground Pass",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "observatory_quest",
+        "displayName":  "Observatory Quest",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "yanille"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Observatory Quest",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "the_tourist_trap",
+        "displayName":  "The Tourist Trap",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "al_kharid",
+                              "10 Fletching",
+                              "20 Smithing"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "The Tourist Trap",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "watchtower",
+        "displayName":  "Watchtower",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "yanille",
+                              "14 Magic",
+                              "15 Thieving",
+                              "25 Agility",
+                              "14 Herblore",
+                              "40 Mining"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Watchtower",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "dwarf_cannon",
+        "displayName":  "Dwarf Cannon",
+        "tier":  1,
+        "type":  "quest",
+        "cost":  15,
+        "prerequisites":  [
+                              "hemenster"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Dwarf Cannon",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "murder_mystery",
+        "displayName":  "Murder Mystery",
+        "tier":  1,
+        "type":  "quest",
+        "cost":  15,
+        "prerequisites":  [
+                              "camelot_seers"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Murder Mystery",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "the_dig_site",
+        "displayName":  "The Dig Site",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "silvarea",
+                              "10 Agility",
+                              "10 Herblore",
+                              "25 Thieving"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "The Dig Site",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "gertrudes_cat",
+        "displayName":  "Gertrude\u0027s Cat",
+        "tier":  1,
+        "type":  "quest",
+        "cost":  15,
+        "prerequisites":  [
+                              "varrock"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Gertrude\u0027s Cat",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "legends_quest",
+        "displayName":  "Legends\u0027 Quest",
+        "tier":  4,
+        "type":  "quest",
+        "cost":  100,
+        "prerequisites":  [
+                              "ardougne",
+                              "107 Quest points",
+                              "50 Agility",
+                              "50 Crafting",
+                              "45 Herblore",
+                              "56 Magic",
+                              "52 Mining",
+                              "42 Prayer",
+                              "50 Smithing",
+                              "50 Strength",
+                              "50 Thieving",
+                              "50 Woodcutting",
+                              "Family Crest",
+                              "Heroes\u0027 Quest",
+                              "Shield of Arrav",
+                              "Lost City",
+                              "Merlin\u0027s Crystal",
+                              "Dragon Slayer I",
+                              "Shilo Village",
+                              "Jungle Potion",
+                              "Druidic Ritual",
+                              "Underground Pass",
+                              "Biohazard",
+                              "Plague City",
+                              "Waterfall Quest"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Legends\u0027 Quest",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "death_plateau",
+        "displayName":  "Death Plateau",
+        "tier":  1,
+        "type":  "quest",
+        "cost":  15,
+        "prerequisites":  [
+                              "burthorpe"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Death Plateau",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "eadgars_ruse",
+        "displayName":  "Eadgar\u0027s Ruse",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "taverley",
+                              "Druidic Ritual",
+                              "Troll Stronghold",
+                              "Death Plateau",
+                              "31 Herblore"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Eadgar\u0027s Ruse",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "big_chompy_bird_hunting",
+        "displayName":  "Big Chompy Bird Hunting",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "feldip_hills",
+                              "5 Fletching",
+                              "30 Cooking",
+                              "30 Ranged"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Big Chompy Bird Hunting",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "elemental_workshop_i",
+        "displayName":  "Elemental Workshop I",
+        "tier":  1,
+        "type":  "quest",
+        "cost":  15,
+        "prerequisites":  [
+                              "camelot_seers",
+                              "20 Mining",
+                              "20 Smithing",
+                              "20 Crafting"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Elemental Workshop I",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "nature_spirit",
+        "displayName":  "Nature Spirit",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "silvarea",
+                              "priest_in_peril",
+                              "the_restless_ghost"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Nature Spirit",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "priest_in_peril",
+        "displayName":  "Priest in Peril",
+        "tier":  1,
+        "type":  "quest",
+        "cost":  15,
+        "prerequisites":  [
+                              "varrock"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Priest in Peril",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "regicide",
+        "displayName":  "Regicide",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "ardougne",
+                              "Underground Pass",
+                              "Biohazard",
+                              "Plague City",
+                              "10 Crafting",
+                              "56 Agility"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Regicide",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "tai_bwo_wannai_trio",
+        "displayName":  "Tai Bwo Wannai Trio",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "karamja",
+                              "15 Agility",
+                              "30 Cooking",
+                              "5 Fishing",
+                              "Jungle Potion",
+                              "Druidic Ritual"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Tai Bwo Wannai Trio",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "troll_stronghold",
+        "displayName":  "Troll Stronghold",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "burthorpe",
+                              "Death Plateau",
+                              "15 Agility"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Troll Stronghold",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "shades_of_mortton",
+        "displayName":  "Shades of Mort\u0027ton",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "southern_morytania",
+                              "priest_in_peril",
+                              "20 Crafting",
+                              "15 Herblore",
+                              "5 Firemaking"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Shades of Mort\u0027ton",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "the_fremennik_trials",
+        "displayName":  "The Fremennik Trials",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "rellekka"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "The Fremennik Trials",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "horror_from_the_deep",
+        "displayName":  "Horror from the Deep",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "barbarian_waterfall",
+                              "35 Agility",
+                              "alfred_grimhands_barcrawl"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Horror from the Deep",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "throne_of_miscellania",
+        "displayName":  "Throne of Miscellania",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "fremennik_isles",
+                              "heroes_quest",
+                              "shield_of_arrav",
+                              "lost_city",
+                              "merlins_crystal",
+                              "dragon_slayer_i",
+                              "the_fremennik_trials"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Throne of Miscellania",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "monkey_madness_i",
+        "displayName":  "Monkey Madness I",
+        "tier":  4,
+        "type":  "quest",
+        "cost":  100,
+        "prerequisites":  [
+                              "gnome_stronghold",
+                              "the_grand_tree",
+                              "tree_gnome_village"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Monkey Madness I",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "haunted_mine",
+        "displayName":  "Haunted Mine",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "southern_morytania",
+                              "priest_in_peril",
+                              "35 Crafting"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Haunted Mine",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "troll_romance",
+        "displayName":  "Troll Romance",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "trollheim",
+                              "28 Agility",
+                              "troll_stronghold",
+                              "death_plateau"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Troll Romance",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "in_search_of_the_myreque",
+        "displayName":  "In Search of the Myreque",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "canifis",
+                              "nature_spirit",
+                              "priest_in_peril",
+                              "the_restless_ghost",
+                              "25 Agility"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "In Search of the Myreque",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "creature_of_fenkenstrain",
+        "displayName":  "Creature of Fenkenstrain",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "canifis",
+                              "priest_in_peril",
+                              "the_restless_ghost",
+                              "20 Crafting",
+                              "25 Thieving"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Creature of Fenkenstrain",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "roving_elves",
+        "displayName":  "Roving Elves",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "isafdar",
+                              "regicide",
+                              "underground_pass",
+                              "biohazard",
+                              "plague_city",
+                              "waterfall_quest",
+                              "56 Agility"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Roving Elves",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "ghosts_ahoy",
+        "displayName":  "Ghosts Ahoy",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "port_phasmatys",
+                              "priest_in_peril",
+                              "the_restless_ghost",
+                              "25 Agility",
+                              "20 Cooking"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Ghosts Ahoy",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "one_small_favour",
+        "displayName":  "One Small Favour",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "karamja",
+                              "rune_mysteries",
+                              "jungle_potion",
+                              "druidic_ritual",
+                              "36 Agility",
+                              "25 Crafting",
+                              "18 Herblore",
+                              "30 Smithing"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "One Small Favour",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "mountain_daughter",
+        "displayName":  "Mountain Daughter",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "rellekka",
+                              "20 Agility"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Mountain Daughter",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "between_a_rock",
+        "displayName":  "Between a Rock...",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "rellekka",
+                              "dwarf_cannon",
+                              "fishing_contest",
+                              "30 Defence",
+                              "40 Mining",
+                              "50 Smithing"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Between a Rock...",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "the_feud",
+        "displayName":  "The Feud",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "al_kharid",
+                              "30 Thieving",
+                              "70 Combat"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "The Feud",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "the_golem",
+        "displayName":  "The Golem",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "uzer_desert",
+                              "20 Crafting",
+                              "25 Thieving"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "The Golem",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "desert_treasure_i",
+        "displayName":  "Desert Treasure I",
+        "tier":  4,
+        "type":  "quest",
+        "cost":  100,
+        "prerequisites":  [
+                              "kharidian_desert",
+                              "the_dig_site",
+                              "temple_of_ikov",
+                              "the_tourist_trap",
+                              "troll_stronghold",
+                              "death_plateau",
+                              "priest_in_peril",
+                              "waterfall_quest",
+                              "53 Thieving",
+                              "50 Magic",
+                              "50 Firemaking"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Desert Treasure I",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "icthlarins_little_helper",
+        "displayName":  "Icthlarin\u0027s Little Helper",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "sophanem",
+                              "gertrude's_cat"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Icthlarin\u0027s Little Helper",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "tears_of_guthix",
+        "displayName":  "Tears of Guthix",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "lumbridge",
+                              "20 Crafting",
+                              "20 Mining",
+                              "49 Firemaking"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Tears of Guthix",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "the_lost_tribe",
+        "displayName":  "The Lost Tribe",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "lumbridge",
+                              "goblin_diplomacy",
+                              "rune_mysteries",
+                              "13 Agility",
+                              "13 Thieving",
+                              "17 Mining"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "The Lost Tribe",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "the_giant_dwarf",
+        "displayName":  "The Giant Dwarf",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "rellekka",
+                              "12 Crafting",
+                              "16 Firemaking",
+                              "33 Magic",
+                              "14 Thieving"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "The Giant Dwarf",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "recruitment_drive",
+        "displayName":  "Recruitment Drive",
+        "tier":  1,
+        "type":  "quest",
+        "cost":  15,
+        "prerequisites":  [
+                              "falador",
+                              "black_knights_fortress",
+                              "druidic_ritual"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Recruitment Drive",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "mournings_end_part_i",
+        "displayName":  "Mourning\u0027s End Part I",
+        "tier":  4,
+        "type":  "quest",
+        "cost":  100,
+        "prerequisites":  [
+                              "isafdar",
+                              "60 Ranged",
+                              "50 Thieving",
+                              "Roving Elves",
+                              "Regicide",
+                              "Underground Pass",
+                              "Biohazard",
+                              "Plague City",
+                              "Waterfall Quest",
+                              "Big Chompy Bird Hunting",
+                              "Sheep Herder"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Mourning\u0027s End Part I",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "forgettable_tale",
+        "displayName":  "Forgettable Tale...",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "rellekka",
+                              "22 Cooking",
+                              "17 Farming",
+                              "the_giant_dwarf",
+                              "fishing_contest"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Forgettable Tale...",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "garden_of_tranquillity",
+        "displayName":  "Garden of Tranquillity",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "varrock",
+                              "25 Farming",
+                              "creature_of_fenkenstrain",
+                              "priest_in_peril",
+                              "the_restless_ghost"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Garden of Tranquillity",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "a_tail_of_two_cats",
+        "displayName":  "A Tail of Two Cats",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "burthorpe",
+                              "icthlarin's_little_helper",
+                              "gertrude's_cat"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "A Tail of Two Cats",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "wanted!",
+        "displayName":  "Wanted!",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "falador",
+                              "recruitment_drive",
+                              "black_knights_fortress",
+                              "druidic_ritual",
+                              "the_lost_tribe",
+                              "rune_mysteries",
+                              "goblin_diplomacy",
+                              "priest_in_peril",
+                              "enter_the_abyss",
+                              "32 Quest points"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Wanted!",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "mournings_end_part_ii",
+        "displayName":  "Mourning\u0027s End Part II",
+        "tier":  4,
+        "type":  "quest",
+        "cost":  100,
+        "prerequisites":  [
+                              "isafdar",
+                              "mournings_end_part_i",
+                              "roving_elves",
+                              "regicide",
+                              "underground_pass",
+                              "biohazard",
+                              "plague_city",
+                              "waterfall_quest",
+                              "big_chompy_bird_hunting",
+                              "sheep_herder"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Mourning\u0027s End Part II",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "rum_deal",
+        "displayName":  "Rum Deal",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "port_phasmatys",
+                              "zogre_flesh_eaters",
+                              "big_chompy_bird_hunting",
+                              "jungle_potion",
+                              "druidic_ritual",
+                              "priest_in_peril",
+                              "42 Crafting",
+                              "40 Farming",
+                              "42 Slayer",
+                              "50 Fishing",
+                              "47 Prayer"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Rum Deal",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "shadow_of_the_storm",
+        "displayName":  "Shadow of the Storm",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "al_kharid",
+                              "30 Crafting",
+                              "the_golem",
+                              "demon_slayer"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Shadow of the Storm",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "making_history",
+        "displayName":  "Making History",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "ardougne",
+                              "priest_in_peril",
+                              "the_restless_ghost"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Making History",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "ratcatchers",
+        "displayName":  "Ratcatchers",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "varrock",
+                              "icthlarin's_little_helper",
+                              "gertrude's_cat",
+                              "keldagrim",
+                              "the_giant_dwarf"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Ratcatchers",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "spirits_of_the_elid",
+        "displayName":  "Spirits of the Elid",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "nardah_desert",
+                              "33 Magic",
+                              "37 Ranged",
+                              "37 Mining",
+                              "37 Thieving"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Spirits of the Elid",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "devious_minds",
+        "displayName":  "Devious Minds",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "silvarea",
+                              "65 Smithing",
+                              "50 Runecraft",
+                              "50 Fletching",
+                              "wanted!",
+                              "recruitment_drive",
+                              "black_knights_fortress",
+                              "druidic_ritual",
+                              "the_lost_tribe",
+                              "goblin_diplomacy",
+                              "rune_mysteries",
+                              "priest_in_peril",
+                              "enter_the_abyss",
+                              "troll_stronghold",
+                              "death_plateau",
+                              "doric's_quest"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Devious Minds",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "the_hand_in_the_sand",
+        "displayName":  "The Hand in the Sand",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "yanille",
+                              "17 Thieving",
+                              "49 Crafting"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "The Hand in the Sand",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "enakhras_lament",
+        "displayName":  "Enakhra\u0027s Lament",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "jaldraocht",
+                              "50 Crafting",
+                              "45 Firemaking",
+                              "43 Prayer",
+                              "39 Magic"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Enakhra\u0027s Lament",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "cabin_fever",
+        "displayName":  "Cabin Fever",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "port_phasmatys",
+                              "pirate's_treasure",
+                              "rum_deal",
+                              "zogre_flesh_eaters",
+                              "big_chompy_bird_hunting",
+                              "jungle_potion",
+                              "druidic_ritual",
+                              "priest_in_peril",
+                              "42 Agility",
+                              "45 Crafting",
+                              "50 Smithing",
+                              "40 Ranged"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Cabin Fever",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "fairytale_i_growing_pains",
+        "displayName":  "Fairytale I - Growing Pains",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "draynor",
+                              "lost_city",
+                              "nature_spirit",
+                              "priest_in_peril",
+                              "the_restless_ghost"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Fairytale I - Growing Pains",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "recipe_for_disaster",
+        "displayName":  "Recipe for Disaster",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "lumbridge",
+                              "10 Cooking",
+                              "cook's_assistant",
+                              "all_prerequisite_quest_requirements",
+                              "175_quest_points",
+                              "70_cooking",
+                              "48_agility",
+                              "50_mining",
+                              "53_fishing",
+                              "53_thieving",
+                              "25_herblore",
+                              "59_magic",
+                              "40_smithing",
+                              "50_firemaking",
+                              "40_ranged",
+                              "40_crafting",
+                              "10_fletching",
+                              "36_woodcutting",
+                              "fishing_contest",
+                              "goblin_diplomacy",
+                              "big_chompy_bird_hunting",
+                              "murder_mystery",
+                              "nature_spirit",
+                              "priest_in_peril",
+                              "the_restless_ghost",
+                              "witch's_house",
+                              "gertrude's_cat",
+                              "shadow_of_the_storm",
+                              "demon_slayer",
+                              "the_golem",
+                              "legends'_quest",
+                              "Dragon Slayer I",
+                              "shilo_village",
+                              "jungle_potion",
+                              "druidic_ritual",
+                              "underground_pass",
+                              "biohazard",
+                              "plague_city",
+                              "monkey_madness_i",
+                              "the_grand_tree",
+                              "tree_gnome_village",
+                              "desert_treasure_i",
+                              "the_dig_site",
+                              "the_tourist_trap",
+                              "temple_of_ikov",
+                              "waterfall_quest",
+                              "troll_stronghold",
+                              "death_plateau",
+                              "horror_from_the_deep",
+                              "alfred_grimhand's_barcrawl"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Recipe for Disaster",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "in_aid_of_the_myreque",
+        "displayName":  "In Aid of the Myreque",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "canifis",
+                              "in_search_of_the_myreque",
+                              "nature_spirit",
+                              "priest_in_peril",
+                              "the_restless_ghost",
+                              "25 Agility",
+                              "25 Crafting",
+                              "15 Mining",
+                              "7 Magic"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "In Aid of the Myreque",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "a_souls_bane",
+        "displayName":  "A Soul\u0027s Bane",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "silvarea"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "A Soul\u0027s Bane",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "rag_and_bone_man_i",
+        "displayName":  "Rag and Bone Man I",
+        "tier":  1,
+        "type":  "quest",
+        "cost":  15,
+        "prerequisites":  [
+                              "silvarea"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Rag and Bone Man I",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "swan_song",
+        "displayName":  "Swan Song",
+        "tier":  4,
+        "type":  "quest",
+        "cost":  100,
+        "prerequisites":  [
+                              "piscatoris",
+                              "66 Magic",
+                              "62 Cooking",
+                              "62 Fishing",
+                              "45 Smithing",
+                              "42 Firemaking",
+                              "40 Crafting",
+                              "one_small_favour",
+                              "rune_mysteries",
+                              "shilo_village",
+                              "jungle_potion",
+                              "druidic_ritual",
+                              "garden_of_tranquillity",
+                              "creature_of_fenkenstrain",
+                              "priest_in_peril",
+                              "the_restless_ghost"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Swan Song",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "royal_trouble",
+        "displayName":  "Royal Trouble",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "fremennik_isles",
+                              "40 Agility",
+                              "40 Slayer",
+                              "heroes_quest",
+                              "shield_of_arrav",
+                              "lost_city",
+                              "merlin's_crystal",
+                              "dragon_slayer_i",
+                              "fremennik_isles"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Royal Trouble",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "death_to_the_dorgeshuun",
+        "displayName":  "Death to the Dorgeshuun",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "lumbridge",
+                              "the_lost_tribe",
+                              "goblin_diplomacy",
+                              "rune_mysteries",
+                              "23_agility",
+                              "23_thieving"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Death to the Dorgeshuun",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "fairytale_ii_cure_a_queen",
+        "displayName":  "Fairytale II - Cure a Queen",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "draynor",
+                              "fairytale_i_growing_pains",
+                              "lost_city",
+                              "nature_spirit",
+                              "priest_in_peril",
+                              "the_restless_ghost",
+                              "40_thieving",
+                              "49_farming",
+                              "57_herblore"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Fairytale II - Cure a Queen",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "lunar_diplomacy",
+        "displayName":  "Lunar Diplomacy",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "rellekka",
+                              "fremennik_isles",
+                              "lost_city",
+                              "rune_mysteries",
+                              "shilo_village",
+                              "jungle_potion",
+                              "druidic_ritual",
+                              "5_herblore",
+                              "61_crafting",
+                              "40_defence",
+                              "49_firemaking",
+                              "65_magic",
+                              "60_mining",
+                              "55_woodcutting"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Lunar Diplomacy",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "the_eyes_of_glouphrie",
+        "displayName":  "The Eyes of Glouphrie",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "gnome_stronghold",
+                              "the_grand_tree",
+                              "5_construction",
+                              "46 Magic"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "The Eyes of Glouphrie",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "darkness_of_hallowvale",
+        "displayName":  "Darkness of Hallowvale",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "southern_morytania",
+                              "in_aid_of_the_myreque",
+                              "in_search_of_the_myreque",
+                              "nature_spirit",
+                              "priest_in_peril",
+                              "the_restless_ghost",
+                              "5_construction",
+                              "20_mining",
+                              "22_thieving",
+                              "26_agility",
+                              "32_crafting",
+                              "33_magic",
+                              "40_strength"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Darkness of Hallowvale",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "the_slug_menace",
+        "displayName":  "The Slug Menace",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "falador",
+                              "wanted!",
+                              "recruitment_drive",
+                              "black_knights_fortress",
+                              "druidic_ritual",
+                              "the_lost_tribe",
+                              "rune_mysteries",
+                              "goblin_diplomacy"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "The Slug Menace",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "elemental_workshop_ii",
+        "displayName":  "Elemental Workshop II",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "silvarea",
+                              "20_magic",
+                              "30_smithing",
+                              "elemental_workshop_i"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Elemental Workshop II",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "my_arms_big_adventure",
+        "displayName":  "My Arm\u0027s Big Adventure",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "trollheim",
+                              "29_farming",
+                              "10_woodcutting",
+                              "eadgars_ruse",
+                              "druidic_ritual",
+                              "troll_stronghold",
+                              "death_plateau",
+                              "the_feud",
+                              "jungle_potion"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "My Arm\u0027s Big Adventure",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "enlightened_journey",
+        "displayName":  "Enlightened Journey",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "entrana",
+                              "20_quest_points",
+                              "20_firemaking",
+                              "30_farming",
+                              "36_crafting"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Enlightened Journey",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "eagles_peak",
+        "displayName":  "Eagles\u0027 Peak",
+        "tier":  1,
+        "type":  "quest",
+        "cost":  15,
+        "prerequisites":  [
+                              "ardougne",
+                              "27_hunter"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Eagles\u0027 Peak",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "animal_magnetism",
+        "displayName":  "Animal Magnetism",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "draynor",
+                              "the_restless_ghost",
+                              "ernest_the_chicken",
+                              "priest_in_peril",
+                              "18_slayer",
+                              "19_crafting",
+                              "30_ranged",
+                              "35_woodcutting"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Animal Magnetism",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "contact!",
+        "displayName":  "Contact!",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "sophanem",
+                              "prince_ali_rescue",
+                              "icthlarin_s_little_helper",
+                              "gertrude_s_cat"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Contact!",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "cold_war",
+        "displayName":  "Cold War",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "ardougne",
+                              "10 Hunter",
+                              "30_agility",
+                              "30_crafting",
+                              "34_construction",
+                              "15_thieving"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Cold War",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "the_fremennik_isles",
+        "displayName":  "The Fremennik Isles",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "rellekka",
+                              "the_fremennik_trials",
+                              "20_construction"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "The Fremennik Isles",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "the_great_brain_robbery",
+        "displayName":  "The Great Brain Robbery",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "mos_le_harmless",
+                              "16 Crafting",
+                              "30 Construction",
+                              "50 Prayer",
+                              "creature_of_fenkenstrain",
+                              "cabin_fever",
+                              "pirate_s_treasure",
+                              "rum_deal",
+                              "priest_in_peril",
+                              "zogre_flesh_eaters",
+                              "big_chompy_bird_hunting",
+                              "jungle_potion",
+                              "druidic_ritual",
+                              "recipe_for_disaster_freeing_pirate_pete",
+                              "recipe_for_disaster_another_cook_s_quest",
+                              "cook_s_assistant"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "The Great Brain Robbery",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "what_lies_below",
+        "displayName":  "What Lies Below",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "varrock",
+                              "rune_mysteries",
+                              "35_runecraft"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "What Lies Below",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "olafs_quest",
+        "displayName":  "Olaf\u0027s Quest",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "rellekka",
+                              "the_fremennik_trials",
+                              "40_firemaking",
+                              "50_woodcutting"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Olaf\u0027s Quest",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "another_slice_of_ham",
+        "displayName":  "Another Slice of H.A.M.",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "lumbridge",
+                              "15_attack",
+                              "25_prayer",
+                              "death_to_the_dorgeshuun",
+                              "the_lost_tribe",
+                              "goblin_diplomacy",
+                              "rune_mysteries",
+                              "the_giant_dwarf",
+                              "the_dig_site"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Another Slice of H.A.M.",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "dream_mentor",
+        "displayName":  "Dream Mentor",
+        "tier":  4,
+        "type":  "quest",
+        "cost":  100,
+        "prerequisites":  [
+                              "lunar_isle",
+                              "85_combat",
+                              "lunar_diplomacy",
+                              "the_fremennik_trials",
+                              "lost_city",
+                              "rune_mysteries",
+                              "shilo_village",
+                              "jungle_potion",
+                              "eadgars_ruse",
+                              "druidic_ritual",
+                              "troll_stronghold",
+                              "death_plateau"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Dream Mentor",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "grim_tales",
+        "displayName":  "Grim Tales",
+        "tier":  4,
+        "type":  "quest",
+        "cost":  100,
+        "prerequisites":  [
+                              "taverley",
+                              "Completion of the following quests:",
+                              "witch_s_house",
+                              "45_farming",
+                              "52_herblore",
+                              "58_thieving",
+                              "59_agility",
+                              "71_woodcutting"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Grim Tales",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "kings_ransom",
+        "displayName":  "King\u0027s Ransom",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "camelot_seers",
+                              "45_magic",
+                              "65_defence",
+                              "black_knights_fortress",
+                              "holy_grail",
+                              "merlin_s_crystal",
+                              "murder_mystery",
+                              "one_small_favour",
+                              "rune_mysteries",
+                              "shilo_village",
+                              "jungle_potion",
+                              "druidic_ritual"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "King\u0027s Ransom",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "shilo_village",
+        "displayName":  "Shilo Village",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "karamja",
+                              "jungle_potion",
+                              "druidic_ritual",
+                              "20_crafting",
+                              "32_agility"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Shilo Village",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "biohazard",
+        "displayName":  "Biohazard",
+        "tier":  1,
+        "type":  "quest",
+        "cost":  15,
+        "prerequisites":  [
+                              "ardougne",
+                              "plague_city"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Biohazard",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "tower_of_life",
+        "displayName":  "Tower of Life",
+        "tier":  1,
+        "type":  "quest",
+        "cost":  15,
+        "prerequisites":  [
+                              "ardougne",
+                              "10 Construction"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Tower of Life",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "rag_and_bone_man_ii",
+        "displayName":  "Rag and Bone Man II",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "silvarea",
+                              "40 Slayer",
+                              "20_defence",
+                              "rag_and_bone_man_i",
+                              "skippy_and_the_mogres",
+                              "horror_from_the_deep",
+                              "creature_of_fenkenstrain",
+                              "waterfall_quest"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Rag and Bone Man II",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "land_of_the_goblins",
+        "displayName":  "Land of the Goblins",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "lumbridge",
+                              "Completion of the following quests:",
+                              "another_slice_of_ham",
+                              "death_to_the_dorgeshuun",
+                              "the_lost_tribe",
+                              "goblin_diplomacy",
+                              "rune_mysteries",
+                              "the_giant_dwarf",
+                              "the_dig_site",
+                              "fishing_contest",
+                              "38_agility",
+                              "40_fishing",
+                              "45_thieving",
+                              "48_herblore"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Land of the Goblins",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "while_guthix_sleeps",
+        "displayName":  "While Guthix Sleeps",
+        "tier":  5,
+        "type":  "quest",
+        "cost":  115,
+        "prerequisites":  [
+                              "taverley",
+                              "180_quest_points",
+                              "72_thieving",
+                              "67_magic",
+                              "66_agility",
+                              "65_farming",
+                              "65_herblore",
+                              "62_hunter",
+                              "defender_of_varrock",
+                              "shield_of_arrav",
+                              "temple_of_ikov",
+                              "below_ice_mountain",
+                              "family_crest",
+                              "what_lies_below",
+                              "romeo_and_juliet",
+                              "demon_slayer",
+                              "garden_of_tranquillity",
+                              "creature_of_fenkenstrain",
+                              "priest_in_peril",
+                              "the_restless_ghost",
+                              "the_path_of_glouphrie",
+                              "the_eyes_of_glouphrie",
+                              "the_grand_tree",
+                              "waterfall_quest",
+                              "tree_gnome_village",
+                              "fight_arena",
+                              "Dream Mentor",
+                              "eadgars_ruse",
+                              "druidic_ritual",
+                              "troll_stronghold",
+                              "death_plateau",
+                              "lunar_diplomacy",
+                              "the_fremennik_trials",
+                              "lost_city",
+                              "rune_mysteries",
+                              "shilo_village",
+                              "jungle_potion",
+                              "the_hand_in_the_sand",
+                              "wanted!",
+                              "recruitment_drive",
+                              "black_knights_fortress",
+                              "druidic_ritual",
+                              "the_lost_tribe",
+                              "goblin_diplomacy",
+                              "Temple of the Eye",
+                              "enter_the_abyss",
+                              "rune_mysteries",
+                              "tears_of_guthix",
+                              "nature_spirit",
+                              "priest_in_peril",
+                              "the_restless_ghost",
+                              "a_tail_of_two_cats",
+                              "icthlarin_s_little_helper",
+                              "gertrude_s_cat"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "While Guthix Sleeps",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "zogre_flesh_eaters",
+        "displayName":  "Zogre Flesh Eaters",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "feldip_hills",
+                              "big_chompy_bird_hunting",
+                              "jungle_potion",
+                              "druidic_ritual",
+                              "4_smithing",
+                              "8_herblore",
+                              "30_ranged"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Zogre Flesh Eaters",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "monkey_madness_ii",
+        "displayName":  "Monkey Madness II",
+        "tier":  5,
+        "type":  "quest",
+        "cost":  115,
+        "prerequisites":  [
+                              "gnome_stronghold",
+                              "enlightened_journey",
+                              "the_eyes_of_glouphrie",
+                              "recipe_for_disaster_freeing_king_awowogei",
+                              "monkey_madness_i",
+                              "the_grand_tree",
+                              "tree_gnome_village",
+                              "troll_stronghold",
+                              "death_plateau",
+                              "watchtower",
+                              "69_slayer",
+                              "70_crafting",
+                              "60_hunter",
+                              "55_agility",
+                              "55_thieving",
+                              "60_firemaking"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Monkey Madness II",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "client_of_kourend",
+        "displayName":  "Client of Kourend",
+        "tier":  1,
+        "type":  "quest",
+        "cost":  15,
+        "prerequisites":  [
+                              "port_piscarilius",
+                              "x_marks_the_spot"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Client of Kourend",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "the_queen_of_thieves",
+        "displayName":  "The Queen of Thieves",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "port_piscarilius",
+                              "client_of_kourend",
+                              "x_marks_the_spot",
+                              "20_thieving"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "The Queen of Thieves",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "bone_voyage",
+        "displayName":  "Bone Voyage",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "varrock",
+                              "100_kudos",
+                              "the_dig_site"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Bone Voyage",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "dragon_slayer_ii",
+        "displayName":  "Dragon Slayer II",
+        "tier":  5,
+        "type":  "quest",
+        "cost":  115,
+        "prerequisites":  [
+                              "corsair_cove",
+                              "200_quest_points",
+                              "75_magic",
+                              "70_smithing",
+                              "68_mining",
+                              "62_crafting",
+                              "60_agility",
+                              "60_thieving",
+                              "50_construction",
+                              "50_hitpoints",
+                              "legends_quest",
+                              "family_crest",
+                              "heroes_quest",
+                              "shield_of_arrav",
+                              "lost_city",
+                              "merlin_s_crystal",
+                              "dragon_slayer_i",
+                              "underground_pass",
+                              "biohazard",
+                              "plague_city",
+                              "waterfall_quest",
+                              "dream_mentor",
+                              "lunar_diplomacy",
+                              "the_fremennik_trials",
+                              "rune_mysteries",
+                              "shilo_village",
+                              "jungle_potion",
+                              "eadgars_ruse",
+                              "animal_magnetism",
+                              "Ernest the Chicken",
+                              "priest_in_peril",
+                              "the_restless_ghost",
+                              "ghosts_ahoy",
+                              "Bone Voyage",
+                              "the_dig_site",
+                              "100_kudos",
+                              "client_of_kourend",
+                              "X Marks the Spot"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Dragon Slayer II",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "the_depths_of_despair",
+        "displayName":  "The Depths of Despair",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "hosidius",
+                              "client_of_kourend",
+                              "x_marks_the_spot",
+                              "18_agility"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "The Depths of Despair",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "recipe_for_disaster_another_cooks_quest",
+        "displayName":  "Recipe for Disaster/Another Cook\u0027s Quest",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "lumbridge",
+                              "10_cooking",
+                              "cooks_assistant"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Recipe for Disaster/Another Cook\u0027s Quest",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "recipe_for_disaster_freeing_the_goblin_generals",
+        "displayName":  "Recipe for Disaster/Freeing the Goblin generals",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "lumbridge",
+                              "recipe_for_disaster_another_cooks_quest",
+                              "cooks_assistant",
+                              "goblin_diplomacy"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Recipe for Disaster/Freeing the Goblin generals",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "recipe_for_disaster_freeing_the_mountain_dwarf",
+        "displayName":  "Recipe for Disaster/Freeing the Mountain Dwarf",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "lumbridge",
+                              "recipe_for_disaster_another_cooks_quest",
+                              "cooks_assistant",
+                              "fishing_contest"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Recipe for Disaster/Freeing the Mountain Dwarf",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "recipe_for_disaster_freeing_evil_dave",
+        "displayName":  "Recipe for Disaster/Freeing Evil Dave",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "lumbridge",
+                              "gertrude_s_cat",
+                              "recipe_for_disaster_another_cooks_quest",
+                              "cooks_assistant",
+                              "shadow_of_the_storm",
+                              "demon_slayer",
+                              "the_golem"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Recipe for Disaster/Freeing Evil Dave",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "recipe_for_disaster_freeing_pirate_pete",
+        "displayName":  "Recipe for Disaster/Freeing Pirate Pete",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "lumbridge",
+                              "31_cooking",
+                              "30_combat",
+                              "recipe_for_disaster_another_cooks_quest",
+                              "cooks_assistant"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Recipe for Disaster/Freeing Pirate Pete",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "recipe_for_disaster_freeing_the_lumbridge_guide",
+        "displayName":  "Recipe for Disaster/Freeing the Lumbridge Guide",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "lumbridge",
+                              "40 Cooking",
+                              "big_chompy_bird_hunting",
+                              "Biohazard",
+                              "plague_city",
+                              "demon_slayer",
+                              "murder_mystery",
+                              "nature_spirit",
+                              "priest_in_peril",
+                              "the_restless_ghost",
+                              "recipe_for_disaster_another_cooks_quest",
+                              "cooks_assistant",
+                              "witchs_house"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Recipe for Disaster/Freeing the Lumbridge Guide",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "recipe_for_disaster_freeing_sir_amik_varze",
+        "displayName":  "Recipe for Disaster/Freeing Sir Amik Varze",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "lumbridge",
+                              "107_quest_points",
+                              "kharazi_jungle",
+                              "legends_quest",
+                              "family_crest",
+                              "heroes_quest",
+                              "shield_of_arrav",
+                              "lost_city",
+                              "merlins_crystal",
+                              "dragon_slayer_i",
+                              "recipe_for_disaster_another_cooks_quest",
+                              "cooks_assistant",
+                              "shilo_village",
+                              "jungle_potion",
+                              "druidic_ritual",
+                              "underground_pass",
+                              "biohazard",
+                              "plague_city",
+                              "waterfall_quest"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Recipe for Disaster/Freeing Sir Amik Varze",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "recipe_for_disaster_freeing_king_awowogei",
+        "displayName":  "Recipe for Disaster/Freeing King Awowogei",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "lumbridge",
+                              "70 Cooking",
+                              "48_agility",
+                              "monkey_madness_i",
+                              "the_grand_tree",
+                              "tree_gnome_village",
+                              "recipe_for_disaster_another_cooks_quest",
+                              "cooks_assistant",
+                              "ability_to_defeat_a_level_84_big_snake"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Recipe for Disaster/Freeing King Awowogei",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "recipe_for_disaster_freeing_skrach_uglogwee",
+        "displayName":  "Recipe for Disaster/Freeing Skrach Uglogwee",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "lumbridge",
+                              "41_cooking",
+                              "20_firemaking",
+                              "big_chompy_bird_hunting",
+                              "recipe_for_disaster_another_cooks_quest",
+                              "cooks_assistant"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Recipe for Disaster/Freeing Skrach Uglogwee",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "a_taste_of_hope",
+        "displayName":  "A Taste of Hope",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "myreditch",
+                              "darkness_of_hallowvale",
+                              "in_aid_of_the_myreque",
+                              "in_search_of_the_myreque",
+                              "nature_spirit",
+                              "priest_in_peril",
+                              "the_restless_ghost",
+                              "48_crafting",
+                              "45_agility",
+                              "40_attack",
+                              "40_herblore",
+                              "38_slayer"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "A Taste of Hope",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "tale_of_the_righteous",
+        "displayName":  "Tale of the Righteous",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "shayzien",
+                              "client_of_kourend",
+                              "x_marks_the_spot",
+                              "16_strength",
+                              "10_mining"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Tale of the Righteous",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "making_friends_with_my_arm",
+        "displayName":  "Making Friends with My Arm",
+        "tier":  4,
+        "type":  "quest",
+        "cost":  100,
+        "prerequisites":  [
+                              "trollheim",
+                              "66_firemaking",
+                              "72_mining",
+                              "35_construction",
+                              "68_agility",
+                              "my_arms_big_adventure",
+                              "eadgars_ruse",
+                              "druidic_ritual",
+                              "troll_stronghold",
+                              "death_plateau",
+                              "the_feud",
+                              "jungle_potion",
+                              "swan_song",
+                              "one_small_favour",
+                              "rune_mysteries",
+                              "shilo_village",
+                              "garden_of_tranquillity",
+                              "creature_of_fenkenstrain",
+                              "priest_in_peril",
+                              "the_restless_ghost",
+                              "cold_war",
+                              "romeo_and_juliet"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Making Friends with My Arm",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "recipe_for_disaster_defeating_the_culinaromancer",
+        "displayName":  "Recipe for Disaster/Defeating the Culinaromancer",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "lumbridge",
+                              "175_quest_points",
+                              "desert_treasure_i",
+                              "the_dig_site",
+                              "temple_of_ikov",
+                              "the_tourist_trap",
+                              "troll_stronghold",
+                              "death_plateau",
+                              "priest_in_peril",
+                              "waterfall_quest",
+                              "horror_from_the_deep",
+                              "alfred_grimhands_barcrawl_miniquest",
+                              "freeing_evil_dave",
+                              "freeing_the_goblin_generals",
+                              "freeing_the_lumbridge_guide",
+                              "freeing_the_mountain_dwarf",
+                              "freeing_pirate_pete",
+                              "freeing_sir_amik_varze",
+                              "freeing_skrach_uglogwee",
+                              "freeing_king_awowogei"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Recipe for Disaster/Defeating the Culinaromancer",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "song_of_the_elves",
+        "displayName":  "Song of the Elves",
+        "tier":  5,
+        "type":  "quest",
+        "cost":  115,
+        "prerequisites":  [
+                              "ardougne",
+                              "mourning_s_end_part_ii",
+                              "mourning_s_end_part_i",
+                              "big_chompy_bird_hunting",
+                              "sheep_herder",
+                              "roving_elves",
+                              "waterfall_quest",
+                              "Regicide",
+                              "underground_pass",
+                              "biohazard",
+                              "plague_city",
+                              "making_history",
+                              "priest_in_peril",
+                              "the_restless_ghost",
+                              "Druidic Ritual",
+                              "70_agility",
+                              "70 Construction",
+                              "70 Farming",
+                              "70 Herblore",
+                              "70 Hunter",
+                              "70 Mining",
+                              "70 Smithing",
+                              "70 Woodcutting"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Song of the Elves",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "the_ascent_of_arceuus",
+        "displayName":  "The Ascent of Arceuus",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "arceuus",
+                              "client_of_kourend",
+                              "x_marks_the_spot",
+                              "12_hunter"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "The Ascent of Arceuus",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "the_forsaken_tower",
+        "displayName":  "The Forsaken Tower",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "lovakengj",
+                              "client_of_kourend",
+                              "x_marks_the_spot"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "The Forsaken Tower",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "the_fremennik_exiles",
+        "displayName":  "The Fremennik Exiles",
+        "tier":  4,
+        "type":  "quest",
+        "cost":  100,
+        "prerequisites":  [
+                              "rellekka",
+                              "65 Crafting",
+                              "60_slayer",
+                              "60_smithing",
+                              "60_fishing",
+                              "55_runecraft",
+                              "60_mining",
+                              "the_fremennik_isles",
+                              "the_fremennik_trials",
+                              "lunar_diplomacy",
+                              "lost_city",
+                              "rune_mysteries",
+                              "shilo_village",
+                              "jungle_potion",
+                              "druidic_ritual",
+                              "mountain_daughter",
+                              "heroes_quest",
+                              "dragon_slayer_i",
+                              "lost_city",
+                              "merlins_crystal",
+                              "shield_of_arrav"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "The Fremennik Exiles",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "the_curse_of_arrav",
+        "displayName":  "The Curse of Arrav",
+        "tier":  4,
+        "type":  "quest",
+        "cost":  100,
+        "prerequisites":  [
+                              "uzer_desert",
+                              "64_mining",
+                              "62 Ranged",
+                              "62 Thieving",
+                              "61 Agility",
+                              "58 Strength",
+                              "37 Slayer",
+                              "Defender of Varrock",
+                              "Shield of Arrav",
+                              "Temple of Ikov",
+                              "Below Ice Mountain",
+                              "Family Crest",
+                              "Garden of Tranquillity",
+                              "Creature of Fenkenstrain",
+                              "Priest in Peril",
+                              "The Restless Ghost",
+                              "What Lies Below",
+                              "Rune Mysteries",
+                              "romeo_and_juliet",
+                              "Demon Slayer",
+                              "Troll Romance",
+                              "Troll Stronghold",
+                              "Death Plateau"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "The Curse of Arrav",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "defender_of_varrock",
+        "displayName":  "Defender of Varrock",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "varrock",
+                              "55 Smithing",
+                              "52 Hunter",
+                              "shield_of_arrav",
+                              "temple_of_ikov",
+                              "below_ice_mountain",
+                              "family_crest",
+                              "garden_of_tranquillity",
+                              "creature_of_fenkenstrain",
+                              "priest_in_peril",
+                              "the_restless_ghost",
+                              "what_lies_below",
+                              "rune_mysteries",
+                              "romeo_and_juliet",
+                              "demon_slayer"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Defender of Varrock",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "sins_of_the_father",
+        "displayName":  "Sins of the Father",
+        "tier":  4,
+        "type":  "quest",
+        "cost":  100,
+        "prerequisites":  [
+                              "slepe",
+                              "vampyre_slayer",
+                              "a_taste_of_hope",
+                              "darkness_of_hallowvale",
+                              "in_aid_of_the_myreque",
+                              "in_search_of_the_myreque",
+                              "nature_spirit",
+                              "priest_in_peril",
+                              "the_restless_ghost",
+                              "62_woodcutting",
+                              "60_fletching",
+                              "56_crafting",
+                              "52_agility",
+                              "50_attack",
+                              "50_slayer",
+                              "49_magic"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Sins of the Father",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "a_kingdom_divided",
+        "displayName":  "A Kingdom Divided",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "kingstown",
+                              "the_depths_of_despair",
+                              "the_queen_of_thieves",
+                              "the_ascent_of_arceuus",
+                              "the_forsaken_tower",
+                              "tale_of_the_righteous",
+                              "client_of_kourend",
+                              "x_marks_the_spot",
+                              "54_agility",
+                              "52_thieving",
+                              "52_woodcutting",
+                              "50_herblore",
+                              "42_mining",
+                              "38_crafting",
+                              "35_magic"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "A Kingdom Divided",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "a_porcine_of_interest",
+        "displayName":  "A Porcine of Interest",
+        "tier":  1,
+        "type":  "quest",
+        "cost":  15,
+        "prerequisites":  [
+                              "draynor"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "A Porcine of Interest",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "getting_ahead",
+        "displayName":  "Getting Ahead",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "kebos_lowlands",
+                              "30_crafting",
+                              "26_construction"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Getting Ahead",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "a_night_at_the_theatre",
+        "displayName":  "A Night at the Theatre",
+        "tier":  4,
+        "type":  "quest",
+        "cost":  100,
+        "prerequisites":  [
+                              "myreditch",
+                              "a_taste_of_hope",
+                              "darkness_of_hallowvale",
+                              "in_aid_of_the_myreque",
+                              "in_search_of_the_myreque",
+                              "nature_spirit",
+                              "priest_in_peril",
+                              "the_restless_ghost"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "A Night at the Theatre",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "beneath_cursed_sands",
+        "displayName":  "Beneath Cursed Sands",
+        "tier":  4,
+        "type":  "quest",
+        "cost":  100,
+        "prerequisites":  [
+                              "sophanem",
+                              "contact",
+                              "prince_ali_rescue",
+                              "icthlarin_s_little_helper",
+                              "gertrude_s_cat",
+                              "62_agility",
+                              "55_crafting",
+                              "55_firemaking"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Beneath Cursed Sands",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "temple_of_the_eye",
+        "displayName":  "Temple of the Eye",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "al_kharid",
+                              "enter_the_abyss",
+                              "rune_mysteries",
+                              "10_runecraft"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Temple of the Eye",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "the_path_of_glouphrie",
+        "displayName":  "The Path of Glouphrie",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "khazard_battlegrounds",
+                              "the_eyes_of_glouphrie",
+                              "the_grand_tree",
+                              "waterfall_quest",
+                              "60_strength",
+                              "56_slayer",
+                              "56_thieving",
+                              "47_ranged",
+                              "45_agility"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "The Path of Glouphrie",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "sleeping_giants",
+        "displayName":  "Sleeping Giants",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "al_kharid",
+                              "15_smithing"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Sleeping Giants",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "the_garden_of_death",
+        "displayName":  "The Garden of Death",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "kebos_lowlands",
+                              "20_farming"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "The Garden of Death",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "desert_treasure_ii_the_fallen_empire",
+        "displayName":  "Desert Treasure II - The Fallen Empire",
+        "tier":  5,
+        "type":  "quest",
+        "cost":  115,
+        "prerequisites":  [
+                              "nardah_desert",
+                              "75 Firemaking",
+                              "75_magic",
+                              "70_thieving",
+                              "62_herblore",
+                              "60_runecraft",
+                              "60 Construction",
+                              "desert_treasure_i",
+                              "The Dig Site",
+                              "temple_of_ikov",
+                              "the_tourist_trap",
+                              "troll_stronghold",
+                              "death_plateau",
+                              "priest_in_peril",
+                              "waterfall_quest",
+                              "secrets_of_the_north",
+                              "making_friends_with_my_arm",
+                              "my_arms_big_adventure",
+                              "eadgars_ruse",
+                              "druidic_ritual",
+                              "troll_stronghold",
+                              "Death Plateau",
+                              "The Feud",
+                              "Jungle Potion",
+                              "Swan Song",
+                              "One Small Favour",
+                              "Rune Mysteries",
+                              "Shilo Village",
+                              "Garden of Tranquillity",
+                              "Creature of Fenkenstrain",
+                              "Priest in Peril",
+                              "The Restless Ghost",
+                              "Cold War",
+                              "Romeo \u0026 Juliet",
+                              "The General\u0027s Shadow",
+                              "Curse of the Empty Lord, for full ghostly robes",
+                              "Fight Arena",
+                              "Devious Minds",
+                              "Wanted!",
+                              "Recruitment Drive",
+                              "Black Knights\u0027 Fortress",
+                              "Druidic Ritual",
+                              "The Lost Tribe",
+                              "Goblin Diplomacy",
+                              "Rune Mysteries",
+                              "Priest in Peril",
+                              "Troll Stronghold",
+                              "Death Plateau",
+                              "Doric\u0027s Quest",
+                              "Enter the Abyss",
+                              "Hazeel Cult",
+                              "Enakhra\u0027s Lament",
+                              "Temple of the Eye",
+                              "Enter the Abyss",
+                              "Rune Mysteries",
+                              "The Garden of Death",
+                              "Below Ice Mountain",
+                              "His Faithful Servants",
+                              "Priest in Peril"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Desert Treasure II - The Fallen Empire",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "secrets_of_the_north",
+        "displayName":  "Secrets of the North",
+        "tier":  4,
+        "type":  "quest",
+        "cost":  100,
+        "prerequisites":  [
+                              "ardougne",
+                              "69_agility",
+                              "64 Thieving",
+                              "56 Hunter",
+                              "making_friends_with_my_arm",
+                              "my_arms_big_adventure",
+                              "eadgars_ruse",
+                              "druidic_ritual",
+                              "troll_stronghold",
+                              "death_plateau",
+                              "the_feud",
+                              "jungle_potion",
+                              "Swan Song",
+                              "One Small Favour",
+                              "Rune Mysteries",
+                              "Shilo Village",
+                              "Garden of Tranquillity",
+                              "Creature of Fenkenstrain",
+                              "Priest in Peril",
+                              "The Restless Ghost",
+                              "Cold War",
+                              "romeo_and_juliet",
+                              "The General\u0027s Shadow",
+                              "curse_of_the_empty_lord",
+                              "desert_treasure_i",
+                              "fight_arena",
+                              "devious_minds",
+                              "wanted!",
+                              "recruitment_drive",
+                              "black_knights_fortress",
+                              "druidic_ritual",
+                              "the_lost_tribe",
+                              "goblin_diplomacy",
+                              "rune_mysteries",
+                              "priest_in_peril",
+                              "doric_s_quest",
+                              "enter_the_abyss",
+                              "hazeel_cult"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Secrets of the North",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "children_of_the_sun",
+        "displayName":  "Children of the Sun",
+        "tier":  1,
+        "type":  "quest",
+        "cost":  15,
+        "prerequisites":  [
+                              "Speak to Noah or Alina in Varrock square."
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Children of the Sun",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "perilous_moons",
+        "displayName":  "Perilous Moons",
+        "tier":  4,
+        "type":  "quest",
+        "cost":  100,
+        "prerequisites":  [
+                              "western_varlamore",
+                              "48_slayer",
+                              "20_hunter",
+                              "20_fishing",
+                              "20_runecraft",
+                              "10_construction",
+                              "twilight_s_promise",
+                              "children_of_the_sun"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Perilous Moons",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "the_ribbiting_tale_of_a_lily_pad_labour_dispute",
+        "displayName":  "The Ribbiting Tale of a Lily Pad Labour Dispute",
+        "tier":  1,
+        "type":  "quest",
+        "cost":  15,
+        "prerequisites":  [
+                              "eastern_varlamore",
+                              "15_woodcutting",
+                              "children_of_the_sun"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "The Ribbiting Tale of a Lily Pad Labour Dispute",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "twilights_promise",
+        "displayName":  "Twilight\u0027s Promise",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "eastern_varlamore",
+                              "children_of_the_sun"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Twilight\u0027s Promise",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "at_first_light",
+        "displayName":  "At First Light",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "western_varlamore",
+                              "46_hunter",
+                              "30_herblore",
+                              "27_construction",
+                              "children_of_the_sun",
+                              "eagles_peak"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "At First Light",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "the_heart_of_darkness",
+        "displayName":  "The Heart of Darkness",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "western_varlamore",
+                              "55_mining",
+                              "48_thieving",
+                              "48_slayer",
+                              "46_agility",
+                              "twilight_s_promise",
+                              "children_of_the_sun"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "The Heart of Darkness",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "death_on_the_isle",
+        "displayName":  "Death on the Isle",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "aldarin",
+                              "34_thieving",
+                              "32_agility",
+                              "children_of_the_sun"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Death on the Isle",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "meat_and_greet",
+        "displayName":  "Meat and Greet",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "eastern_varlamore",
+                              "children_of_the_sun"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Meat and Greet",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "ethically_acquired_antiquities",
+        "displayName":  "Ethically Acquired Antiquities",
+        "tier":  1,
+        "type":  "quest",
+        "cost":  15,
+        "prerequisites":  [
+                              "eastern_varlamore",
+                              "25_thieving",
+                              "children_of_the_sun",
+                              "shield_of_arrav"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Ethically Acquired Antiquities",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "the_final_dawn",
+        "displayName":  "The Final Dawn",
+        "tier":  4,
+        "type":  "quest",
+        "cost":  100,
+        "prerequisites":  [
+                              "eastern_varlamore",
+                              "66 Thieving",
+                              "52_runecraft",
+                              "52_fletching",
+                              "the_heart_of_darkness",
+                              "twilight_s_promise",
+                              "children_of_the_sun",
+                              "perilous_moons"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "The Final Dawn",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "pandemonium",
+        "displayName":  "Pandemonium",
+        "tier":  1,
+        "type":  "quest",
+        "cost":  15,
+        "prerequisites":  [
+                              "port_sarim_mudskipper"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Pandemonium",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "prying_times",
+        "displayName":  "Prying Times",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "ardent_ne",
+                              "30_smithing",
+                              "12_sailing",
+                              "pandemonium",
+                              "the_knights_sword"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Prying Times",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "current_affairs",
+        "displayName":  "Current Affairs",
+        "tier":  1,
+        "type":  "quest",
+        "cost":  15,
+        "prerequisites":  [
+                              "catherby",
+                              "22_sailing",
+                              "10_fishing",
+                              "pandemonium"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Current Affairs",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "troubled_tortugans",
+        "displayName":  "Troubled Tortugans",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "unquiet",
+                              "51_slayer",
+                              "48_construction",
+                              "45_sailing",
+                              "45_hunter",
+                              "40_woodcutting",
+                              "34_crafting",
+                              "pandemonium"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Troubled Tortugans",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "the_red_reef",
+        "displayName":  "The Red Reef",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "unquiet",
+                              "troubled_tortugans",
+                              "52_sailing",
+                              "48_smithing"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "The Red Reef",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "shadows_of_custodia",
+        "displayName":  "Shadows of Custodia",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "auburnvale",
+                              "54_slayer",
+                              "45_fishing",
+                              "41_construction",
+                              "36_hunter",
+                              "children_of_the_sun"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Shadows of Custodia",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "scrambled!",
+        "displayName":  "Scrambled!",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "tlati_rainforest",
+                              "38_construction",
+                              "36_cooking",
+                              "35_smithing",
+                              "children_of_the_sun"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Scrambled!",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "below_ice_mountain",
+        "displayName":  "Below Ice Mountain",
+        "tier":  1,
+        "type":  "quest",
+        "cost":  15,
+        "prerequisites":  [
+                              "lassar"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Below Ice Mountain",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "x_marks_the_spot",
+        "displayName":  "X Marks the Spot",
+        "tier":  1,
+        "type":  "quest",
+        "cost":  15,
+        "prerequisites":  [
+                              "lumbridge"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "X Marks the Spot",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "the_corsair_curse",
+        "displayName":  "The Corsair Curse",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "port_sarim_mudskipper"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "The Corsair Curse",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "misthalin_mystery",
+        "displayName":  "Misthalin Mystery",
+        "tier":  1,
+        "type":  "quest",
+        "cost":  15,
+        "prerequisites":  [
+                              "lumbridge"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Misthalin Mystery",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "rune_mysteries",
+        "displayName":  "Rune Mysteries",
+        "tier":  1,
+        "type":  "quest",
+        "cost":  15,
+        "prerequisites":  [
+                              "lumbridge"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Rune Mysteries",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "dragon_slayer_i",
+        "displayName":  "Dragon Slayer I",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "varrock"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Dragon Slayer I",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "pirates_treasure",
+        "displayName":  "Pirate\u0027s Treasure",
+        "tier":  1,
+        "type":  "quest",
+        "cost":  15,
+        "prerequisites":  [
+                              "port_sarim_mudskipper"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Pirate\u0027s Treasure",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "goblin_diplomacy",
+        "displayName":  "Goblin Diplomacy",
+        "tier":  1,
+        "type":  "quest",
+        "cost":  15,
+        "prerequisites":  [
+                              "lassar"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Goblin Diplomacy",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "the_knights_sword",
+        "displayName":  "The Knight\u0027s Sword",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "falador",
+                              "10_mining"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "The Knight\u0027s Sword",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "witchs_potion",
+        "displayName":  "Witch\u0027s Potion",
+        "tier":  1,
+        "type":  "quest",
+        "cost":  15,
+        "prerequisites":  [
+                              "rimmington"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Witch\u0027s Potion",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "black_knights_fortress",
+        "displayName":  "Black Knights\u0027 Fortress",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "falador"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Black Knights\u0027 Fortress",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "dorics_quest",
+        "displayName":  "Doric\u0027s Quest",
+        "tier":  1,
+        "type":  "quest",
+        "cost":  15,
+        "prerequisites":  [
+                              "lassar"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Doric\u0027s Quest",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "prince_ali_rescue",
+        "displayName":  "Prince Ali Rescue",
+        "tier":  1,
+        "type":  "quest",
+        "cost":  15,
+        "prerequisites":  [
+                              "al_kharid"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Prince Ali Rescue",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "imp_catcher",
+        "displayName":  "Imp Catcher",
+        "tier":  1,
+        "type":  "quest",
+        "cost":  15,
+        "prerequisites":  [
+                              "draynor"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Imp Catcher",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "vampyre_slayer",
+        "displayName":  "Vampyre Slayer",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "draynor"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Vampyre Slayer",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "ernest_the_chicken",
+        "displayName":  "Ernest the Chicken",
+        "tier":  1,
+        "type":  "quest",
+        "cost":  15,
+        "prerequisites":  [
+                              "draynor"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Ernest the Chicken",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "the_restless_ghost",
+        "displayName":  "The Restless Ghost",
+        "tier":  1,
+        "type":  "quest",
+        "cost":  15,
+        "prerequisites":  [
+                              "lumbridge"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "The Restless Ghost",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "sheep_shearer",
+        "displayName":  "Sheep Shearer",
+        "tier":  1,
+        "type":  "quest",
+        "cost":  15,
+        "prerequisites":  [
+                              "lumbridge"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Sheep Shearer",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "shield_of_arrav",
+        "displayName":  "Shield of Arrav",
+        "tier":  1,
+        "type":  "quest",
+        "cost":  15,
+        "prerequisites":  [
+                              "varrock"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Shield of Arrav",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "demon_slayer",
+        "displayName":  "Demon Slayer",
+        "tier":  1,
+        "type":  "quest",
+        "cost":  15,
+        "prerequisites":  [
+                              "varrock"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Demon Slayer",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "romeo_and_juliet",
+        "displayName":  "Romeo \u0026 Juliet",
+        "tier":  1,
+        "type":  "quest",
+        "cost":  15,
+        "prerequisites":  [
+                              "varrock"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Romeo \u0026 Juliet",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "cooks_assistant",
+        "displayName":  "Cook\u0027s Assistant",
+        "tier":  1,
+        "type":  "quest",
+        "cost":  15,
+        "prerequisites":  [
+                              "lumbridge"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Cook\u0027s Assistant",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "ides_of_milk",
+        "displayName":  "Ides of Milk",
+        "tier":  1,
+        "type":  "quest",
+        "cost":  15,
+        "prerequisites":  [
+                              "lumbridge"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Ides of Milk",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "alfred_grimhands_barcrawl",
+        "displayName":  "Alfred Grimhand\u0027s Barcrawl",
+        "tier":  1,
+        "type":  "quest",
+        "cost":  15,
+        "prerequisites":  [
+                              "barbarian_waterfall"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Alfred Grimhand\u0027s Barcrawl",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "enter_the_abyss",
+        "displayName":  "Enter the Abyss",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "south_central_wilderness",
+                              "rune_mysteries"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Enter the Abyss",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "the_generals_shadow",
+        "displayName":  "The General\u0027s Shadow",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "rellekka",
+                              "curse_of_the_empty_lord",
+                              "desert_treasure_i",
+                              "fight_arena"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "The General\u0027s Shadow",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "barbarian_training",
+        "displayName":  "Barbarian Training",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "barbarian_waterfall",
+                              "tai_bwo_wannai_trio"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Barbarian Training",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "skippy_and_the_mogres",
+        "displayName":  "Skippy and the Mogres",
+        "tier":  1,
+        "type":  "quest",
+        "cost":  15,
+        "prerequisites":  [
+                              "rimmington",
+                              "20_cooking"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Skippy and the Mogres",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "curse_of_the_empty_lord",
+        "displayName":  "Curse of the Empty Lord",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "hert_of_stone",
+                              "desert_treasure_i",
+                              "the_restless_ghost",
+                              "53_thieving",
+                              "31_prayer"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Curse of the Empty Lord",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "lair_of_tarn_razorlor",
+        "displayName":  "Lair of Tarn Razorlor",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "southern_morytania",
+                              "40 Slayer",
+                              "the_haunted_mine"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Lair of Tarn Razorlor",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "bear_your_soul",
+        "displayName":  "Bear Your Soul",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "arceuus"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Bear Your Soul",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "the_enchanted_key",
+        "displayName":  "The Enchanted Key",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "yanille"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "The Enchanted Key",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "mage_arena_i",
+        "displayName":  "Mage Arena I",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "deep_wilderness",
+                              "60_magic"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Mage Arena I",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "family_pest",
+        "displayName":  "Family Pest",
+        "tier":  2,
+        "type":  "quest",
+        "cost":  35,
+        "prerequisites":  [
+                              "varrock"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Family Pest",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "mage_arena_ii",
+        "displayName":  "Mage Arena II",
+        "tier":  4,
+        "type":  "quest",
+        "cost":  100,
+        "prerequisites":  [
+                              "deep_wilderness",
+                              "mage_arena_i",
+                              "75_magic"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Mage Arena II",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "in_search_of_knowledge",
+        "displayName":  "In Search of Knowledge",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "hosidius"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "In Search of Knowledge",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "daddys_home",
+        "displayName":  "Daddy\u0027s Home",
+        "tier":  1,
+        "type":  "quest",
+        "cost":  15,
+        "prerequisites":  [
+                              "varrock"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Daddy\u0027s Home",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "the_frozen_door",
+        "displayName":  "The Frozen Door",
+        "tier":  4,
+        "type":  "quest",
+        "cost":  100,
+        "prerequisites":  [
+                              "trollheim",
+                              "desert_treasure_i",
+                              "70_agility",
+                              "70_hitpoints",
+                              "70_ranged",
+                              "70_strength"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "The Frozen Door",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "hopespears_will",
+        "displayName":  "Hopespear\u0027s Will",
+        "tier":  4,
+        "type":  "quest",
+        "cost":  100,
+        "prerequisites":  [
+                              "hemenster",
+                              "the_restless_ghost",
+                              "desert_treasure_i",
+                              "fairytale_ii",
+                              "land_of_the_goblins",
+                              "50_prayer"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Hopespear\u0027s Will",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "into_the_tombs",
+        "displayName":  "Into the Tombs",
+        "tier":  4,
+        "type":  "quest",
+        "cost":  100,
+        "prerequisites":  [
+                              "necropolis",
+                              "beneath_cursed_sand",
+                              "contact",
+                              "prince_ali_rescue",
+                              "icthlarin_little_helper",
+                              "gertrude_cat"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Into the Tombs",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "his_faithful_servants",
+        "displayName":  "His Faithful Servants",
+        "tier":  3,
+        "type":  "quest",
+        "cost":  75,
+        "prerequisites":  [
+                              "southern_morytania",
+                              "priest_in_peril"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "His Faithful Servants",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
+        "id":  "vale_totems",
+        "displayName":  "Vale Totems",
+        "tier":  1,
+        "type":  "quest",
+        "cost":  15,
+        "prerequisites":  [
+                              "auburnvale"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "Vale Totems",
+                         "type":  "taskFilter"
+                     }
+    }
+]
