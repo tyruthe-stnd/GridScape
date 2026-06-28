@@ -146,8 +146,6 @@ public class WorldUnlockService
 		configManager.setConfiguration(STATE_GROUP, KEY_WORLD_UNLOCK_CLAIMED_IDS, ConfigParsing.joinComma(claimedIds));
 	}
 
-	private static int[] parsePos(String pos) { return GridPos.parse(pos); }
-	private static String normalizePos(String pos) { return GridPos.normalize(pos); }
 	private static List<String> getNeighborPositions(String pos) { return GridPos.neighbors4(pos); }
 
 	/** Loads grid state: normalized position -> tile id. Only add when a position is first revealed; never overwrite. */
@@ -165,7 +163,7 @@ public class WorldUnlockService
 			String pos = entry.substring(0, i).trim();
 			String tileId = entry.substring(i + GRID_STATE_SEP.length()).trim();
 			if (!pos.isEmpty() && !tileId.isEmpty())
-				gridState.put(normalizePos(pos), tileId);
+				gridState.put(GridPos.normalize(pos), tileId);
 		}
 		return gridState;
 	}
@@ -259,9 +257,9 @@ public class WorldUnlockService
 		revealedPositions.add("0,0");
 		for (String cp : claimedPositions)
 		{
-			revealedPositions.add(normalizePos(cp));
+			revealedPositions.add(GridPos.normalize(cp));
 			for (String neighbor : getNeighborPositions(cp))
-				revealedPositions.add(normalizePos(neighbor));
+				revealedPositions.add(GridPos.normalize(neighbor));
 		}
 
 		// 4. toAssign = revealed positions that have no assignment yet (first time revealed), deduplicated
@@ -269,7 +267,7 @@ public class WorldUnlockService
 		Set<String> toAssignSet = new HashSet<>();
 		for (String pos : revealedPositions)
 		{
-			String norm = normalizePos(pos);
+			String norm = GridPos.normalize(pos);
 			if ("0,0".equals(norm)) continue;
 			if (!gridState.containsKey(norm))
 				toAssignSet.add(norm);
@@ -323,8 +321,8 @@ public class WorldUnlockService
 
 		// 8. Sort toAssign by spiral order (ring 1 first, then ring 2, then 3+)
 		Comparator<int[]> byDistFromCenter = (a, b) -> {
-			int da = chebyshevDist(a[0], a[1], 0, 0);
-			int db = chebyshevDist(b[0], b[1], 0, 0);
+			int da = GridPos.chebyshevDist(a[0], a[1], 0, 0);
+			int db = GridPos.chebyshevDist(b[0], b[1], 0, 0);
 			if (da != db) return Integer.compare(da, db);
 			if (a[0] != b[0]) return Integer.compare(a[0], b[0]);
 			return Integer.compare(a[1], b[1]);
@@ -332,7 +330,7 @@ public class WorldUnlockService
 		List<int[]> toAssignRc = new ArrayList<>();
 		for (String pos : toAssign)
 		{
-			int[] rc = parsePos(pos);
+			int[] rc = GridPos.parse(pos);
 			if (rc != null) toAssignRc.add(rc);
 		}
 		toAssignRc.sort(byDistFromCenter);
@@ -341,7 +339,7 @@ public class WorldUnlockService
 		for (int[] rc : toAssignRc)
 		{
 			String pos = rc[0] + "," + rc[1];
-			int ring = chebyshevDist(rc[0], rc[1], 0, 0);
+			int ring = GridPos.chebyshevDist(rc[0], rc[1], 0, 0);
 			WorldUnlockTile chosen = null;
 
 			if (ring <= 2)
@@ -442,13 +440,13 @@ public class WorldUnlockService
 		grid.add(new WorldUnlockTilePlacement(centerTile, 0, 0));
 		List<String> positionsSorted = new ArrayList<>(gridState.keySet());
 		positionsSorted.sort((a, b) -> {
-			int[] ar = parsePos(a), br = parsePos(b);
+			int[] ar = GridPos.parse(a), br = GridPos.parse(b);
 			if (ar == null || br == null) return 0;
 			return byDistFromCenter.compare(ar, br);
 		});
 		for (String posStr : positionsSorted)
 		{
-			int[] rc = parsePos(posStr);
+			int[] rc = GridPos.parse(posStr);
 			if (rc == null) continue;
 			String tileId = gridState.get(posStr);
 			WorldUnlockTile tile = getTileById(tileId);
@@ -706,11 +704,6 @@ public class WorldUnlockService
 		return unlockedIds.contains(id);
 	}
 
-	private static int chebyshevDist(int r1, int c1, int r2, int c2)
-	{
-		return Math.max(Math.abs(r1 - r2), Math.abs(c1 - c2));
-	}
-
 	/** Level band index for skill tiles: 0 = 1-10, 1 = 11-20, ..., 9 = 91-99. Returns -1 if not a skill tile. */
 	private static int getSkillLevelBand(WorldUnlockTile t)
 	{
@@ -742,17 +735,6 @@ public class WorldUnlockService
 				return true;
 		}
 		return false;
-	}
-
-	/** Spiral order for one ring (same as TaskGridService). Ring 1 = 8 cells, ring 2 = 16, etc. */
-	private static List<int[]> spiralOrderForRing(int tier)
-	{
-		List<int[]> out = new ArrayList<>(8 * tier);
-		for (int c = 1 - tier; c <= tier; c++) out.add(new int[]{ tier, c });
-		for (int r = tier - 1; r >= -tier; r--) out.add(new int[]{ r, tier });
-		for (int c = tier - 1; c >= -tier; c--) out.add(new int[]{ -tier, c });
-		for (int r = -tier + 1; r <= tier; r++) out.add(new int[]{ r, -tier });
-		return out;
 	}
 
 	/**

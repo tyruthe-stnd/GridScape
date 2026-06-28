@@ -9,6 +9,7 @@ import com.gridscape.icons.IconResources;
 import com.gridscape.points.PointsService;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -66,8 +67,7 @@ public class WorldUnlockGridPanel extends JPanel
 {
 	private static final Color POPUP_BG = com.gridscape.util.GridScapeColors.POPUP_BG;
 	private static final Color POPUP_TEXT = com.gridscape.util.GridScapeColors.POPUP_TEXT;
-	private static final Color POPUP_BORDER = new Color(0x2a, 0x28, 0x24);
-	private static final Dimension RECTANGLE_BUTTON_SIZE = new Dimension(160, 28);
+	private static final Color POPUP_BORDER = com.gridscape.util.GridScapeColors.POPUP_BORDER;
 	private static final int BASE_TILE_SIZE = 72;
 	private static final int TILE_ICON_MARGIN = 12;
 	private static final Map<String, BufferedImage> iconCache = new ConcurrentHashMap<>();
@@ -137,34 +137,14 @@ public class WorldUnlockGridPanel extends JPanel
 		fogBottomLeft = ImageUtil.loadImageResource(GridScapePlugin.class, "/com/gridscape/fog_tile_corner_bottom_left.png");
 		fogBottomRight = ImageUtil.loadImageResource(GridScapePlugin.class, "/com/gridscape/fog_tile_corner_bottom_right.png");
 
-		setLayout(new BorderLayout(8, 8));
-		setBackground(POPUP_BG);
-		setBorder(new CompoundBorder(
-			new LineBorder(POPUP_BORDER, 2),
-			new EmptyBorder(10, 12, 10, 12)));
-		setOpaque(true);
+		GridScapeSwingUtil.applyPopupPanelChrome(this);
 
-		JPanel header = new JPanel(new BorderLayout(4, 0));
-		header.setOpaque(false);
-		header.setBorder(new EmptyBorder(0, 0, 8, 0));
-		JPanel titleRow = new JPanel(new BorderLayout(4, 0));
-		titleRow.setOpaque(false);
 		pointsLabel = new JLabel();
-		pointsLabel.setForeground(POPUP_TEXT);
-		titleRow.add(pointsLabel, BorderLayout.WEST);
-		JLabel titleLabel = new JLabel("World Unlock");
-		titleLabel.setForeground(POPUP_TEXT);
-		titleLabel.setFont(titleLabel.getFont().deriveFont(Font.BOLD, 16f));
-		titleLabel.setHorizontalAlignment(JLabel.CENTER);
-		titleRow.add(titleLabel, BorderLayout.CENTER);
-		JButton closeBtn = newPopupButtonWithIcon(xBtnImg, POPUP_TEXT);
-		closeBtn.addActionListener(e -> {
-			playSound(GridScapeSounds.BUTTON_PRESS);
+		JPanel header = GridScapeSwingUtil.newGridPanelHeader(pointsLabel, "World Unlock", xBtnImg, POPUP_TEXT, () -> {
+			GridScapeSounds.play(audioPlayer, GridScapeSounds.BUTTON_PRESS, client);
 			if (onClose != null) onClose.run();
 		});
-		titleRow.add(closeBtn, BorderLayout.EAST);
-		header.add(titleRow, BorderLayout.NORTH);
-		GridScapeSwingUtil.installUndecoratedWindowDrag(parentDialog, titleRow);
+		GridScapeSwingUtil.installUndecoratedWindowDrag(parentDialog, GridScapeSwingUtil.titleRowFromHeader(header));
 		add(header, BorderLayout.NORTH);
 
 		gridPanel = new JPanel();
@@ -180,49 +160,12 @@ public class WorldUnlockGridPanel extends JPanel
 		gridScrollPane.setMinimumSize(WorldUnlockUiDimensions.GRID_SCROLL_MINIMUM);
 		gridScrollPane.setBorder(null);
 
-		gridScrollPane.getViewport().addMouseWheelListener(e -> {
-			float prev = zoom;
-			if (e.getWheelRotation() < 0)
-				zoom = Math.min(ZOOM_MAX, zoom + ZOOM_STEP);
-			else
-				zoom = Math.max(ZOOM_MIN, zoom - ZOOM_STEP);
-			if (zoom != prev)
-			{
-				e.consume();
-				SwingUtilities.invokeLater(this::refresh);
-			}
+		final float[] zoomHolder = new float[]{ zoom };
+		GridScapeSwingUtil.installGridScrollWheelZoom(gridScrollPane, zoomHolder, ZOOM_MIN, ZOOM_MAX, ZOOM_STEP, () -> {
+			zoom = zoomHolder[0];
+			refresh();
 		});
-
-		gridScrollPane.getViewport().addMouseListener(new MouseAdapter()
-		{
-			@Override
-			public void mousePressed(MouseEvent e)
-			{
-				gridPanDragStart[0] = e.getPoint();
-			}
-
-			@Override
-			public void mouseReleased(MouseEvent e)
-			{
-				gridPanDragStart[0] = null;
-			}
-		});
-		gridScrollPane.getViewport().addMouseMotionListener(new MouseMotionAdapter()
-		{
-			@Override
-			public void mouseDragged(MouseEvent e)
-			{
-				if (gridPanDragStart[0] == null) return;
-				JViewport viewport = gridScrollPane.getViewport();
-				Point pos = viewport.getViewPosition();
-				int dx = gridPanDragStart[0].x - e.getX();
-				int dy = gridPanDragStart[0].y - e.getY();
-				int nx = Math.max(0, Math.min(pos.x + dx, viewport.getViewSize().width - viewport.getExtentSize().width));
-				int ny = Math.max(0, Math.min(pos.y + dy, viewport.getViewSize().height - viewport.getExtentSize().height));
-				viewport.setViewPosition(new Point(nx, ny));
-				gridPanDragStart[0] = e.getPoint();
-			}
-		});
+		GridScapeSwingUtil.installGridScrollDragPan(gridScrollPane, gridPanDragStart, true);
 		add(gridScrollPane, BorderLayout.CENTER);
 
 		JPanel south = new JPanel(new BorderLayout(8, 0));
@@ -230,35 +173,35 @@ public class WorldUnlockGridPanel extends JPanel
 		south.setBorder(new EmptyBorder(0, 0, 8, 0));
 		JPanel westButtons = new JPanel(new FlowLayout(FlowLayout.LEADING, 4, 0));
 		westButtons.setOpaque(false);
-		JButton tasksBtn = newRectangleButton("Tasks", buttonRect, POPUP_TEXT);
+		JButton tasksBtn = GridScapeSwingUtil.newRectangleButton("Tasks", buttonRect, POPUP_TEXT);
 		tasksBtn.addActionListener(e -> {
-			playSound(GridScapeSounds.BUTTON_PRESS);
+			GridScapeSounds.play(audioPlayer, GridScapeSounds.BUTTON_PRESS, client);
 			if (onClose != null) onClose.run();
 			if (onOpenTasks != null) onOpenTasks.run();
 		});
 		westButtons.add(tasksBtn);
-		JButton rulesSetupBtn = newRectangleButton("Rules & Setup", buttonRect, POPUP_TEXT);
+		JButton rulesSetupBtn = GridScapeSwingUtil.newRectangleButton("Rules & Setup", buttonRect, POPUP_TEXT);
 		rulesSetupBtn.addActionListener(e -> {
-			playSound(GridScapeSounds.BUTTON_PRESS);
+			GridScapeSounds.play(audioPlayer, GridScapeSounds.BUTTON_PRESS, client);
 			if (onOpenRulesSetup != null) onOpenRulesSetup.run();
 		});
 		westButtons.add(rulesSetupBtn);
 		south.add(westButtons, BorderLayout.WEST);
 
-		JButton showUnlocksBtn = newRectangleButton("Show Unlocks", buttonRect, POPUP_TEXT);
+		JButton showUnlocksBtn = GridScapeSwingUtil.newRectangleButton("Show Unlocks", buttonRect, POPUP_TEXT);
 		showUnlocksBtn.addActionListener(e -> {
-			playSound(GridScapeSounds.BUTTON_PRESS);
+			GridScapeSounds.play(audioPlayer, GridScapeSounds.BUTTON_PRESS, client);
 			showUnlocksDialog();
 		});
 		south.add(showUnlocksBtn, BorderLayout.CENTER);
 
 		JPanel zoomPanel = new JPanel(new FlowLayout(FlowLayout.TRAILING, 4, 0));
 		zoomPanel.setOpaque(false);
-		JButton zoomOutBtn = newRectangleButton("\u2212", tileBg, POPUP_TEXT);
+		JButton zoomOutBtn = GridScapeSwingUtil.newRectangleButton("\u2212", tileBg, POPUP_TEXT);
 		zoomOutBtn.setPreferredSize(new Dimension(28, 28));
 		zoomOutBtn.setToolTipText("Zoom out");
 		zoomOutBtn.addActionListener(e -> { zoom = Math.max(ZOOM_MIN, zoom - ZOOM_STEP); SwingUtilities.invokeLater(this::refresh); });
-		JButton zoomInBtn = newRectangleButton("+", tileBg, POPUP_TEXT);
+		JButton zoomInBtn = GridScapeSwingUtil.newRectangleButton("+", tileBg, POPUP_TEXT);
 		zoomInBtn.setPreferredSize(new Dimension(28, 28));
 		zoomInBtn.setToolTipText("Zoom in");
 		zoomInBtn.addActionListener(e -> { zoom = Math.min(ZOOM_MAX, zoom + ZOOM_STEP); SwingUtilities.invokeLater(this::refresh); });
@@ -663,7 +606,7 @@ public class WorldUnlockGridPanel extends JPanel
 				public void mouseClicked(MouseEvent e)
 				{
 					if (e.getButton() != MouseEvent.BUTTON1) return;
-					playSound(GridScapeSounds.BUTTON_PRESS);
+					GridScapeSounds.play(audioPlayer, GridScapeSounds.BUTTON_PRESS, client);
 					showTileDetailPopup(tile, isCenter);
 				}
 			});
@@ -677,7 +620,7 @@ public class WorldUnlockGridPanel extends JPanel
 			public void mouseClicked(MouseEvent e)
 			{
 				if (e.getButton() != MouseEvent.BUTTON1) return;
-				playSound(GridScapeSounds.BUTTON_PRESS);
+				GridScapeSounds.play(audioPlayer, GridScapeSounds.BUTTON_PRESS, client);
 				showTileDetailPopup(tile, isCenter);
 			}
 		});
@@ -750,7 +693,7 @@ public class WorldUnlockGridPanel extends JPanel
 			public void mouseClicked(MouseEvent e)
 			{
 				if (e.getButton() != MouseEvent.BUTTON1) return;
-				playSound(GridScapeSounds.BUTTON_PRESS);
+				GridScapeSounds.play(audioPlayer, GridScapeSounds.BUTTON_PRESS, client);
 				showTileDetailPopup(tile, isCenter);
 			}
 		});
@@ -783,7 +726,7 @@ public class WorldUnlockGridPanel extends JPanel
 			public void mouseClicked(MouseEvent e)
 			{
 				if (e.getButton() != MouseEvent.BUTTON1) return;
-				playSound(GridScapeSounds.BUTTON_PRESS);
+				GridScapeSounds.play(audioPlayer, GridScapeSounds.BUTTON_PRESS, client);
 				showTileDetailPopup(tile, isCenter);
 			}
 		});
@@ -832,21 +775,11 @@ public class WorldUnlockGridPanel extends JPanel
 
 	private void showUnlocksDialog()
 	{
-		Frame frameOwner = null;
-		if (parentDialog != null)
-		{
-			java.awt.Window w = parentDialog.getOwner();
-			if (w instanceof Frame) frameOwner = (Frame) w;
-		}
-		if (frameOwner == null)
-		{
-			java.awt.Window w = SwingUtilities.windowForComponent(client.getCanvas());
-			if (w instanceof Frame) frameOwner = (Frame) w;
-		}
+		Frame frameOwner = TaskTileCellFactory.resolveDialogOwner(parentDialog, client);
 
 		JDialog dialog = new JDialog(frameOwner, "Claimed Unlocks", false);
 		dialog.setUndecorated(true);
-		GridScapePlugin.registerEscapeToClose(dialog);
+		GridScapeSwingUtil.registerEscapeToClose(dialog);
 
 		JPanel content = new JPanel(new BorderLayout(8, 8));
 		content.setBackground(POPUP_BG);
@@ -863,8 +796,8 @@ public class WorldUnlockGridPanel extends JPanel
 		titleLabel.setForeground(POPUP_TEXT);
 		titleLabel.setFont(titleLabel.getFont().deriveFont(Font.BOLD, 13f));
 		header.add(titleLabel, BorderLayout.CENTER);
-		JButton closeBtn = newPopupButtonWithIcon(xBtnImg, POPUP_TEXT);
-		closeBtn.addActionListener(e -> { playSound(GridScapeSounds.BUTTON_PRESS); dialog.dispose(); });
+		JButton closeBtn = GridScapeSwingUtil.newPopupButtonWithIcon(xBtnImg, POPUP_TEXT);
+		closeBtn.addActionListener(e -> { GridScapeSounds.play(audioPlayer, GridScapeSounds.BUTTON_PRESS, client); dialog.dispose(); });
 		header.add(closeBtn, BorderLayout.EAST);
 		northPanel.add(header);
 		// Filter: All, Skill, Area, Boss, Quest, Achievement diary
@@ -948,8 +881,8 @@ public class WorldUnlockGridPanel extends JPanel
 		});
 		refreshList.accept("All");
 
-		JButton closeBottomBtn = newRectangleButton("Close", buttonRect, POPUP_TEXT);
-		closeBottomBtn.addActionListener(e -> { playSound(GridScapeSounds.BUTTON_PRESS); dialog.dispose(); });
+		JButton closeBottomBtn = GridScapeSwingUtil.newRectangleButton("Close", buttonRect, POPUP_TEXT);
+		closeBottomBtn.addActionListener(e -> { GridScapeSounds.play(audioPlayer, GridScapeSounds.BUTTON_PRESS, client); dialog.dispose(); });
 		JPanel southPanel = new JPanel();
 		southPanel.setOpaque(false);
 		southPanel.add(closeBottomBtn);
@@ -964,47 +897,19 @@ public class WorldUnlockGridPanel extends JPanel
 
 	private void showTileDetailPopup(WorldUnlockTile tile, boolean isCenter)
 	{
-		Frame frameOwner = null;
-		if (parentDialog != null)
-		{
-			java.awt.Window w = parentDialog.getOwner();
-			if (w instanceof Frame) frameOwner = (Frame) w;
-		}
-		if (frameOwner == null)
-		{
-			java.awt.Window w = SwingUtilities.windowForComponent(client.getCanvas());
-			if (w instanceof Frame) frameOwner = (Frame) w;
-		}
+		Frame frameOwner = TaskTileCellFactory.resolveDialogOwner(parentDialog, client);
 
 		// Use starter area display name from config/areas when this is the center (starter) tile so it matches Game Mode tab
 		String windowTitle = isCenter && worldUnlockService.getTileCost(tile) == 0
 			? worldUnlockService.getStarterAreaDisplayName()
 			: (tile.getDisplayName() != null ? tile.getDisplayName() : tile.getId());
 		if (windowTitle == null || windowTitle.isEmpty()) windowTitle = tile.getId();
-		JDialog detail = new JDialog(frameOwner, windowTitle, false);
-		detail.setUndecorated(true);
-		GridScapePlugin.registerEscapeToClose(detail);
-
-		JPanel content = new JPanel(new BorderLayout(8, 8));
-		content.setBackground(POPUP_BG);
-		content.setBorder(new CompoundBorder(
-			new LineBorder(POPUP_BORDER, 2),
-			new EmptyBorder(12, 14, 12, 14)));
-
-		JPanel headerPanel = new JPanel(new BorderLayout(4, 0));
-		headerPanel.setOpaque(false);
-		JLabel titleLabel = new JLabel(windowTitle);
-		titleLabel.setForeground(POPUP_TEXT);
-		titleLabel.setFont(titleLabel.getFont().deriveFont(Font.BOLD, 13f));
-		headerPanel.add(titleLabel, BorderLayout.CENTER);
-		JButton closeBtn = newPopupButtonWithIcon(xBtnImg, POPUP_TEXT);
-		closeBtn.addActionListener(e -> { playSound(GridScapeSounds.BUTTON_PRESS); detail.dispose(); });
-		headerPanel.add(closeBtn, BorderLayout.EAST);
-		content.add(headerPanel, BorderLayout.NORTH);
-
-		JPanel body = new JPanel();
-		body.setLayout(new BoxLayout(body, BoxLayout.Y_AXIS));
-		body.setOpaque(false);
+		TaskTileCellFactory.DetailPopupShell shell = TaskTileCellFactory.newDetailPopupShell(
+			frameOwner, windowTitle, POPUP_BG, POPUP_BORDER, POPUP_TEXT, xBtnImg,
+			() -> GridScapeSounds.play(audioPlayer, GridScapeSounds.BUTTON_PRESS, client));
+		JDialog detail = shell.detail;
+		JPanel body = shell.body;
+		GridScapeSwingUtil.registerEscapeToClose(detail);
 
 		String typeLabel = tile.getType() != null ? capitalize(tile.getType().replace("_", " ")) : "Unlock";
 		JLabel typeInfo = new JLabel("<html>" + typeLabel + " &middot; Tier " + tile.getTier() + "</html>");
@@ -1027,7 +932,7 @@ public class WorldUnlockGridPanel extends JPanel
 			freeLabel.setForeground(POPUP_TEXT);
 			body.add(freeLabel);
 			body.add(new JLabel(" "));
-			JButton unlockBtn = newRectangleButton("Unlock (Free)", buttonRect, POPUP_TEXT);
+			JButton unlockBtn = GridScapeSwingUtil.newRectangleButton("Unlock (Free)", buttonRect, POPUP_TEXT);
 			unlockBtn.addActionListener(e -> {
 				if (worldUnlockService.unlock(tile.getId(), worldUnlockService.getTileCost(tile)))
 				{
@@ -1052,13 +957,13 @@ public class WorldUnlockGridPanel extends JPanel
 			actionLabel.setForeground(POPUP_TEXT);
 			body.add(actionLabel);
 			body.add(new JLabel(" "));
-			JButton claimBtn = newRectangleButton("Claim", buttonRect, POPUP_TEXT);
+			JButton claimBtn = GridScapeSwingUtil.newRectangleButton("Claim", buttonRect, POPUP_TEXT);
 			claimBtn.addActionListener(e -> {
 				if (worldUnlockService.claim(tile.getId()))
 				{
 					if (com.gridscape.constants.WorldUnlockTileType.AREA.equals(tile.getType()) && onAreaUnlocked != null)
 						onAreaUnlocked.accept(tile.getId());
-					playSound(GridScapeSounds.TASK_COMPLETE);
+					GridScapeSounds.play(audioPlayer, GridScapeSounds.TASK_COMPLETE, client);
 					detail.dispose();
 					int[] rc = findRowColForTileId(tile.getId());
 					pendingClaimFocusRow = rc[0];
@@ -1097,7 +1002,7 @@ public class WorldUnlockGridPanel extends JPanel
 			}
 			else
 			{
-				JButton unlockBtn = newRectangleButton("Unlock (" + worldUnlockService.getTileCost(tile) + " pts)", buttonRect, POPUP_TEXT);
+				JButton unlockBtn = GridScapeSwingUtil.newRectangleButton("Unlock (" + worldUnlockService.getTileCost(tile) + " pts)", buttonRect, POPUP_TEXT);
 				unlockBtn.addActionListener(e -> {
 					if (worldUnlockService.unlock(tile.getId(), worldUnlockService.getTileCost(tile)))
 					{
@@ -1111,36 +1016,12 @@ public class WorldUnlockGridPanel extends JPanel
 				body.add(unlockBtn);
 			}
 		}
-		content.add(body, BorderLayout.CENTER);
-
-		detail.setContentPane(content);
-		detail.getRootPane().setBorder(new LineBorder(POPUP_BORDER, 2));
-		detail.addWindowFocusListener(new java.awt.event.WindowAdapter()
-		{
-			@Override
-			public void windowLostFocus(java.awt.event.WindowEvent e)
-			{
-				SwingUtilities.invokeLater(() -> {
-					if (detail.isDisplayable()) detail.dispose();
-				});
-			}
-		});
-		detail.pack();
-		if (parentDialog != null)
-			detail.setLocationRelativeTo(parentDialog);
-		else
-			detail.setLocationRelativeTo(client.getCanvas());
-		detail.setVisible(true);
-		detail.requestFocusInWindow();
+		TaskTileCellFactory.installDetailPopupFocusClose(detail);
+		Component loc = parentDialog != null ? parentDialog : client.getCanvas();
+		TaskTileCellFactory.showDetailPopup(detail, loc);
 	}
 
 	// --- UI helpers ---
-
-	private void playSound(String sound)
-	{
-		if (audioPlayer != null && client != null)
-			GridScapeSounds.play(audioPlayer, sound, client);
-	}
 
 	private void playUnlockTileGameSound()
 	{
@@ -1152,17 +1033,5 @@ public class WorldUnlockGridPanel extends JPanel
 	{
 		if (s == null || s.isEmpty()) return s;
 		return s.substring(0, 1).toUpperCase() + s.substring(1);
-	}
-
-	private static JButton newRectangleButton(String text, BufferedImage buttonRect, Color textColor)
-	{
-		JButton b = com.gridscape.util.GridScapeSwingUtil.newRectangleButton(text, buttonRect, textColor);
-		b.setPreferredSize(RECTANGLE_BUTTON_SIZE);
-		return b;
-	}
-
-	private static JButton newPopupButtonWithIcon(BufferedImage iconImg, Color fallbackTextColor)
-	{
-		return com.gridscape.util.GridScapeSwingUtil.newPopupButtonWithIcon(iconImg, fallbackTextColor);
 	}
 }

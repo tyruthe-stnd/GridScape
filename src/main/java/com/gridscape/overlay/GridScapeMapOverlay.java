@@ -28,6 +28,7 @@ import com.gridscape.worldunlock.WorldUnlockTile;
 import com.gridscape.GridScapeSounds;
 import java.awt.BasicStroke;
 import java.awt.Color;
+import com.gridscape.util.GridScapeColors;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
@@ -706,9 +707,9 @@ public class GridScapeMapOverlay extends Overlay implements MouseListener
 			"Fill using others' corners: boundary updated (" + mainPolygon.size() + " corners, " + holes.size() + " hole(s)). Save (Done editing) to apply.", null);
 	}
 
-	private static final Color POPUP_BG = new Color(0x54, 0x4D, 0x41);
-	private static final Color POPUP_TEXT = new Color(0xC4, 0xB8, 0x96);
-	private static final Color POPUP_BORDER = new Color(0x2a, 0x28, 0x24);
+	private static final Color POPUP_BG = GridScapeColors.POPUP_BG;
+	private static final Color POPUP_TEXT = GridScapeColors.POPUP_TEXT;
+	private static final Color POPUP_BORDER = GridScapeColors.POPUP_BORDER;
 	private static final int TASK_ICON_SIZE = 28;
 	/** Margin on all sides of the task tile; icon is scaled to fill the rest (same size for all). */
 	private static final int TASK_TILE_ICON_MARGIN = 12;
@@ -816,9 +817,7 @@ public class GridScapeMapOverlay extends Overlay implements MouseListener
 		BufferedImage checkmarkImg = ImageUtil.loadImageResource(GridScapePlugin.class, "complete_checkmark.png");
 
 		SwingUtilities.invokeLater(() -> {
-			Frame owner = null;
-			java.awt.Window w = SwingUtilities.windowForComponent(client.getCanvas());
-			if (w instanceof Frame) owner = (Frame) w;
+			Frame owner = TaskTileCellFactory.resolveDialogOwner(null, client);
 
 			JDialog dialog = new JDialog(owner, "Area: " + displayName, false);
 			dialog.setUndecorated(true);
@@ -1059,27 +1058,352 @@ public class GridScapeMapOverlay extends Overlay implements MouseListener
 		}
 	}
 
-	private void showTaskGridPopup(Area area)
+	private static final class TaskGridAssets
 	{
-		if (area == null) return;
-		String displayName = area.getDisplayName() != null ? area.getDisplayName() : area.getId();
-		String areaId = area.getId();
+		private final BufferedImage interfaceBg;
+		private final BufferedImage buttonRect;
+		private final BufferedImage tileSquare;
+		private final BufferedImage xBtnImg;
+		private final BufferedImage checkmarkImg;
+		private final BufferedImage padlockImg;
+		private final BufferedImage centerTileIconImg;
+		private final BufferedImage fogTileBg;
+		private final BufferedImage fogTopLeft;
+		private final BufferedImage fogTopRight;
+		private final BufferedImage fogBottomLeft;
+		private final BufferedImage fogBottomRight;
+		private final BufferedImage defaultTaskIcon;
+		private final Map<String, BufferedImage> taskIconCache;
 
+		private TaskGridAssets(BufferedImage interfaceBg, BufferedImage buttonRect, BufferedImage tileSquare,
+			BufferedImage xBtnImg, BufferedImage checkmarkImg, BufferedImage padlockImg,
+			BufferedImage centerTileIconImg, BufferedImage fogTileBg, BufferedImage fogTopLeft,
+			BufferedImage fogTopRight, BufferedImage fogBottomLeft, BufferedImage fogBottomRight,
+			BufferedImage defaultTaskIcon, Map<String, BufferedImage> taskIconCache)
+		{
+			this.interfaceBg = interfaceBg;
+			this.buttonRect = buttonRect;
+			this.tileSquare = tileSquare;
+			this.xBtnImg = xBtnImg;
+			this.checkmarkImg = checkmarkImg;
+			this.padlockImg = padlockImg;
+			this.centerTileIconImg = centerTileIconImg;
+			this.fogTileBg = fogTileBg;
+			this.fogTopLeft = fogTopLeft;
+			this.fogTopRight = fogTopRight;
+			this.fogBottomLeft = fogBottomLeft;
+			this.fogBottomRight = fogBottomRight;
+			this.defaultTaskIcon = defaultTaskIcon;
+			this.taskIconCache = taskIconCache;
+		}
+	}
+
+	private static final class TaskGridDialogShell
+	{
+		private final JPanel content;
+		private final JPanel gridPanel;
+		private final JScrollPane scrollPane;
+
+		private TaskGridDialogShell(JPanel content, JPanel gridPanel, JScrollPane scrollPane)
+		{
+			this.content = content;
+			this.gridPanel = gridPanel;
+			this.scrollPane = scrollPane;
+		}
+	}
+
+	private TaskGridAssets loadTaskGridAssets()
+	{
 		BufferedImage interfaceBg = ImageUtil.loadImageResource(GridScapePlugin.class, "interface_template.png");
 		BufferedImage buttonRect = ImageUtil.loadImageResource(GridScapePlugin.class, "empty_button_rectangle.png");
 		BufferedImage tileSquare = ImageUtil.loadImageResource(GridScapePlugin.class, "empty_button_square.png");
 		BufferedImage xBtnImg = ImageUtil.loadImageResource(GridScapePlugin.class, "x_button.png");
 		BufferedImage checkmarkImg = ImageUtil.loadImageResource(GridScapePlugin.class, "complete_checkmark.png");
 		BufferedImage padlockImg = ImageUtil.loadImageResource(GridScapePlugin.class, "padlock_icon.png");
-			BufferedImage centerTileIconImg = IconCache.loadWithFallback(IconResources.GENERIC_TASK_ICON,
-				IconResources.TASK_ICONS_RESOURCE_PREFIX + "Other_icon.png");
-			BufferedImage fogTileBg = ImageUtil.loadImageResource(GridScapePlugin.class, "/com/gridscape/fog_tile_base.png");
-			BufferedImage fogTopLeft = ImageUtil.loadImageResource(GridScapePlugin.class, "/com/gridscape/fog_tile_corner_top_left.png");
-			BufferedImage fogTopRight = ImageUtil.loadImageResource(GridScapePlugin.class, "/com/gridscape/fog_tile_corner_top_right.png");
-			BufferedImage fogBottomLeft = ImageUtil.loadImageResource(GridScapePlugin.class, "/com/gridscape/fog_tile_corner_bottom_left.png");
-			BufferedImage fogBottomRight = ImageUtil.loadImageResource(GridScapePlugin.class, "/com/gridscape/fog_tile_corner_bottom_right.png");
-			BufferedImage defaultTaskIcon = loadTaskIcon();
-			Map<String, BufferedImage> taskIconCache = new ConcurrentHashMap<>();
+		BufferedImage centerTileIconImg = IconCache.loadWithFallback(IconResources.GENERIC_TASK_ICON,
+			IconResources.TASK_ICONS_RESOURCE_PREFIX + "Other_icon.png");
+		BufferedImage fogTileBg = ImageUtil.loadImageResource(GridScapePlugin.class, "/com/gridscape/fog_tile_base.png");
+		BufferedImage fogTopLeft = ImageUtil.loadImageResource(GridScapePlugin.class, "/com/gridscape/fog_tile_corner_top_left.png");
+		BufferedImage fogTopRight = ImageUtil.loadImageResource(GridScapePlugin.class, "/com/gridscape/fog_tile_corner_top_right.png");
+		BufferedImage fogBottomLeft = ImageUtil.loadImageResource(GridScapePlugin.class, "/com/gridscape/fog_tile_corner_bottom_left.png");
+		BufferedImage fogBottomRight = ImageUtil.loadImageResource(GridScapePlugin.class, "/com/gridscape/fog_tile_corner_bottom_right.png");
+		BufferedImage defaultTaskIcon = loadTaskIcon();
+		Map<String, BufferedImage> taskIconCache = new ConcurrentHashMap<>();
+		return new TaskGridAssets(interfaceBg, buttonRect, tileSquare, xBtnImg, checkmarkImg, padlockImg,
+			centerTileIconImg, fogTileBg, fogTopLeft, fogTopRight, fogBottomLeft, fogBottomRight,
+			defaultTaskIcon, taskIconCache);
+	}
+
+	private TaskGridDialogShell buildTaskGridDialogShell(Area area, String displayName, TaskGridAssets assets,
+		JDialog dialog, JLabel[] pointsLabelHolder, float[] zoomHolder, Runnable[] refreshHolder)
+	{
+		final float ZOOM_MIN = 0.5f;
+		final float ZOOM_MAX = 2.0f;
+		final float ZOOM_STEP = 0.15f;
+
+		JPanel content = new JPanel()
+		{
+			@Override
+			protected void paintComponent(Graphics g)
+			{
+				super.paintComponent(g);
+				if (assets.interfaceBg != null)
+				{
+					ScaledImageCache.drawScaled(g, assets.interfaceBg, 0, 0, getWidth(), getHeight());
+				}
+				else
+				{
+					g.setColor(POPUP_BG);
+					g.fillRect(0, 0, getWidth(), getHeight());
+				}
+			}
+		};
+		content.setLayout(new java.awt.BorderLayout(8, 8));
+		content.setBackground(POPUP_BG);
+		content.setBorder(new javax.swing.border.CompoundBorder(
+			new javax.swing.border.LineBorder(POPUP_BORDER, 2),
+			new javax.swing.border.EmptyBorder(10, 12, 10, 12)));
+		content.setOpaque(true);
+
+		// Header: title "[area name] tasks" + points + close button
+		JPanel header = new JPanel(new java.awt.BorderLayout(4, 0));
+		header.setOpaque(false);
+		header.setBorder(new javax.swing.border.EmptyBorder(0, 0, 8, 0));
+		JPanel titleRow = new JPanel(new java.awt.BorderLayout(4, 0));
+		titleRow.setOpaque(false);
+		JLabel titleLabel = new JLabel(displayName + " tasks");
+		titleLabel.setForeground(POPUP_TEXT);
+		titleLabel.setFont(titleLabel.getFont().deriveFont(java.awt.Font.BOLD, 16f));
+		titleRow.add(titleLabel, java.awt.BorderLayout.CENTER);
+		JButton closeBtn = GridScapeSwingUtil.newPopupButtonWithIcon(assets.xBtnImg, POPUP_TEXT);
+		closeBtn.addActionListener(e -> {
+			GridScapeSounds.play(audioPlayer, GridScapeSounds.BUTTON_PRESS, client);
+			dialog.dispose();
+		});
+		titleRow.add(closeBtn, java.awt.BorderLayout.EAST);
+		header.add(titleRow, java.awt.BorderLayout.NORTH);
+		pointsLabelHolder[0] = new JLabel(getPointsDisplayText(area));
+		pointsLabelHolder[0].setForeground(POPUP_TEXT);
+		header.add(pointsLabelHolder[0], java.awt.BorderLayout.SOUTH);
+		GridScapeSwingUtil.installUndecoratedWindowDrag(dialog, header);
+		content.add(header, java.awt.BorderLayout.NORTH);
+
+		// Grid panel: only non-locked tiles, inside scroll pane with vertical + horizontal scroll bars
+		JPanel gridPanel = new JPanel();
+		gridPanel.setOpaque(false);
+		JScrollPane scrollPane = new JScrollPane(gridPanel);
+		scrollPane.setOpaque(false);
+		scrollPane.getViewport().setOpaque(false);
+		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		scrollPane.setPreferredSize(new Dimension(400, 320));
+		scrollPane.setBorder(null);
+
+		// Scroll wheel over grid: zoom in/out (consume so scroll pane doesn't scroll)
+		scrollPane.getViewport().addMouseWheelListener(e -> {
+			float prev = zoomHolder[0];
+			if (e.getWheelRotation() < 0)
+				zoomHolder[0] = Math.min(ZOOM_MAX, zoomHolder[0] + ZOOM_STEP);
+			else
+				zoomHolder[0] = Math.max(ZOOM_MIN, zoomHolder[0] - ZOOM_STEP);
+			if (zoomHolder[0] != prev)
+			{
+				e.consume();
+				SwingUtilities.invokeLater(refreshHolder[0]);
+			}
+		});
+		// Click-and-drag to scroll
+		final java.awt.Point[] dragStart = new java.awt.Point[1];
+		scrollPane.getViewport().addMouseListener(new java.awt.event.MouseAdapter()
+		{
+			@Override
+			public void mousePressed(java.awt.event.MouseEvent e)
+			{
+				dragStart[0] = e.getPoint();
+			}
+		});
+		scrollPane.getViewport().addMouseMotionListener(new java.awt.event.MouseMotionAdapter()
+		{
+			@Override
+			public void mouseDragged(java.awt.event.MouseEvent e)
+			{
+				if (dragStart[0] == null) return;
+				java.awt.Point vp = scrollPane.getViewport().getViewPosition();
+				int dx = dragStart[0].x - e.getX();
+				int dy = dragStart[0].y - e.getY();
+				int nx = Math.max(0, Math.min(vp.x + dx, scrollPane.getViewport().getViewSize().width - scrollPane.getViewport().getExtentSize().width));
+				int ny = Math.max(0, Math.min(vp.y + dy, scrollPane.getViewport().getViewSize().height - scrollPane.getViewport().getExtentSize().height));
+				scrollPane.getViewport().setViewPosition(new java.awt.Point(nx, ny));
+				dragStart[0] = e.getPoint();
+			}
+		});
+		content.add(scrollPane, java.awt.BorderLayout.CENTER);
+
+		// Back to area button: keep aspect ratio of empty_button_rectangle (no stretch)
+		JButton backBtn = GridScapeSwingUtil.newRectangleButton("Back to area", assets.buttonRect, POPUP_TEXT);
+		backBtn.setMaximumSize(GridScapeSwingUtil.RECTANGLE_BUTTON_SIZE);
+		backBtn.addActionListener(e -> {
+			GridScapeSounds.play(audioPlayer, GridScapeSounds.BUTTON_PRESS, client);
+			dialog.dispose();
+			showAreaDetailsPopup(area);
+		});
+		// Zoom out / Zoom in buttons, right-aligned
+		JButton zoomOutBtn = GridScapeSwingUtil.newRectangleButton("−", assets.buttonRect, POPUP_TEXT);
+		zoomOutBtn.setToolTipText("Zoom out");
+		zoomOutBtn.addActionListener(e -> {
+			zoomHolder[0] = Math.max(ZOOM_MIN, zoomHolder[0] - ZOOM_STEP);
+			SwingUtilities.invokeLater(refreshHolder[0]);
+		});
+		JButton zoomInBtn = GridScapeSwingUtil.newRectangleButton("+", assets.buttonRect, POPUP_TEXT);
+		zoomInBtn.setToolTipText("Zoom in");
+		zoomInBtn.addActionListener(e -> {
+			zoomHolder[0] = Math.min(ZOOM_MAX, zoomHolder[0] + ZOOM_STEP);
+			SwingUtilities.invokeLater(refreshHolder[0]);
+		});
+		JPanel southPanel = new JPanel(new java.awt.BorderLayout(8, 0));
+		southPanel.setOpaque(false);
+		southPanel.setBorder(new javax.swing.border.EmptyBorder(0, 0, 8, 0));
+		southPanel.add(backBtn, java.awt.BorderLayout.WEST);
+		JPanel zoomPanel = new JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.TRAILING, 4, 0));
+		zoomPanel.setOpaque(false);
+		zoomPanel.add(zoomOutBtn);
+		zoomPanel.add(zoomInBtn);
+		southPanel.add(zoomPanel, java.awt.BorderLayout.EAST);
+		content.add(southPanel, java.awt.BorderLayout.SOUTH);
+
+		return new TaskGridDialogShell(content, gridPanel, scrollPane);
+	}
+
+	private Runnable buildTaskGridRefreshRunnable(String areaId, Area area, TaskGridAssets assets,
+		JPanel gridPanel, JScrollPane scrollPane, JLabel[] pointsLabelHolder, float[] zoomHolder,
+		int[] focusAfterClaimRowCol, Runnable[] refreshHolder, BiConsumer<Integer, Integer> claimFocusAfter,
+		JDialog dialog)
+	{
+		return () -> {
+			gridPanel.removeAll();
+			gridPanel.setLayout(new GridBagLayout());
+			List<TaskTile> grid = taskGridService.getGridForArea(areaId);
+			Set<String> unlocked = areaGraphService.getUnlockedAreaIds();
+			// Center the grid in the panel; support overfill and larger grids (effectiveMaxTier > 5)
+			int center = grid.stream()
+				.mapToInt(t -> Math.max(Math.abs(t.getRow()), Math.abs(t.getCol())))
+				.max().orElse(5);
+			for (TaskTile tFog : grid)
+			{
+				if (taskGridService.getState(areaId, tFog.getId(), grid) != TaskState.LOCKED) continue;
+				if (!FrontierFogHelpers.hiddenCellHasRevealedUnclaimedNeighbor(tFog.getRow(), tFog.getCol(), grid,
+					nid -> taskGridService.getState(areaId, nid, grid))) continue;
+				center = Math.max(center, Math.max(Math.abs(tFog.getRow()), Math.abs(tFog.getCol())));
+			}
+			int tileSize = Math.max(24, (int)(72 * zoomHolder[0]));
+			// Icon size and margin scale with tile so proportion stays the same when zooming
+			int iconMargin = Math.max(1, (tileSize * TASK_TILE_ICON_MARGIN) / 72);
+			int iconMaxFit = Math.max(1, tileSize - 2 * iconMargin);
+			int refSize = IconCache.combatReferenceSize(iconMaxFit);
+
+			for (TaskTile tile : grid)
+			{
+				TaskState state = taskGridService.getState(areaId, tile.getId(), grid);
+				if (state == TaskState.LOCKED)
+				{
+					continue;
+				}
+				int gx = tile.getCol() + center;
+				int gy = center - tile.getRow();
+				GridBagConstraints gbc = new GridBagConstraints();
+				gbc.gridx = gx;
+				gbc.gridy = gy;
+				gbc.insets = new Insets(2, 2, 2, 2);
+
+				boolean isMystery = tile.isMystery(unlocked, areaId);
+				BufferedImage taskIcon;
+				if (isMystery)
+				{
+					taskIcon = createMysteryIcon(iconMaxFit);
+				}
+				else
+				{
+					BufferedImage raw;
+					if (IconResolver.isEquipTask(tile.getDisplayName())
+						&& !TaskTypes.EQUIPMENT.equalsIgnoreCase(tile.getTaskType()))
+					{
+						String wikiKey = "equip:" + tile.getDisplayName();
+						raw = assets.taskIconCache.get(wikiKey);
+						if (raw == null)
+						{
+							raw = assets.defaultTaskIcon;
+							assets.taskIconCache.put(wikiKey, raw);
+							String itemName = IconResolver.extractEquipItemName(tile.getDisplayName());
+							if (wikiApi != null && itemName != null && !itemName.isEmpty())
+							{
+								wikiApi.fetchItemIconAsync(itemName, img -> {
+									if (img != null)
+									{
+										assets.taskIconCache.put(wikiKey, img);
+										SwingUtilities.invokeLater(refreshHolder[0]);
+									}
+								});
+							}
+						}
+					}
+					else
+					{
+						raw = IconCache.loadRawTaskIcon(tile.getTaskType(), tile.getDisplayName(), tile.getBossId());
+						if (raw == null) raw = assets.defaultTaskIcon;
+					}
+					if (raw != null)
+						taskIcon = IconCache.scaleTaskIcon(raw, tile.getTaskType(), tile.getDisplayName(), iconMaxFit, refSize);
+					else
+						taskIcon = assets.defaultTaskIcon != null ? IconCache.scaleToFitAllowUpscale(assets.defaultTaskIcon, iconMaxFit, iconMaxFit) : null;
+				}
+				JPanel cell = buildTaskCell(areaId, tile, state, assets.checkmarkImg, assets.centerTileIconImg, assets.tileSquare, assets.buttonRect, taskIcon, POPUP_TEXT, refreshHolder[0], claimFocusAfter, dialog, area, isMystery, tileSize, iconMargin);
+				gridPanel.add(cell, gbc);
+			}
+			for (TaskTile tile : grid)
+			{
+				TaskState state = taskGridService.getState(areaId, tile.getId(), grid);
+				if (state != TaskState.LOCKED || !FrontierFogHelpers.hiddenCellHasRevealedUnclaimedNeighbor(
+					tile.getRow(), tile.getCol(), grid, nid -> taskGridService.getState(areaId, nid, grid))) continue;
+				int gx = tile.getCol() + center;
+				int gy = center - tile.getRow();
+				GridBagConstraints gbc = new GridBagConstraints();
+				gbc.gridx = gx;
+				gbc.gridy = gy;
+				gbc.insets = new Insets(2, 2, 2, 2);
+				Map<String, TaskTile> idMap = FrontierFogHelpers.idMap(grid);
+				boolean[] f = FrontierFogHelpers.cardinalFlagsForHiddenCell(tile.getRow(), tile.getCol(),
+					nid -> taskGridService.getState(areaId, nid, grid), idMap::containsKey);
+				JPanel fogCell = TaskTileCellFactory.newFogCell(tile.getRow(), tile.getCol(), tileSize,
+					assets.fogTileBg, assets.fogTopLeft, assets.fogTopRight, assets.fogBottomLeft, assets.fogBottomRight, f);
+				gridPanel.add(fogCell, gbc);
+			}
+			gridPanel.revalidate();
+			gridPanel.repaint();
+			if (pointsLabelHolder[0] != null)
+				pointsLabelHolder[0].setText(getPointsDisplayText(area));
+			if (focusAfterClaimRowCol[0] >= 0)
+			{
+				final int fr = focusAfterClaimRowCol[0];
+				final int fc = focusAfterClaimRowCol[1];
+				final int fs = tileSize;
+				final int ctr = center;
+				SwingUtilities.invokeLater(() -> {
+					JViewport vp = scrollPane.getViewport();
+					if (vp == null) return;
+					java.awt.Point p = GridClaimFocusAnimation.computeViewPositionForTile(vp, gridPanel, fr, fc, ctr, fs, 4);
+					vp.setViewPosition(p);
+				});
+			}
+		};
+	}
+
+	private void showTaskGridPopup(Area area)
+	{
+		if (area == null) return;
+		String displayName = area.getDisplayName() != null ? area.getDisplayName() : area.getId();
+		String areaId = area.getId();
+
+		TaskGridAssets assets = loadTaskGridAssets();
 
 		SwingUtilities.invokeLater(() -> {
 			if (openTaskGridDialog != null && openTaskGridDialog.isDisplayable())
@@ -1093,9 +1417,7 @@ public class GridScapeMapOverlay extends Overlay implements MouseListener
 				openTaskGridDialog = null;
 				openTaskGridAreaId = null;
 			}
-			Frame owner = null;
-			java.awt.Window w = SwingUtilities.windowForComponent(client.getCanvas());
-			if (w instanceof Frame) owner = (Frame) w;
+			Frame owner = TaskTileCellFactory.resolveDialogOwner(null, client);
 
 			JDialog dialog = new JDialog(owner, displayName + " tasks", false);
 			dialog.setUndecorated(true);
@@ -1111,70 +1433,11 @@ public class GridScapeMapOverlay extends Overlay implements MouseListener
 				}
 			});
 
-			JPanel content = new JPanel()
-			{
-				@Override
-				protected void paintComponent(Graphics g)
-				{
-					super.paintComponent(g);
-					if (interfaceBg != null)
-					{
-						ScaledImageCache.drawScaled(g, interfaceBg, 0, 0, getWidth(), getHeight());
-					}
-					else
-					{
-						g.setColor(POPUP_BG);
-						g.fillRect(0, 0, getWidth(), getHeight());
-					}
-				}
-			};
-			content.setLayout(new java.awt.BorderLayout(8, 8));
-			content.setBackground(POPUP_BG);
-			content.setBorder(new javax.swing.border.CompoundBorder(
-				new javax.swing.border.LineBorder(POPUP_BORDER, 2),
-				new javax.swing.border.EmptyBorder(10, 12, 10, 12)));
-			content.setOpaque(true);
-
-			// Header: title "[area name] tasks" + points + close button
-			JPanel header = new JPanel(new java.awt.BorderLayout(4, 0));
-			header.setOpaque(false);
-			header.setBorder(new javax.swing.border.EmptyBorder(0, 0, 8, 0));
-			JPanel titleRow = new JPanel(new java.awt.BorderLayout(4, 0));
-			titleRow.setOpaque(false);
-			JLabel titleLabel = new JLabel(displayName + " tasks");
-			titleLabel.setForeground(POPUP_TEXT);
-			titleLabel.setFont(titleLabel.getFont().deriveFont(java.awt.Font.BOLD, 16f));
-			titleRow.add(titleLabel, java.awt.BorderLayout.CENTER);
-			JButton closeBtn = GridScapeSwingUtil.newPopupButtonWithIcon(xBtnImg, POPUP_TEXT);
-			closeBtn.addActionListener(e -> {
-				GridScapeSounds.play(audioPlayer, GridScapeSounds.BUTTON_PRESS, client);
-				dialog.dispose();
-			});
-			titleRow.add(closeBtn, java.awt.BorderLayout.EAST);
-			header.add(titleRow, java.awt.BorderLayout.NORTH);
-			final JLabel[] pointsLabelHolder = new JLabel[1];
-			pointsLabelHolder[0] = new JLabel(getPointsDisplayText(area));
-			pointsLabelHolder[0].setForeground(POPUP_TEXT);
-			header.add(pointsLabelHolder[0], java.awt.BorderLayout.SOUTH);
-			GridScapeSwingUtil.installUndecoratedWindowDrag(dialog, header);
-			content.add(header, java.awt.BorderLayout.NORTH);
-
-			// Grid panel: only non-locked tiles, inside scroll pane with vertical + horizontal scroll bars
-			JPanel gridPanel = new JPanel();
-			gridPanel.setOpaque(false);
-			JScrollPane scrollPane = new JScrollPane(gridPanel);
-			scrollPane.setOpaque(false);
-			scrollPane.getViewport().setOpaque(false);
-			scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-			scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-			scrollPane.setPreferredSize(new Dimension(400, 320));
-			scrollPane.setBorder(null);
-
 			final float[] zoomHolder = new float[]{ 1.0f };
 			final float ZOOM_MIN = 0.5f;
 			final float ZOOM_MAX = 2.0f;
-			final float ZOOM_STEP = 0.15f;
 			final int[] focusAfterClaimRowCol = new int[]{ -1, -1 };
+			final JLabel[] pointsLabelHolder = new JLabel[1];
 			Runnable[] refreshHolder = new Runnable[1];
 			BiConsumer<Integer, Integer> claimFocusAfter = (row, col) -> {
 				focusAfterClaimRowCol[0] = row;
@@ -1184,202 +1447,17 @@ public class GridScapeMapOverlay extends Overlay implements MouseListener
 					focusAfterClaimRowCol[1] = -1;
 				});
 			};
-			refreshHolder[0] = () -> {
-				gridPanel.removeAll();
-				gridPanel.setLayout(new GridBagLayout());
-				List<TaskTile> grid = taskGridService.getGridForArea(areaId);
-				Set<String> unlocked = areaGraphService.getUnlockedAreaIds();
-				// Center the grid in the panel; support overfill and larger grids (effectiveMaxTier > 5)
-				int center = grid.stream()
-					.mapToInt(t -> Math.max(Math.abs(t.getRow()), Math.abs(t.getCol())))
-					.max().orElse(5);
-				for (TaskTile tFog : grid)
-				{
-					if (taskGridService.getState(areaId, tFog.getId(), grid) != TaskState.LOCKED) continue;
-					if (!FrontierFogHelpers.hiddenCellHasRevealedUnclaimedNeighbor(tFog.getRow(), tFog.getCol(), grid,
-						nid -> taskGridService.getState(areaId, nid, grid))) continue;
-					center = Math.max(center, Math.max(Math.abs(tFog.getRow()), Math.abs(tFog.getCol())));
-				}
-				int tileSize = Math.max(24, (int)(72 * zoomHolder[0]));
-				// Icon size and margin scale with tile so proportion stays the same when zooming
-				int iconMargin = Math.max(1, (tileSize * TASK_TILE_ICON_MARGIN) / 72);
-				int iconMaxFit = Math.max(1, tileSize - 2 * iconMargin);
-				int refSize = IconCache.combatReferenceSize(iconMaxFit);
-
-				for (TaskTile tile : grid)
-				{
-					TaskState state = taskGridService.getState(areaId, tile.getId(), grid);
-					if (state == TaskState.LOCKED)
-					{
-						continue;
-					}
-					int gx = tile.getCol() + center;
-					int gy = center - tile.getRow();
-					GridBagConstraints gbc = new GridBagConstraints();
-					gbc.gridx = gx;
-					gbc.gridy = gy;
-					gbc.insets = new Insets(2, 2, 2, 2);
-
-					boolean isMystery = tile.isMystery(unlocked, areaId);
-					BufferedImage taskIcon;
-					if (isMystery)
-					{
-						taskIcon = createMysteryIcon(iconMaxFit);
-					}
-					else
-					{
-						BufferedImage raw;
-						if (IconResolver.isEquipTask(tile.getDisplayName())
-							&& !TaskTypes.EQUIPMENT.equalsIgnoreCase(tile.getTaskType()))
-						{
-							String wikiKey = "equip:" + tile.getDisplayName();
-							raw = taskIconCache.get(wikiKey);
-							if (raw == null)
-							{
-								raw = defaultTaskIcon;
-								taskIconCache.put(wikiKey, raw);
-								String itemName = IconResolver.extractEquipItemName(tile.getDisplayName());
-								if (wikiApi != null && itemName != null && !itemName.isEmpty())
-								{
-									wikiApi.fetchItemIconAsync(itemName, img -> {
-										if (img != null)
-										{
-											taskIconCache.put(wikiKey, img);
-											SwingUtilities.invokeLater(refreshHolder[0]);
-										}
-									});
-								}
-							}
-						}
-						else
-						{
-							raw = IconCache.loadRawTaskIcon(tile.getTaskType(), tile.getDisplayName(), tile.getBossId());
-							if (raw == null) raw = defaultTaskIcon;
-						}
-						if (raw != null)
-							taskIcon = IconCache.scaleTaskIcon(raw, tile.getTaskType(), tile.getDisplayName(), iconMaxFit, refSize);
-						else
-							taskIcon = defaultTaskIcon != null ? IconCache.scaleToFitAllowUpscale(defaultTaskIcon, iconMaxFit, iconMaxFit) : null;
-					}
-					JPanel cell = buildTaskCell(areaId, tile, state, checkmarkImg, centerTileIconImg, tileSquare, buttonRect, taskIcon, POPUP_TEXT, refreshHolder[0], claimFocusAfter, dialog, area, isMystery, tileSize, iconMargin);
-					gridPanel.add(cell, gbc);
-				}
-				for (TaskTile tile : grid)
-				{
-					TaskState state = taskGridService.getState(areaId, tile.getId(), grid);
-					if (state != TaskState.LOCKED || !FrontierFogHelpers.hiddenCellHasRevealedUnclaimedNeighbor(
-						tile.getRow(), tile.getCol(), grid, nid -> taskGridService.getState(areaId, nid, grid))) continue;
-					int gx = tile.getCol() + center;
-					int gy = center - tile.getRow();
-					GridBagConstraints gbc = new GridBagConstraints();
-					gbc.gridx = gx;
-					gbc.gridy = gy;
-					gbc.insets = new Insets(2, 2, 2, 2);
-					Map<String, TaskTile> idMap = FrontierFogHelpers.idMap(grid);
-					boolean[] f = FrontierFogHelpers.cardinalFlagsForHiddenCell(tile.getRow(), tile.getCol(),
-						nid -> taskGridService.getState(areaId, nid, grid), idMap::containsKey);
-					JPanel fogCell = TaskTileCellFactory.newFogCell(tile.getRow(), tile.getCol(), tileSize,
-						fogTileBg, fogTopLeft, fogTopRight, fogBottomLeft, fogBottomRight, f);
-					gridPanel.add(fogCell, gbc);
-				}
-				gridPanel.revalidate();
-				gridPanel.repaint();
-				if (pointsLabelHolder[0] != null)
-					pointsLabelHolder[0].setText(getPointsDisplayText(area));
-				if (focusAfterClaimRowCol[0] >= 0)
-				{
-					final int fr = focusAfterClaimRowCol[0];
-					final int fc = focusAfterClaimRowCol[1];
-					final int fs = tileSize;
-					final int ctr = center;
-					SwingUtilities.invokeLater(() -> {
-						JViewport vp = scrollPane.getViewport();
-						if (vp == null) return;
-						java.awt.Point p = GridClaimFocusAnimation.computeViewPositionForTile(vp, gridPanel, fr, fc, ctr, fs, 4);
-						vp.setViewPosition(p);
-					});
-				}
-			};
+			TaskGridDialogShell shell = buildTaskGridDialogShell(area, displayName, assets, dialog, pointsLabelHolder, zoomHolder, refreshHolder);
+			refreshHolder[0] = buildTaskGridRefreshRunnable(areaId, area, assets, shell.gridPanel, shell.scrollPane,
+				pointsLabelHolder, zoomHolder, focusAfterClaimRowCol, refreshHolder, claimFocusAfter, dialog);
 			refreshHolder[0].run();
 
-			// Scroll wheel over grid: zoom in/out (consume so scroll pane doesn't scroll)
-			scrollPane.getViewport().addMouseWheelListener(e -> {
-				float prev = zoomHolder[0];
-				if (e.getWheelRotation() < 0)
-					zoomHolder[0] = Math.min(ZOOM_MAX, zoomHolder[0] + ZOOM_STEP);
-				else
-					zoomHolder[0] = Math.max(ZOOM_MIN, zoomHolder[0] - ZOOM_STEP);
-				if (zoomHolder[0] != prev)
-				{
-					e.consume();
-					SwingUtilities.invokeLater(refreshHolder[0]);
-				}
-			});
-			// Click-and-drag to scroll
-			final java.awt.Point[] dragStart = new java.awt.Point[1];
-			scrollPane.getViewport().addMouseListener(new java.awt.event.MouseAdapter()
-			{
-				@Override
-				public void mousePressed(java.awt.event.MouseEvent e)
-				{
-					dragStart[0] = e.getPoint();
-				}
-			});
-			scrollPane.getViewport().addMouseMotionListener(new java.awt.event.MouseMotionAdapter()
-			{
-				@Override
-				public void mouseDragged(java.awt.event.MouseEvent e)
-				{
-					if (dragStart[0] == null) return;
-					java.awt.Point vp = scrollPane.getViewport().getViewPosition();
-					int dx = dragStart[0].x - e.getX();
-					int dy = dragStart[0].y - e.getY();
-					int nx = Math.max(0, Math.min(vp.x + dx, scrollPane.getViewport().getViewSize().width - scrollPane.getViewport().getExtentSize().width));
-					int ny = Math.max(0, Math.min(vp.y + dy, scrollPane.getViewport().getViewSize().height - scrollPane.getViewport().getExtentSize().height));
-					scrollPane.getViewport().setViewPosition(new java.awt.Point(nx, ny));
-					dragStart[0] = e.getPoint();
-				}
-			});
-			content.add(scrollPane, java.awt.BorderLayout.CENTER);
-
-			// Back to area button: keep aspect ratio of empty_button_rectangle (no stretch)
-			JButton backBtn = GridScapeSwingUtil.newRectangleButton("Back to area", buttonRect, POPUP_TEXT);
-			backBtn.setMaximumSize(GridScapeSwingUtil.RECTANGLE_BUTTON_SIZE);
-			backBtn.addActionListener(e -> {
-				GridScapeSounds.play(audioPlayer, GridScapeSounds.BUTTON_PRESS, client);
-				dialog.dispose();
-				showAreaDetailsPopup(area);
-			});
-			// Zoom out / Zoom in buttons, right-aligned
-			JButton zoomOutBtn = GridScapeSwingUtil.newRectangleButton("−", buttonRect, POPUP_TEXT);
-			zoomOutBtn.setToolTipText("Zoom out");
-			zoomOutBtn.addActionListener(e -> {
-				zoomHolder[0] = Math.max(ZOOM_MIN, zoomHolder[0] - ZOOM_STEP);
-				SwingUtilities.invokeLater(refreshHolder[0]);
-			});
-			JButton zoomInBtn = GridScapeSwingUtil.newRectangleButton("+", buttonRect, POPUP_TEXT);
-			zoomInBtn.setToolTipText("Zoom in");
-			zoomInBtn.addActionListener(e -> {
-				zoomHolder[0] = Math.min(ZOOM_MAX, zoomHolder[0] + ZOOM_STEP);
-				SwingUtilities.invokeLater(refreshHolder[0]);
-			});
-			JPanel southPanel = new JPanel(new java.awt.BorderLayout(8, 0));
-			southPanel.setOpaque(false);
-			southPanel.setBorder(new javax.swing.border.EmptyBorder(0, 0, 8, 0));
-			southPanel.add(backBtn, java.awt.BorderLayout.WEST);
-			JPanel zoomPanel = new JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.TRAILING, 4, 0));
-			zoomPanel.setOpaque(false);
-			zoomPanel.add(zoomOutBtn);
-			zoomPanel.add(zoomInBtn);
-			southPanel.add(zoomPanel, java.awt.BorderLayout.EAST);
-			content.add(southPanel, java.awt.BorderLayout.SOUTH);
-
-			dialog.setContentPane(content);
+			dialog.setContentPane(shell.content);
 			dialog.getRootPane().setBorder(new javax.swing.border.LineBorder(POPUP_BORDER, 2));
 			dialog.pack();
 			PanelBoundsStore.applyBounds(dialog, configManager, PanelBoundsStore.KEY_AREA_TASK_GRID, client.getCanvas());
 			PanelBoundsStore.installPersistence(dialog, configManager, PanelBoundsStore.KEY_AREA_TASK_GRID);
-			GridScapePlugin.registerEscapeToClose(dialog);
+			GridScapeSwingUtil.registerEscapeToClose(dialog);
 			dialog.setVisible(true);
 		});
 	}
@@ -1393,7 +1471,7 @@ public class GridScapeMapOverlay extends Overlay implements MouseListener
 		boolean isCenter = (tile.getRow() == 0 && tile.getCol() == 0);
 		if (state == TaskState.CLAIMED)
 		{
-			return buildClaimedTaskCell(tileBg, checkmarkImg, centerTileIconImg, tileSize, isCenter);
+			return TaskTileCellFactory.newClaimedTaskCellForTaskGrid(tileSize, tileBg, checkmarkImg, centerTileIconImg, isCenter);
 		}
 		JPanel cell = TaskTileCellFactory.newActiveTaskCell(tileSize, tileBg, centerTileIconImg, isCenter, taskIcon, iconMargin);
 		// Single click to claim when completed; otherwise open detail popup
@@ -1412,9 +1490,7 @@ public class GridScapeMapOverlay extends Overlay implements MouseListener
 						SwingUtilities.invokeLater(() -> {
 							if (!unmet.isEmpty())
 							{
-								javax.swing.JOptionPane.showMessageDialog(parentDialog,
-									"Complete these quests first: " + String.join(", ", unmet),
-									"Quest requirements", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+								showAreaQuestRequirementsDialog(parentDialog, unmet);
 								return;
 							}
 							GridScapeSounds.play(audioPlayer, GridScapeSounds.TASK_COMPLETE, client);
@@ -1434,30 +1510,23 @@ public class GridScapeMapOverlay extends Overlay implements MouseListener
 		return cell;
 	}
 
-	/** Claimed task: desaturated tile, single small checkmark in corner (or on top of center task icon for center tile), not clickable. */
-	private JPanel buildClaimedTaskCell(BufferedImage tileBg, BufferedImage checkmarkImg, BufferedImage centerTileIconImg, int tileSize, boolean isCenter)
-	{
-		return TaskTileCellFactory.newClaimedTaskCellForTaskGrid(tileSize, tileBg, checkmarkImg, centerTileIconImg, isCenter);
-	}
 
 	private void showAreaRingBonusIfNeeded(JDialog parentDialog, String areaId, TaskTile tile, int ringBonus)
 	{
 		if (ringBonus <= 0) return;
-		Frame frameOwner = null;
-		if (parentDialog != null)
-		{
-			Window w = parentDialog.getOwner();
-			if (w instanceof Frame) frameOwner = (Frame) w;
-		}
-		if (frameOwner == null)
-		{
-			Window w = SwingUtilities.windowForComponent(client.getCanvas());
-			if (w instanceof Frame) frameOwner = (Frame) w;
-		}
+		Frame frameOwner = TaskTileCellFactory.resolveDialogOwner(parentDialog, client);
 		Area a = areaGraphService.getArea(areaId);
 		String label = a != null ? (a.getDisplayName() != null ? a.getDisplayName() : a.getId()) : areaId;
 		Component loc = parentDialog != null ? parentDialog : client.getCanvas();
 		RingBonusPopup.showAsync(frameOwner, loc, client, audioPlayer, GridPos.ringNumber(tile.getRow(), tile.getCol()), ringBonus, false, label);
+	}
+
+	private static void showAreaQuestRequirementsDialog(java.awt.Component parent, java.util.List<String> unmet)
+	{
+		if (unmet == null || unmet.isEmpty()) return;
+		javax.swing.JOptionPane.showMessageDialog(parent,
+			"Complete these quests first: " + String.join(", ", unmet),
+			"Quest requirements", javax.swing.JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	private void showTaskDetailPopup(JDialog parentDialog, String areaId, TaskTile tile, TaskState state,
@@ -1472,7 +1541,7 @@ public class GridScapeMapOverlay extends Overlay implements MouseListener
 			() -> GridScapeSounds.play(audioPlayer, GridScapeSounds.BUTTON_PRESS, client));
 		JDialog detail = shell.detail;
 		JPanel body = shell.body;
-		GridScapePlugin.registerEscapeToClose(detail);
+		GridScapeSwingUtil.registerEscapeToClose(detail);
 		TaskTileCellFactory.addTierPointsRow(body, tile, textColor);
 
 		if (isMystery)
@@ -1492,9 +1561,7 @@ public class GridScapeMapOverlay extends Overlay implements MouseListener
 					SwingUtilities.invokeLater(() -> {
 						if (!unmet.isEmpty())
 						{
-							javax.swing.JOptionPane.showMessageDialog(detail,
-								"Complete these quests first: " + String.join(", ", unmet),
-								"Quest requirements", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+							showAreaQuestRequirementsDialog(detail, unmet);
 							return;
 						}
 						GridScapeSounds.play(audioPlayer, GridScapeSounds.TASK_COMPLETE, client);
@@ -1520,9 +1587,7 @@ public class GridScapeMapOverlay extends Overlay implements MouseListener
 					SwingUtilities.invokeLater(() -> {
 						if (!unmet.isEmpty())
 						{
-							javax.swing.JOptionPane.showMessageDialog(detail,
-								"Complete these quests first: " + String.join(", ", unmet),
-								"Quest requirements", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+							showAreaQuestRequirementsDialog(detail, unmet);
 							return;
 						}
 						GridScapeSounds.play(audioPlayer, GridScapeSounds.TASK_COMPLETE, client);
@@ -1642,9 +1707,7 @@ public class GridScapeMapOverlay extends Overlay implements MouseListener
 			.thenComparing(Area::getId, String.CASE_INSENSITIVE_ORDER));
 
 		SwingUtilities.invokeLater(() -> {
-			Frame owner = null;
-			java.awt.Window w = SwingUtilities.windowForComponent(client.getCanvas());
-			if (w instanceof Frame) owner = (Frame) w;
+			Frame owner = TaskTileCellFactory.resolveDialogOwner(null, client);
 
 			JDialog dialog = new JDialog(owner, "Neighbors for " + displayName, false);
 			dialog.setUndecorated(true);

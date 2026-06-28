@@ -74,7 +74,7 @@ public class GlobalTaskListPanel extends JPanel
 	private static final Logger log = LoggerFactory.getLogger(GlobalTaskListPanel.class);
 	private static final Color POPUP_BG = com.gridscape.util.GridScapeColors.POPUP_BG;
 	private static final Color POPUP_TEXT = com.gridscape.util.GridScapeColors.POPUP_TEXT;
-	private static final Color POPUP_BORDER = new Color(0x2a, 0x28, 0x24);
+	private static final Color POPUP_BORDER = com.gridscape.util.GridScapeColors.POPUP_BORDER;
 	private static final int BASE_TILE_SIZE = 72;
 	private static final int TASK_TILE_ICON_MARGIN = 12;
 	/** Extra width beyond one-third of the task panel so the hub header buttons fit comfortably. */
@@ -165,34 +165,14 @@ public class GlobalTaskListPanel extends JPanel
 		fogBottomLeft = ImageUtil.loadImageResource(GridScapePlugin.class, "/com/gridscape/fog_tile_corner_bottom_left.png");
 		fogBottomRight = ImageUtil.loadImageResource(GridScapePlugin.class, "/com/gridscape/fog_tile_corner_bottom_right.png");
 
-		setLayout(new BorderLayout(8, 8));
-		setBackground(POPUP_BG);
-		setBorder(new CompoundBorder(
-			new LineBorder(POPUP_BORDER, 2),
-			new EmptyBorder(10, 12, 10, 12)));
-		setOpaque(true);
+		GridScapeSwingUtil.applyPopupPanelChrome(this);
 
-		JPanel header = new JPanel(new BorderLayout(4, 0));
-		header.setOpaque(false);
-		header.setBorder(new EmptyBorder(0, 0, 8, 0));
-		JPanel titleRow = new JPanel(new BorderLayout(4, 0));
-		titleRow.setOpaque(false);
 		pointsLabel = new JLabel();
-		pointsLabel.setForeground(POPUP_TEXT);
-		titleRow.add(pointsLabel, BorderLayout.WEST);
-		JLabel titleLabel = new JLabel("Global Tasks");
-		titleLabel.setForeground(POPUP_TEXT);
-		titleLabel.setFont(titleLabel.getFont().deriveFont(Font.BOLD, 16f));
-		titleLabel.setHorizontalAlignment(JLabel.CENTER);
-		titleRow.add(titleLabel, BorderLayout.CENTER);
-		JButton closeBtn = GridScapeSwingUtil.newPopupButtonWithIcon(xBtnImg, POPUP_TEXT);
-		closeBtn.addActionListener(e -> {
-			playSound(GridScapeSounds.BUTTON_PRESS);
+		JPanel header = GridScapeSwingUtil.newGridPanelHeader(pointsLabel, "Global Tasks", xBtnImg, POPUP_TEXT, () -> {
+			GridScapeSounds.play(audioPlayer, GridScapeSounds.BUTTON_PRESS, client);
 			if (onClose != null) onClose.run();
 		});
-		titleRow.add(closeBtn, BorderLayout.EAST);
-		header.add(titleRow, BorderLayout.NORTH);
-		GridScapeSwingUtil.installUndecoratedWindowDrag(parentDialog, titleRow);
+		GridScapeSwingUtil.installUndecoratedWindowDrag(parentDialog, GridScapeSwingUtil.titleRowFromHeader(header));
 		add(header, BorderLayout.NORTH);
 
 		gridPanel = new JPanel();
@@ -208,43 +188,13 @@ public class GlobalTaskListPanel extends JPanel
 		scrollPane.setMinimumSize(WorldUnlockUiDimensions.GRID_SCROLL_MINIMUM);
 		scrollPane.setBorder(null);
 
-		scrollPane.getViewport().addMouseWheelListener(e -> {
-			float prev = zoom;
-			if (e.getWheelRotation() < 0)
-				zoom = Math.min(ZOOM_MAX, zoom + ZOOM_STEP);
-			else
-				zoom = Math.max(ZOOM_EXTREME_MIN, zoom - ZOOM_STEP);
-			if (zoom != prev)
-			{
-				e.consume();
-				SwingUtilities.invokeLater(this::refresh);
-			}
-		});
-
+		final float[] zoomHolder = new float[]{ zoom };
 		final Point[] dragStart = new Point[1];
-		scrollPane.getViewport().addMouseListener(new MouseAdapter()
-		{
-			@Override
-			public void mousePressed(MouseEvent e)
-			{
-				dragStart[0] = e.getPoint();
-			}
+		GridScapeSwingUtil.installGridScrollWheelZoom(scrollPane, zoomHolder, ZOOM_EXTREME_MIN, ZOOM_MAX, ZOOM_STEP, () -> {
+			zoom = zoomHolder[0];
+			refresh();
 		});
-		scrollPane.getViewport().addMouseMotionListener(new MouseMotionAdapter()
-		{
-			@Override
-			public void mouseDragged(MouseEvent e)
-			{
-				if (dragStart[0] == null) return;
-				Point vp = scrollPane.getViewport().getViewPosition();
-				int dx = dragStart[0].x - e.getX();
-				int dy = dragStart[0].y - e.getY();
-				int nx = Math.max(0, Math.min(vp.x + dx, scrollPane.getViewport().getViewSize().width - scrollPane.getViewport().getExtentSize().width));
-				int ny = Math.max(0, Math.min(vp.y + dy, scrollPane.getViewport().getViewSize().height - scrollPane.getViewport().getExtentSize().height));
-				scrollPane.getViewport().setViewPosition(new Point(nx, ny));
-				dragStart[0] = e.getPoint();
-			}
-		});
+		GridScapeSwingUtil.installGridScrollDragPan(scrollPane, dragStart, false);
 
 		add(scrollPane, BorderLayout.CENTER);
 
@@ -255,14 +205,14 @@ public class GlobalTaskListPanel extends JPanel
 		westButtons.setOpaque(false);
 		JButton worldUnlockBtn = GridScapeSwingUtil.newRectangleButton("World Unlock", buttonRect, POPUP_TEXT);
 		worldUnlockBtn.addActionListener(e -> {
-			playSound(GridScapeSounds.BUTTON_PRESS);
+			GridScapeSounds.play(audioPlayer, GridScapeSounds.BUTTON_PRESS, client);
 			if (onClose != null) onClose.run();
 			if (onOpenWorldUnlock != null) onOpenWorldUnlock.run();
 		});
 		westButtons.add(worldUnlockBtn);
 		JButton rulesSetupBtn = GridScapeSwingUtil.newRectangleButton("Rules & Setup", buttonRect, POPUP_TEXT);
 		rulesSetupBtn.addActionListener(e -> {
-			playSound(GridScapeSounds.BUTTON_PRESS);
+			GridScapeSounds.play(audioPlayer, GridScapeSounds.BUTTON_PRESS, client);
 			if (onOpenRulesSetup != null) onOpenRulesSetup.run();
 		});
 		westButtons.add(rulesSetupBtn);
@@ -326,7 +276,7 @@ public class GlobalTaskListPanel extends JPanel
 			hubSortBtn = tileBg;
 		taskHubPanel = new GlobalTaskHub(globalTaskListService, layoutSeed,
 			this::focusTile,
-			() -> playSound(GridScapeSounds.BUTTON_PRESS),
+			() -> GridScapeSounds.play(audioPlayer, GridScapeSounds.BUTTON_PRESS, client),
 			parentDialog != null ? parentDialog : client.getCanvas(),
 			this::scheduleHubDataReload,
 			hubMenuBtn,
@@ -435,14 +385,11 @@ public class GlobalTaskListPanel extends JPanel
 
 	public void refresh()
 	{
-		// Update points display
 		int spendable = pointsService.getEarnedTotal() - pointsService.getSpentTotal();
 		pointsLabel.setText("Points: " + spendable);
 
-		// Clear existing tiles before rebuilding
 		gridPanel.removeAll();
 
-		// Build grid from service (center + revealed adjacent + locked positions)
 		List<TaskTile> grid = globalTaskListService.buildGlobalGrid(layoutSeed);
 
 		int tileSize = Math.max(24, (int) (BASE_TILE_SIZE * zoom));
@@ -477,7 +424,6 @@ public class GlobalTaskListPanel extends JPanel
 		}
 
 		int displayedCount = 0;
-		// Iterate all tiles in grid; skip LOCKED (not revealed)
 		for (TaskTile tile : grid)
 		{
 			TaskState state = globalTaskListService.getGlobalState(tile.getId(), gridFinal);
@@ -504,7 +450,6 @@ public class GlobalTaskListPanel extends JPanel
 			gbc.gridy = gy;
 			gbc.insets = new Insets(2, 2, 2, 2);
 
-			// Build cell (clickable, shows icon/state) and add to grid
 			JPanel cell = buildTaskCell(tile, state, taskIcon, tileSize, iconMargin, isCenter, gridFinal);
 			gridPanel.add(cell, gbc);
 		}
@@ -588,7 +533,7 @@ public class GlobalTaskListPanel extends JPanel
 	{
 		if (taskHubPanel == null || taskHubDialog == null)
 			return;
-		playSound(GridScapeSounds.BUTTON_PRESS);
+		GridScapeSounds.play(audioPlayer, GridScapeSounds.BUTTON_PRESS, client);
 		taskHubSidebarVisible = !taskHubSidebarVisible;
 		if (taskHubSidebarVisible)
 		{
@@ -722,25 +667,12 @@ public class GlobalTaskListPanel extends JPanel
 
 			private void maybeShow(MouseEvent e)
 			{
-				if (!e.isPopupTrigger()) return;
-				int r = tile.getRow(), c = tile.getCol();
-				boolean bookmarked = globalTaskListService.isTaskHubBookmarked(r, c);
-				JPopupMenu menu = new JPopupMenu();
-				JMenuItem item = new JMenuItem(bookmarked ? "Remove bookmark" : "Add bookmark");
-				item.addActionListener(ev -> {
-					playSound(GridScapeSounds.BUTTON_PRESS);
-					if (bookmarked)
-						globalTaskListService.removeTaskHubBookmark(r, c);
-					else
-						globalTaskListService.addTaskHubBookmark(new GlobalTaskBookmark(
-							GlobalTaskListService.taskKeyFromName(tile.getDisplayName()), r, c, ""));
-					SwingUtilities.invokeLater(() -> {
+				GridScapeSwingUtil.showTaskHubBookmarkMenu(e, globalTaskListService, tile,
+					() -> GridScapeSounds.play(audioPlayer, GridScapeSounds.BUTTON_PRESS, client),
+					() -> SwingUtilities.invokeLater(() -> {
 						refresh();
 						scheduleHubDataReload();
-					});
-				});
-				menu.add(item);
-				menu.show(e.getComponent(), e.getX(), e.getY());
+					}));
 			}
 		});
 	}
@@ -845,7 +777,7 @@ public class GlobalTaskListPanel extends JPanel
 				JOptionPane.showMessageDialog(parentDialog, "Unlock the starter area on the World Unlock grid first.");
 				return;
 			}
-			playSound(GridScapeSounds.TASK_COMPLETE);
+			GridScapeSounds.play(audioPlayer, GridScapeSounds.TASK_COMPLETE, client);
 			globalTaskListService.claimCenter();
 			startClaimFocusAnimation(0, 0);
 			return;
@@ -860,14 +792,14 @@ public class GlobalTaskListPanel extends JPanel
 				return;
 			}
 			String key = GlobalTaskListService.taskKeyFromName(tile.getDisplayName());
-			playSound(GridScapeSounds.TASK_COMPLETE);
+			GridScapeSounds.play(audioPlayer, GridScapeSounds.TASK_COMPLETE, client);
 			int ringBonus = globalTaskListService.claimTask(key, tile.getRow(), tile.getCol());
 			showRingBonusPopupIfNeeded(ringBonus, tile.getRow(), tile.getCol());
 			startClaimFocusAnimation(tile.getRow(), tile.getCol());
 			return;
 		}
 
-		playSound(GridScapeSounds.BUTTON_PRESS);
+		GridScapeSounds.play(audioPlayer, GridScapeSounds.BUTTON_PRESS, client);
 		showTaskDetailPopup(tile, state);
 	}
 
@@ -898,17 +830,7 @@ public class GlobalTaskListPanel extends JPanel
 	private void showRingBonusPopupIfNeeded(int bonusPoints, int row, int col)
 	{
 		if (bonusPoints <= 0) return;
-		Frame frameOwner = null;
-		if (parentDialog != null)
-		{
-			java.awt.Window w = parentDialog.getOwner();
-			if (w instanceof Frame) frameOwner = (Frame) w;
-		}
-		if (frameOwner == null)
-		{
-			java.awt.Window w = SwingUtilities.windowForComponent(client.getCanvas());
-			if (w instanceof Frame) frameOwner = (Frame) w;
-		}
+		Frame frameOwner = TaskTileCellFactory.resolveDialogOwner(parentDialog, client);
 		Component loc = parentDialog != null ? parentDialog : client.getCanvas();
 		RingBonusPopup.showAsync(frameOwner, loc, client, audioPlayer, GridPos.ringNumber(row, col), bonusPoints, true, null);
 	}
@@ -920,10 +842,10 @@ public class GlobalTaskListPanel extends JPanel
 		String windowTitle = tile.getDisplayName();
 		TaskTileCellFactory.DetailPopupShell shell = TaskTileCellFactory.newDetailPopupShell(
 			frameOwner, windowTitle, POPUP_BG, POPUP_BORDER, POPUP_TEXT, xBtnImg,
-			() -> playSound(GridScapeSounds.BUTTON_PRESS));
+			() -> GridScapeSounds.play(audioPlayer, GridScapeSounds.BUTTON_PRESS, client));
 		JDialog detail = shell.detail;
 		JPanel body = shell.body;
-		GridScapePlugin.registerEscapeToClose(detail);
+		GridScapeSwingUtil.registerEscapeToClose(detail);
 		TaskTileCellFactory.addTierPointsRow(body, tile, POPUP_TEXT);
 
 		String taskKey = GlobalTaskListService.taskKeyFromName(tile.getDisplayName());
@@ -943,7 +865,7 @@ public class GlobalTaskListPanel extends JPanel
 			JButton claimBtn = GridScapeSwingUtil.newRectangleButton("Claim", buttonRect, POPUP_TEXT);
 			int claimRow = tile.getRow(), claimCol = tile.getCol();
 			claimBtn.addActionListener(e -> {
-				playSound(GridScapeSounds.TASK_COMPLETE);
+				GridScapeSounds.play(audioPlayer, GridScapeSounds.TASK_COMPLETE, client);
 				int ringBonus = globalTaskListService.claimTask(taskKey, claimRow, claimCol);
 				detail.dispose();
 				if (ringBonus > 0)
@@ -960,7 +882,7 @@ public class GlobalTaskListPanel extends JPanel
 			JButton claimBtn = GridScapeSwingUtil.newRectangleButton("Claim", buttonRect, POPUP_TEXT);
 			int claimRow = tile.getRow(), claimCol = tile.getCol();
 			claimBtn.addActionListener(e -> {
-				playSound(GridScapeSounds.TASK_COMPLETE);
+				GridScapeSounds.play(audioPlayer, GridScapeSounds.TASK_COMPLETE, client);
 				globalTaskListService.setCompleted(taskKey);
 				int ringBonus = globalTaskListService.claimTask(taskKey, claimRow, claimCol);
 				detail.dispose();
@@ -974,11 +896,5 @@ public class GlobalTaskListPanel extends JPanel
 		TaskTileCellFactory.installDetailPopupFocusClose(detail);
 		Component loc = parentDialog != null ? parentDialog : client.getCanvas();
 		TaskTileCellFactory.showDetailPopup(detail, loc);
-	}
-
-	private void playSound(String sound)
-	{
-		if (audioPlayer != null && client != null)
-			GridScapeSounds.play(audioPlayer, sound, client);
 	}
 }

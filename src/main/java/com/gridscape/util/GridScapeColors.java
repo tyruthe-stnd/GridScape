@@ -13,6 +13,8 @@ public final class GridScapeColors
 	public static final Color POPUP_BG = new Color(0x54, 0x4D, 0x41);
 	/** Popup/panel text (cream). */
 	public static final Color POPUP_TEXT = new Color(0xC4, 0xB8, 0x96);
+	/** Popup/panel border (dark brown). */
+	public static final Color POPUP_BORDER = new Color(0x2a, 0x28, 0x24);
 	/** Same as POPUP_TEXT with alpha (e.g. for overlays). */
 	public static final Color POPUP_TEXT_ALPHA = new Color(0xC4, 0xB8, 0x96, 220);
 }

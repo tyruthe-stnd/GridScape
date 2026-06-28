@@ -28,7 +28,7 @@ public final class RingBonusPopup
 {
 	private static final Color POPUP_BG = GridScapeColors.POPUP_BG;
 	private static final Color POPUP_TEXT = GridScapeColors.POPUP_TEXT;
-	private static final Color POPUP_BORDER = new Color(0x2a, 0x28, 0x24);
+	private static final Color POPUP_BORDER = GridScapeColors.POPUP_BORDER;
 	private static final Color BONUS_ACCENT = new Color(120, 200, 120);
 	private static final Dimension OK_BUTTON_SIZE = new Dimension(160, 28);
 
@@ -57,7 +57,7 @@ public final class RingBonusPopup
 
 		JDialog detail = new JDialog(frameOwner, "Ring bonus", false);
 		detail.setUndecorated(true);
-		GridScapePlugin.registerEscapeToClose(detail);
+		GridScapeSwingUtil.registerEscapeToClose(detail);
 
 		JPanel content = new JPanel(new BorderLayout(8, 8));
 		content.setBackground(POPUP_BG);

@@ -3,6 +3,8 @@ package com.gridscape.config;
 import com.gridscape.GridScapeConfig;
 import com.gridscape.GridScapePlugin;
 import com.gridscape.GridScapeSounds;
+import com.gridscape.util.GridScapeColors;
+import com.gridscape.util.GridScapeSwingUtil;
 import com.gridscape.area.AreaGraphService;
 import com.gridscape.points.AreaCompletionService;
 import com.gridscape.points.PointsService;
@@ -43,9 +45,9 @@ import com.gridscape.util.ScaledImageCache;
  */
 public class GridScapeSetupFrame extends JDialog
 {
-	private static final Color POPUP_BG = new Color(0x54, 0x4D, 0x41);
-	private static final Color POPUP_TEXT = new Color(0xC4, 0xB8, 0x96);
-	private static final Color POPUP_BORDER = new Color(0x2a, 0x28, 0x24);
+	private static final Color POPUP_BG = GridScapeColors.POPUP_BG;
+	private static final Color POPUP_TEXT = GridScapeColors.POPUP_TEXT;
+	private static final Color POPUP_BORDER = GridScapeColors.POPUP_BORDER;
 	private static final int TAB_STRIP_WIDTH = 140;
 	private static final int MIN_WIDTH = 520;
 	private static final int MIN_HEIGHT = 400;
@@ -205,7 +207,7 @@ public class GridScapeSetupFrame extends JDialog
 			}
 		});
 
-		GridScapePlugin.registerEscapeToClose(this);
+		GridScapeSwingUtil.registerEscapeToClose(this);
 		pack();
 	}
 

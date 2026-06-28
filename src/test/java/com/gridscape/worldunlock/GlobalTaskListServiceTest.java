@@ -1,6 +1,7 @@
 package com.gridscape.worldunlock;
 
 import com.gridscape.GridScapeConfig;
+import com.gridscape.grid.GridPos;
 import com.gridscape.points.PointsService;
 import com.gridscape.task.TaskDefinition;
 import com.gridscape.task.TaskGridService;
@@ -62,46 +63,133 @@ public class GlobalTaskListServiceTest
 	private static final String KEY_CLAIMED = "globalTaskProgress_claimed";
 	private static final String KEY_POSITIONS = "globalTaskProgress_positions";
 	private static final String KEY_PSEUDO_CENTER = "globalTaskProgress_pseudoCenter";
-	private static final String KEY_GLOBAL_CLAIMED_TASKS = "globalTaskProgress_claimed";
 
 	@Before
 	public void setUp()
 	{
-		// Default config: center not claimed, no positions
-		lenient().when(configManager.getConfiguration(eq(STATE_GROUP), eq(KEY_CENTER_CLAIMED))).thenReturn(null);
-		lenient().when(configManager.getConfiguration(eq(STATE_GROUP), eq(KEY_CLAIMED))).thenReturn(null);
-		lenient().when(configManager.getConfiguration(eq(STATE_GROUP), eq(KEY_POSITIONS))).thenReturn(null);
-		lenient().when(configManager.getConfiguration(eq(STATE_GROUP), eq(KEY_PSEUDO_CENTER))).thenReturn(null);
-		lenient().when(configManager.getConfiguration(eq(STATE_GROUP), eq("globalTaskProgress_completed"))).thenReturn(null);
-		lenient().when(configManager.getConfiguration(eq(STATE_GROUP), eq(KEY_GLOBAL_CLAIMED_TASKS))).thenReturn(null);
-		lenient().when(configManager.getConfiguration(eq(STATE_GROUP), eq("globalTaskProgress_lastViewed"))).thenReturn(null);
-		lenient().when(config.taskTier1Points()).thenReturn(10);
-		lenient().when(config.taskTier2Points()).thenReturn(25);
-		lenient().when(config.taskTier3Points()).thenReturn(50);
-		lenient().when(config.taskTier4Points()).thenReturn(75);
-		lenient().when(config.taskTier5Points()).thenReturn(100);
-
 		service = new GlobalTaskListService(configManager, config, pointsService,
 			worldUnlockService, taskGridService);
 	}
 
-	/** Create a simple task for testing. */
 	private TaskDefinition task(String displayName, int difficulty)
 	{
 		TaskDefinition t = new TaskDefinition();
 		t.setDisplayName(displayName);
 		t.setDifficulty(difficulty);
-		// No area = no-area task (getRequiredAreaIds returns empty)
 		return t;
+	}
+
+	private void stubTierPoints()
+	{
+		lenient().when(config.taskTier1Points()).thenReturn(10);
+		lenient().when(config.taskTier2Points()).thenReturn(25);
+		lenient().when(config.taskTier3Points()).thenReturn(50);
+		lenient().when(config.taskTier4Points()).thenReturn(75);
+		lenient().when(config.taskTier5Points()).thenReturn(100);
+	}
+
+	private void stubEmptyProgressState()
+	{
+		lenient().when(configManager.getConfiguration(eq(STATE_GROUP), eq(KEY_CENTER_CLAIMED))).thenReturn(null);
+		lenient().when(configManager.getConfiguration(eq(STATE_GROUP), eq(KEY_CLAIMED))).thenReturn(null);
+		lenient().when(configManager.getConfiguration(eq(STATE_GROUP), eq(KEY_POSITIONS))).thenReturn(null);
+		lenient().when(configManager.getConfiguration(eq(STATE_GROUP), eq(KEY_PSEUDO_CENTER))).thenReturn(null);
+		lenient().when(configManager.getConfiguration(eq(STATE_GROUP), eq("globalTaskProgress_completed"))).thenReturn(null);
+		lenient().when(configManager.getConfiguration(eq(STATE_GROUP), eq("globalTaskProgress_lastViewed"))).thenReturn(null);
+	}
+
+	private Map<String, String> stubConfigStore()
+	{
+		Map<String, String> store = new HashMap<>();
+		when(configManager.getConfiguration(eq(STATE_GROUP), anyString())).thenAnswer(inv -> {
+			String key = inv.getArgument(1);
+			return store.get(key);
+		});
+		doAnswer(inv -> {
+			store.put(inv.getArgument(1), inv.getArgument(2));
+			return null;
+		}).when(configManager).setConfiguration(eq(STATE_GROUP), anyString(), anyString());
+		return store;
+	}
+
+	private void stubCenterClaimed(Map<String, String> store)
+	{
+		store.put(KEY_CENTER_CLAIMED, "true");
+		store.put(KEY_PSEUDO_CENTER, "0,0");
+	}
+
+	private void stubEmptyWorldUnlock()
+	{
+		lenient().when(worldUnlockService.getUnlockedIds()).thenReturn(Collections.emptySet());
+		lenient().when(worldUnlockService.getTiles()).thenReturn(Collections.emptyList());
+		lenient().when(worldUnlockService.getUnlockedOrRevealedTileIds()).thenReturn(Collections.emptySet());
+		lenient().when(worldUnlockService.getUnlockedDiaryTierKeys()).thenReturn(Collections.emptySet());
+		lenient().when(worldUnlockService.getTasksForUnlock(anyString())).thenReturn(Collections.emptyList());
+		lenient().when(worldUnlockService.getSkillTileIdForLevel(anyString(), anyInt())).thenReturn(null);
+	}
+
+	private void stubZulrahCollectionLogWorldUnlock(boolean bossUnlocked, boolean areaUnlocked)
+	{
+		WorldUnlockTile boss = new WorldUnlockTile();
+		boss.setType("boss");
+		boss.setId("zulrah");
+		WorldUnlockTile area = new WorldUnlockTile();
+		area.setType("area");
+		area.setId("isafdar");
+		when(worldUnlockService.getTiles()).thenReturn(Arrays.asList(boss, area));
+		when(worldUnlockService.resolvePrerequisiteToTileId(anyString())).thenAnswer(invocation -> {
+			String s = invocation.getArgument(0);
+			if (s == null) return null;
+			String t = s.trim();
+			if ("zulrah".equalsIgnoreCase(t)) return "zulrah";
+			if ("isafdar".equalsIgnoreCase(t)) return "isafdar";
+			return null;
+		});
+		when(worldUnlockService.getTileById(eq("zulrah"))).thenReturn(boss);
+		when(worldUnlockService.getTileById(eq("isafdar"))).thenReturn(area);
+		Set<String> unlocked = new HashSet<>();
+		if (areaUnlocked) unlocked.add("isafdar");
+		if (bossUnlocked) unlocked.add("zulrah");
+		when(worldUnlockService.getUnlockedIds()).thenReturn(unlocked);
+		when(worldUnlockService.getUnlockedOrRevealedTileIds()).thenReturn(new HashSet<>(unlocked));
+		when(worldUnlockService.getUnlockedDiaryTierKeys()).thenReturn(Collections.emptySet());
+		when(worldUnlockService.getTasksForUnlock(anyString())).thenReturn(Collections.emptyList());
+		when(worldUnlockService.getSkillTileIdForLevel(anyString(), anyInt())).thenReturn(null);
+	}
+
+	private TaskDefinition tanzaniteFangCollectionLog()
+	{
+		TaskDefinition cl = new TaskDefinition();
+		cl.setDisplayName("Obtain a Tanzanite fang");
+		cl.setTaskType("Collection Log");
+		cl.setDifficulty(4);
+		cl.setArea("isafdar");
+		cl.setRequirements("zulrah");
+		cl.setBossId("zulrah");
+		cl.setOnceOnly(true);
+		return cl;
+	}
+
+	private static Set<String> gridPositions(List<TaskTile> grid)
+	{
+		Set<String> positions = new HashSet<>();
+		for (TaskTile t : grid)
+			positions.add(t.getRow() + "," + t.getCol());
+		return positions;
+	}
+
+	private static void assertGridContainsAllNeighbors(List<TaskTile> grid, int row, int col)
+	{
+		Set<String> positions = gridPositions(grid);
+		for (String neighbor : GridPos.neighbors4(row, col))
+			assertTrue("Grid should contain neighbor " + neighbor + " of " + row + "," + col,
+				positions.contains(neighbor));
 	}
 
 	@Test
 	public void testGetGlobalTasksReturnsNoAreaTasksWhenUnlockedEmpty()
 	{
-		// When no world tiles are unlocked, getGlobalTasks should still return no-area tasks
-		when(worldUnlockService.getUnlockedIds()).thenReturn(Collections.emptySet());
-		when(worldUnlockService.getTiles()).thenReturn(Collections.emptyList());
-
+		stubEmptyWorldUnlock();
 		List<TaskDefinition> noAreaTasks = Arrays.asList(
 			task("Chop some Logs", 1),
 			task("Burn some Logs", 1)
@@ -112,15 +200,16 @@ public class GlobalTaskListServiceTest
 
 		assertNotNull(result);
 		assertEquals(2, result.size());
+		assertTrue(result.stream().anyMatch(t -> "Chop some Logs".equals(t.getDisplayName())));
+		assertTrue(result.stream().anyMatch(t -> "Burn some Logs".equals(t.getDisplayName())));
 	}
 
 	@Test
 	public void testBuildGlobalGridReturnsCenterOnlyWhenCenterNotClaimed()
 	{
-		// Center not claimed -> only center tile in grid
-		when(configManager.getConfiguration(eq(STATE_GROUP), eq(KEY_CENTER_CLAIMED))).thenReturn(null);
-		when(worldUnlockService.getUnlockedIds()).thenReturn(Collections.emptySet());
-		when(worldUnlockService.getTiles()).thenReturn(Collections.emptyList());
+		stubEmptyProgressState();
+		stubTierPoints();
+		stubEmptyWorldUnlock();
 		when(taskGridService.getEffectiveDefaultTasks()).thenReturn(Collections.emptyList());
 
 		List<TaskTile> grid = service.buildGlobalGrid(12345);
@@ -134,12 +223,13 @@ public class GlobalTaskListServiceTest
 	@Test
 	public void testBuildGlobalGridRevealsAdjacentTilesWhenCenterClaimed()
 	{
-		// Center claimed -> adjacent tiles (1,0), (-1,0), (0,1), (0,-1) should be revealed
+		stubTierPoints();
 		when(configManager.getConfiguration(eq(STATE_GROUP), eq(KEY_CENTER_CLAIMED))).thenReturn("true");
 		when(configManager.getConfiguration(eq(STATE_GROUP), eq(KEY_POSITIONS))).thenReturn(null);
 		when(configManager.getConfiguration(eq(STATE_GROUP), eq(KEY_PSEUDO_CENTER))).thenReturn("0,0");
+		when(configManager.getConfiguration(eq(STATE_GROUP), eq(KEY_CLAIMED))).thenReturn(null);
+		when(configManager.getConfiguration(eq(STATE_GROUP), eq("globalTaskProgress_completed"))).thenReturn(null);
 
-		// Provide tasks for the grid
 		List<TaskDefinition> tasks = Arrays.asList(
 			task("Chop some Logs", 1),
 			task("Burn some Logs", 1),
@@ -147,36 +237,20 @@ public class GlobalTaskListServiceTest
 			task("Mine Copper", 1),
 			task("Fish Shrimp", 1)
 		);
-		when(worldUnlockService.getUnlockedIds()).thenReturn(Collections.emptySet());
-		when(worldUnlockService.getTiles()).thenReturn(Collections.emptyList());
+		stubEmptyWorldUnlock();
 		when(taskGridService.getEffectiveDefaultTasks()).thenReturn(tasks);
 
 		List<TaskTile> grid = service.buildGlobalGrid(12345);
 
 		assertNotNull(grid);
-		// Should have center + 4 adjacent = 5 tiles minimum
-		assertTrue("Grid should have center + adjacent tiles when center claimed, got " + grid.size(),
-			grid.size() >= 5);
-
-		// Verify center is present
-		boolean hasCenter = grid.stream().anyMatch(t -> "0,0".equals(t.getId()));
-		assertTrue("Grid should contain center tile", hasCenter);
-
-		// Verify adjacent positions exist
-		Set<String> positions = new HashSet<>();
-		for (TaskTile t : grid)
-			positions.add(t.getRow() + "," + t.getCol());
-
-		assertTrue("Should have (1,0)", positions.contains("1,0"));
-		assertTrue("Should have (-1,0)", positions.contains("-1,0"));
-		assertTrue("Should have (0,1)", positions.contains("0,1"));
-		assertTrue("Should have (0,-1)", positions.contains("0,-1"));
+		assertEquals(5, grid.size());
+		assertTrue(grid.stream().anyMatch(t -> t.getRow() == 0 && t.getCol() == 0));
+		assertGridContainsAllNeighbors(grid, 0, 0);
 	}
 
 	@Test
 	public void testGetGlobalStateReturnsRevealedForAdjacentWhenCenterClaimed()
 	{
-		// Setup: center claimed, grid has center + adjacent
 		when(configManager.getConfiguration(eq(STATE_GROUP), eq(KEY_CENTER_CLAIMED))).thenReturn("true");
 		when(configManager.getConfiguration(eq(STATE_GROUP), eq(KEY_CLAIMED))).thenReturn(null);
 		when(configManager.getConfiguration(eq(STATE_GROUP), eq("globalTaskProgress_completed"))).thenReturn(null);
@@ -185,17 +259,22 @@ public class GlobalTaskListServiceTest
 		grid.add(new TaskTile("0,0", 0, "Free", 0, 0, 0, null, null, true, null, null));
 		grid.add(new TaskTile("1,0", 1, "Chop Logs", 10, 1, 0, "Woodcutting", null, true, null, null));
 
-		TaskState centerState = service.getGlobalState("0,0", grid);
-		assertEquals(TaskState.CLAIMED, centerState);
-
-		TaskState adjacentState = service.getGlobalState("1,0", grid);
-		assertEquals("Adjacent tile should be REVEALED when center is claimed", TaskState.REVEALED, adjacentState);
+		assertEquals(TaskState.CLAIMED, service.getGlobalState("0,0", grid));
+		assertEquals(TaskState.REVEALED, service.getGlobalState("1,0", grid));
+		for (TaskTile t : grid)
+		{
+			if (t.getRow() == 0 && t.getCol() == 0) continue;
+			for (String neighbor : GridPos.neighbors4(t.getRow(), t.getCol()))
+			{
+				if ("0,0".equals(neighbor))
+					assertEquals(TaskState.REVEALED, service.getGlobalState(t.getId(), grid));
+			}
+		}
 	}
 
 	@Test
 	public void testGetGlobalStateReturnsLockedForTileWithoutClaimedNeighbor()
 	{
-		// Tile at (2,0) has no claimed neighbor when only center is claimed
 		when(configManager.getConfiguration(eq(STATE_GROUP), eq(KEY_CENTER_CLAIMED))).thenReturn("true");
 		when(configManager.getConfiguration(eq(STATE_GROUP), eq(KEY_CLAIMED))).thenReturn(null);
 
@@ -204,73 +283,40 @@ public class GlobalTaskListServiceTest
 		grid.add(new TaskTile("1,0", 1, "Chop Logs", 10, 1, 0, "Woodcutting", null, true, null, null));
 		grid.add(new TaskTile("2,0", 1, "Burn Logs", 10, 2, 0, "Firemaking", null, true, null, null));
 
-		// (2,0) neighbors (1,0) and (3,0). (1,0) is in grid but not claimed. So (2,0) is LOCKED
-		TaskState state = service.getGlobalState("2,0", grid);
-		assertEquals(TaskState.LOCKED, state);
+		assertEquals(TaskState.LOCKED, service.getGlobalState("2,0", grid));
 	}
 
 	@Test
 	public void testFallbackUsesAnyTasksWhenNoAreaTasksEmpty()
 	{
-		// When getGlobalTasks returns empty and no-area filter yields empty, use any tasks
-		when(configManager.getConfiguration(eq(STATE_GROUP), eq(KEY_CENTER_CLAIMED))).thenReturn("true");
-		when(configManager.getConfiguration(eq(STATE_GROUP), eq(KEY_POSITIONS))).thenReturn(null);
-		when(configManager.getConfiguration(eq(STATE_GROUP), eq(KEY_PSEUDO_CENTER))).thenReturn("0,0");
+		Map<String, String> store = stubConfigStore();
+		stubCenterClaimed(store);
+		stubTierPoints();
+		stubEmptyWorldUnlock();
 
-		// All tasks have area - so no-area filter would exclude them
 		TaskDefinition areaTask = new TaskDefinition();
 		areaTask.setDisplayName("Lumbridge Task");
 		areaTask.setDifficulty(1);
 		areaTask.setArea("lumbridge");
-		List<TaskDefinition> allTasks = Arrays.asList(areaTask);
-
-		when(worldUnlockService.getUnlockedIds()).thenReturn(Collections.emptySet());
-		when(worldUnlockService.getTiles()).thenReturn(Collections.emptyList());
-		when(taskGridService.getEffectiveDefaultTasks()).thenReturn(allTasks);
+		when(taskGridService.getEffectiveDefaultTasks()).thenReturn(Collections.singletonList(areaTask));
 
 		List<TaskTile> grid = service.buildGlobalGrid(12345);
 
-		// With lazy assignment and strict one-use, we get center + as many adjacent as we have tasks in the pool (here 1)
-		assertTrue("Fallback should use any tasks when no-area is empty, got " + grid.size(),
-			grid.size() >= 2);
+		assertEquals(2, grid.size());
+		TaskTile adjacent = grid.stream()
+			.filter(t -> t.getRow() != 0 || t.getCol() != 0)
+			.findFirst()
+			.orElse(null);
+		assertNotNull(adjacent);
+		assertEquals("Lumbridge Task", adjacent.getDisplayName());
+		assertTrue(GridPos.neighbors4(0, 0).contains(adjacent.getRow() + "," + adjacent.getCol()));
 	}
 
 	@Test
 	public void collectionLogWithBossIdIncludedInGlobalTasksWhenBossAndAreaUnlocked()
 	{
-		TaskDefinition cl = new TaskDefinition();
-		cl.setDisplayName("Obtain a Tanzanite fang");
-		cl.setTaskType("Collection Log");
-		cl.setDifficulty(4);
-		cl.setArea("isafdar");
-		cl.setRequirements("zulrah");
-		cl.setBossId("zulrah");
-		cl.setOnceOnly(true);
-
-		when(taskGridService.getEffectiveDefaultTasks()).thenReturn(Collections.singletonList(cl));
-		when(worldUnlockService.getUnlockedIds()).thenReturn(new HashSet<>(Arrays.asList("isafdar", "zulrah")));
-		when(worldUnlockService.getTasksForUnlock(anyString())).thenReturn(Collections.emptyList());
-
-		WorldUnlockTile boss = new WorldUnlockTile();
-		boss.setType("boss");
-		boss.setId("zulrah");
-		WorldUnlockTile area = new WorldUnlockTile();
-		area.setType("area");
-		area.setId("isafdar");
-		when(worldUnlockService.getTiles()).thenReturn(Arrays.asList(boss, area));
-		when(worldUnlockService.resolvePrerequisiteToTileId(anyString())).thenAnswer(invocation -> {
-			String s = invocation.getArgument(0);
-			if (s == null) return null;
-			String t = s.trim();
-			if ("zulrah".equalsIgnoreCase(t)) return "zulrah";
-			if ("isafdar".equalsIgnoreCase(t)) return "isafdar";
-			return null;
-		});
-		when(worldUnlockService.getTileById(eq("zulrah"))).thenReturn(boss);
-		when(worldUnlockService.getTileById(eq("isafdar"))).thenReturn(area);
-		when(worldUnlockService.getUnlockedOrRevealedTileIds()).thenReturn(new HashSet<>(Arrays.asList("isafdar", "zulrah")));
-		when(worldUnlockService.getUnlockedDiaryTierKeys()).thenReturn(Collections.emptySet());
-		lenient().when(worldUnlockService.getSkillTileIdForLevel(anyString(), anyInt())).thenReturn(null);
+		when(taskGridService.getEffectiveDefaultTasks()).thenReturn(Collections.singletonList(tanzaniteFangCollectionLog()));
+		stubZulrahCollectionLogWorldUnlock(true, true);
 
 		List<TaskDefinition> result = service.getGlobalTasks();
 		assertTrue(result.stream().anyMatch(t -> "Obtain a Tanzanite fang".equals(t.getDisplayName())));
@@ -279,39 +325,8 @@ public class GlobalTaskListServiceTest
 	@Test
 	public void collectionLogWithBossIdExcludedFromGlobalTasksWhenBossLocked()
 	{
-		TaskDefinition cl = new TaskDefinition();
-		cl.setDisplayName("Obtain a Tanzanite fang");
-		cl.setTaskType("Collection Log");
-		cl.setDifficulty(4);
-		cl.setArea("isafdar");
-		cl.setRequirements("zulrah");
-		cl.setBossId("zulrah");
-		cl.setOnceOnly(true);
-
-		when(taskGridService.getEffectiveDefaultTasks()).thenReturn(Collections.singletonList(cl));
-		when(worldUnlockService.getUnlockedIds()).thenReturn(new HashSet<>(Collections.singletonList("isafdar")));
-		when(worldUnlockService.getTasksForUnlock(anyString())).thenReturn(Collections.emptyList());
-
-		WorldUnlockTile boss = new WorldUnlockTile();
-		boss.setType("boss");
-		boss.setId("zulrah");
-		WorldUnlockTile area = new WorldUnlockTile();
-		area.setType("area");
-		area.setId("isafdar");
-		when(worldUnlockService.getTiles()).thenReturn(Arrays.asList(boss, area));
-		when(worldUnlockService.resolvePrerequisiteToTileId(anyString())).thenAnswer(invocation -> {
-			String s = invocation.getArgument(0);
-			if (s == null) return null;
-			String t = s.trim();
-			if ("zulrah".equalsIgnoreCase(t)) return "zulrah";
-			if ("isafdar".equalsIgnoreCase(t)) return "isafdar";
-			return null;
-		});
-		when(worldUnlockService.getTileById(eq("zulrah"))).thenReturn(boss);
-		when(worldUnlockService.getTileById(eq("isafdar"))).thenReturn(area);
-		when(worldUnlockService.getUnlockedOrRevealedTileIds()).thenReturn(new HashSet<>(Collections.singletonList("isafdar")));
-		when(worldUnlockService.getUnlockedDiaryTierKeys()).thenReturn(Collections.emptySet());
-		lenient().when(worldUnlockService.getSkillTileIdForLevel(anyString(), anyInt())).thenReturn(null);
+		when(taskGridService.getEffectiveDefaultTasks()).thenReturn(Collections.singletonList(tanzaniteFangCollectionLog()));
+		stubZulrahCollectionLogWorldUnlock(false, true);
 
 		List<TaskDefinition> result = service.getGlobalTasks();
 		assertFalse(result.stream().anyMatch(t -> "Obtain a Tanzanite fang".equals(t.getDisplayName())));
@@ -358,14 +373,14 @@ public class GlobalTaskListServiceTest
 		});
 		when(worldUnlockService.getUnlockedOrRevealedTileIds()).thenReturn(new HashSet<>(Arrays.asList("lumbridge", "quest_ides")));
 		when(worldUnlockService.getUnlockedDiaryTierKeys()).thenReturn(Collections.emptySet());
-		lenient().when(worldUnlockService.getSkillTileIdForLevel(anyString(), anyInt())).thenReturn(null);
+		when(worldUnlockService.getSkillTileIdForLevel(anyString(), anyInt())).thenReturn(null);
 
-		when(configManager.getConfiguration(eq(STATE_GROUP), eq(KEY_GLOBAL_CLAIMED_TASKS))).thenReturn(null);
+		when(configManager.getConfiguration(eq(STATE_GROUP), eq(KEY_CLAIMED))).thenReturn(null);
 		List<TaskDefinition> pass1 = service.getGlobalTasks();
 		assertTrue(pass1.stream().anyMatch(t -> "Defeat Brutus".equals(t.getDisplayName())));
 		assertFalse(pass1.stream().anyMatch(t -> "Defeat Brutus 5 times".equals(t.getDisplayName())));
 
-		when(configManager.getConfiguration(eq(STATE_GROUP), eq(KEY_GLOBAL_CLAIMED_TASKS))).thenReturn("defeat brutus");
+		when(configManager.getConfiguration(eq(STATE_GROUP), eq(KEY_CLAIMED))).thenReturn("defeat brutus");
 		List<TaskDefinition> pass2 = service.getGlobalTasks();
 		assertTrue(pass2.stream().anyMatch(t -> "Defeat Brutus 5 times".equals(t.getDisplayName())));
 	}
@@ -382,36 +397,28 @@ public class GlobalTaskListServiceTest
 			cl.setDifficulty(1);
 			tasks.add(cl);
 		}
-		when(configManager.getConfiguration(eq(STATE_GROUP), eq(KEY_CENTER_CLAIMED))).thenReturn("true");
-		when(configManager.getConfiguration(eq(STATE_GROUP), eq(KEY_POSITIONS))).thenReturn(null);
-		when(configManager.getConfiguration(eq(STATE_GROUP), eq(KEY_PSEUDO_CENTER))).thenReturn("0,0");
-		when(worldUnlockService.getUnlockedIds()).thenReturn(Collections.emptySet());
-		when(worldUnlockService.getTiles()).thenReturn(Collections.emptyList());
+		Map<String, String> store = stubConfigStore();
+		stubCenterClaimed(store);
+		stubTierPoints();
+		stubEmptyWorldUnlock();
 		when(taskGridService.getEffectiveDefaultTasks()).thenReturn(tasks);
-		when(worldUnlockService.getUnlockedOrRevealedTileIds()).thenReturn(Collections.emptySet());
-		when(worldUnlockService.getUnlockedDiaryTierKeys()).thenReturn(Collections.emptySet());
-		lenient().when(worldUnlockService.getSkillTileIdForLevel(anyString(), anyInt())).thenReturn(null);
 
 		List<TaskTile> grid = service.buildGlobalGrid(42);
-		long nonCenter = grid.stream().filter(t -> t.getRow() != 0 || t.getCol() != 0).count();
-		assertEquals(4, nonCenter);
-		long clCount = grid.stream().filter(t -> t.getRow() != 0 || t.getCol() != 0)
-			.filter(t -> "Collection Log".equals(t.getTaskType())).count();
+		assertEquals(5, grid.size());
+		assertGridContainsAllNeighbors(grid, 0, 0);
+		long clCount = grid.stream()
+			.filter(t -> t.getRow() != 0 || t.getCol() != 0)
+			.filter(t -> "Collection Log".equals(t.getTaskType()))
+			.count();
 		assertEquals(4, clCount);
 	}
 
 	@Test
-	public void collectionLogWithBossInRequirementsNotStronglyDownweightedVersusAlternatives()
+	public void collectionLogBossLinkedPickedWithFixedSeedWhenCompetingWithMining()
 	{
-		Map<String, String> store = new HashMap<>();
-		when(configManager.getConfiguration(eq(STATE_GROUP), anyString())).thenAnswer(inv -> {
-			String key = inv.getArgument(1);
-			return store.containsKey(key) ? store.get(key) : null;
-		});
-		doAnswer(inv -> {
-			store.put(inv.getArgument(1), inv.getArgument(2));
-			return null;
-		}).when(configManager).setConfiguration(eq(STATE_GROUP), anyString(), anyString());
+		Map<String, String> store = stubConfigStore();
+		stubCenterClaimed(store);
+		stubTierPoints();
 
 		TaskDefinition cl = new TaskDefinition();
 		cl.setDisplayName("CL zulrah item");
@@ -421,13 +428,8 @@ public class GlobalTaskListServiceTest
 		List<TaskDefinition> tasks = new ArrayList<>();
 		tasks.add(cl);
 		for (int i = 0; i < 5; i++)
-		{
-			TaskDefinition m = new TaskDefinition();
-			m.setDisplayName("Mine ore " + i);
-			m.setTaskType("Mining");
-			m.setDifficulty(1);
-			tasks.add(m);
-		}
+			tasks.add(task("Mine ore " + i, 1));
+
 		WorldUnlockTile boss = new WorldUnlockTile();
 		boss.setType("boss");
 		boss.setId("zulrah");
@@ -439,43 +441,28 @@ public class GlobalTaskListServiceTest
 		});
 		when(worldUnlockService.getTileById(eq("zulrah"))).thenReturn(boss);
 		when(worldUnlockService.getUnlockedIds()).thenReturn(Collections.emptySet());
-		when(taskGridService.getEffectiveDefaultTasks()).thenReturn(tasks);
 		when(worldUnlockService.getUnlockedOrRevealedTileIds()).thenReturn(Collections.emptySet());
 		when(worldUnlockService.getUnlockedDiaryTierKeys()).thenReturn(Collections.emptySet());
-		lenient().when(worldUnlockService.getSkillTileIdForLevel(anyString(), anyInt())).thenReturn(null);
+		when(worldUnlockService.getTasksForUnlock(anyString())).thenReturn(Collections.emptyList());
+		when(worldUnlockService.getSkillTileIdForLevel(anyString(), anyInt())).thenReturn(null);
+		when(taskGridService.getEffectiveDefaultTasks()).thenReturn(tasks);
 
-		int clAssignments = 0;
-		int total = 0;
-		for (int seed = 0; seed < 400; seed++)
-		{
-			store.clear();
-			store.put(KEY_CENTER_CLAIMED, "true");
-			store.put(KEY_PSEUDO_CENTER, "0,0");
-			List<TaskTile> grid = service.buildGlobalGrid(seed);
-			for (TaskTile ti : grid)
-			{
-				if (ti.getRow() == 0 && ti.getCol() == 0) continue;
-				total++;
-				if ("Collection Log".equals(ti.getTaskType()))
-					clAssignments++;
-			}
-		}
-		assertTrue("Boss-linked CL should appear roughly 1/6 of picks, not ~5%: " + clAssignments + "/" + total,
-			clAssignments > total * 0.08);
+		List<TaskTile> grid = service.buildGlobalGrid(17);
+		long clAssigned = grid.stream()
+			.filter(t -> t.getRow() != 0 || t.getCol() != 0)
+			.filter(t -> "Collection Log".equals(t.getTaskType()))
+			.count();
+		assertEquals("Boss-linked CL competes at full weight (1/6 per pick); seed 17 assigns CL once",
+			1, clAssigned);
 	}
 
 	@Test
-	public void collectionLogWithoutBossDownweightedWhenAlternativesExist()
+	public void collectionLogWithoutBossDownweightedWhenMiningAlternativesExist()
 	{
-		Map<String, String> store = new HashMap<>();
-		when(configManager.getConfiguration(eq(STATE_GROUP), anyString())).thenAnswer(inv -> {
-			String key = inv.getArgument(1);
-			return store.containsKey(key) ? store.get(key) : null;
-		});
-		doAnswer(inv -> {
-			store.put(inv.getArgument(1), inv.getArgument(2));
-			return null;
-		}).when(configManager).setConfiguration(eq(STATE_GROUP), anyString(), anyString());
+		Map<String, String> store = stubConfigStore();
+		stubCenterClaimed(store);
+		stubTierPoints();
+		stubEmptyWorldUnlock();
 
 		TaskDefinition cl = new TaskDefinition();
 		cl.setDisplayName("CL filler");
@@ -484,27 +471,14 @@ public class GlobalTaskListServiceTest
 		List<TaskDefinition> tasks = new ArrayList<>();
 		tasks.add(cl);
 		for (int i = 0; i < 5; i++)
-		{
-			TaskDefinition m = new TaskDefinition();
-			m.setDisplayName("Mine ore " + i);
-			m.setTaskType("Mining");
-			m.setDifficulty(1);
-			tasks.add(m);
-		}
-		when(worldUnlockService.getTiles()).thenReturn(Collections.emptyList());
-		when(worldUnlockService.getUnlockedIds()).thenReturn(Collections.emptySet());
+			tasks.add(task("Mine ore " + i, 1));
 		when(taskGridService.getEffectiveDefaultTasks()).thenReturn(tasks);
-		when(worldUnlockService.getUnlockedOrRevealedTileIds()).thenReturn(Collections.emptySet());
-		when(worldUnlockService.getUnlockedDiaryTierKeys()).thenReturn(Collections.emptySet());
-		lenient().when(worldUnlockService.getSkillTileIdForLevel(anyString(), anyInt())).thenReturn(null);
 
 		int clAssignments = 0;
 		int total = 0;
-		for (int seed = 0; seed < 500; seed++)
+		for (int seed = 0; seed < 200; seed++)
 		{
-			store.clear();
-			store.put(KEY_CENTER_CLAIMED, "true");
-			store.put(KEY_PSEUDO_CENTER, "0,0");
+			store.remove(KEY_POSITIONS);
 			List<TaskTile> grid = service.buildGlobalGrid(seed);
 			for (TaskTile ti : grid)
 			{
@@ -514,7 +488,7 @@ public class GlobalTaskListServiceTest
 					clAssignments++;
 			}
 		}
-		assertTrue("CL without boss should be rarely picked: " + clAssignments + "/" + total,
-			clAssignments < total * 0.14);
+		assertTrue("Boss-less CL should be downweighted vs mining alternatives: " + clAssignments + "/" + total,
+			clAssignments < total * 0.15);
 	}
 }

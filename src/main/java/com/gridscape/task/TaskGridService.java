@@ -15,9 +15,11 @@ import com.google.gson.reflect.TypeToken;
 import com.gridscape.GridScapeConfig;
 import com.gridscape.GridScapePlugin;
 import com.gridscape.grid.GridPos;
+import com.gridscape.grid.Spiral;
 import com.gridscape.area.AreaGraphService;
 import com.gridscape.points.AreaCompletionService;
 import com.gridscape.points.PointsService;
+import com.gridscape.worldunlock.GlobalTaskListService;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
@@ -499,8 +501,7 @@ public class TaskGridService
 	/** Normalized key for deduplication: same task (e.g. "Defeat a Guard") has the same key within an area. */
 	private static String taskKey(TaskDefinition t)
 	{
-		String name = t.getDisplayName();
-		return name != null ? name.trim().toLowerCase() : "";
+		return GlobalTaskListService.taskKeyFromName(t.getDisplayName());
 	}
 
 	/** Keep only tasks that apply to this area (task has no area restriction, or areaId is in task's required area list). */
@@ -588,7 +589,7 @@ public class TaskGridService
 		for (int t = 0; t <= effectiveMaxTier; t++)
 			positionsByTier.add(new ArrayList<>());
 		for (int tier = 1; tier <= effectiveMaxTier; tier++)
-			positionsByTier.get(tier).addAll(spiralOrderForRing(tier));
+			positionsByTier.get(tier).addAll(Spiral.ring(tier));
 		// Overfill: ensure each tier has at least enough slots for its area-specific tasks
 		int overfillIndex = 0;
 		for (int t = 1; t <= effectiveMaxTier; t++)
@@ -1039,34 +1040,6 @@ public class TaskGridService
 	/** In starting area, rings 4–8 use only difficulties 1–3; tier 4+ first appears at ring 9. */
 	private static final int STARTING_AREA_TIER4_FIRST_RING = 9;
 
-	/**
-	 * Returns positions for ring {@code tier} in spiral order from center. Center is (0,0); first tile is (1,0) below center,
-	 * then clockwise: (1,1), (0,1), (-1,1), (-1,0), (-1,-1), (0,-1), (1,-1); ring 2 continues from (2,-1), etc.
-	 */
-	private static List<int[]> spiralOrderForRing(int tier)
-	{
-		List<int[]> out = new ArrayList<>(8 * tier);
-		// Start at (tier, 1-tier). Bottom edge: row = tier, col from (1-tier) to tier
-		for (int c = 1 - tier; c <= tier; c++)
-			out.add(new int[]{ tier, c });
-		// Right edge: col = tier, row from (tier-1) down to -tier
-		for (int r = tier - 1; r >= -tier; r--)
-			out.add(new int[]{ r, tier });
-		// Top edge: row = -tier, col from (tier-1) down to -tier
-		for (int c = tier - 1; c >= -tier; c--)
-			out.add(new int[]{ -tier, c });
-		// Left edge: col = -tier, row from (-tier+1) to tier
-		for (int r = -tier + 1; r <= tier; r++)
-			out.add(new int[]{ r, -tier });
-		return out;
-	}
-
-	/**
-	 * Returns the difficulty (1–5) used to choose the task pool for a cell at ring {@code ring} with coords (r,c).
-	 * Layout: inner rings = 1; transition rings = random mix of two difficulties; tier-3 zone has tier-4 in corners; outer = mix 4&5.
-	 * In the starting area: rings 1–3 are all difficulty 1; rings 4–8 are difficulties 1–3 only; rings 9+ are tier 4 and 5.
-	 * Scales with total rings T (grid can be larger or smaller than 17x17).
-	 */
 	private int difficultyForCell(String areaId, int ring, int r, int c, int totalRings, Random rng)
 	{
 		if (totalRings <= 1)

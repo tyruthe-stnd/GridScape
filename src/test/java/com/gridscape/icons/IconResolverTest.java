@@ -11,7 +11,8 @@ public class IconResolverTest
 	{
 		String path = IconResolver.resolveTaskTileLocalIconPath(TaskTypes.KILL_COUNT, "Kill 5 goblins", null);
 		Assert.assertNotNull(path);
-		Assert.assertTrue(path.contains("Combat_icon"));
+		Assert.assertEquals(IconResolver.resolveTaskTypeLocalIconPath(TaskTypes.COMBAT), path);
+		Assert.assertTrue(path.startsWith(IconResources.TASK_ICONS_RESOURCE_PREFIX));
 	}
 
 	@Test
@@ -19,8 +20,8 @@ public class IconResolverTest
 	{
 		String path = IconResolver.resolveTaskTileLocalIconPath(TaskTypes.KILL_COUNT, "Kill Zulrah", "zulrah");
 		Assert.assertNotNull(path);
-		Assert.assertTrue(path.contains("bossicons"));
-		Assert.assertTrue(path.contains("zulrah"));
+		Assert.assertTrue(path.startsWith(IconResources.BOSS_ICONS_RESOURCE_PREFIX));
+		Assert.assertFalse(path.startsWith(IconResources.TASK_ICONS_RESOURCE_PREFIX));
 	}
 
 	@Test
@@ -28,8 +29,8 @@ public class IconResolverTest
 	{
 		String path = IconResolver.resolveTaskTileLocalIconPath(TaskTypes.COMBAT, "Defeat Zulrah", "zulrah");
 		Assert.assertNotNull(path);
-		Assert.assertTrue(path.contains("bossicons"));
-		Assert.assertFalse(path.contains("Combat_icon"));
+		Assert.assertTrue(path.startsWith(IconResources.BOSS_ICONS_RESOURCE_PREFIX));
+		Assert.assertNotEquals(IconResolver.resolveTaskTypeLocalIconPath(TaskTypes.COMBAT), path);
 	}
 
 	@Test
@@ -37,7 +38,8 @@ public class IconResolverTest
 	{
 		String path = IconResolver.resolveTaskTileLocalIconPath(TaskTypes.COLLECTION_LOG, "Zulrah (Collection Log)", "zulrah");
 		Assert.assertNotNull(path);
-		Assert.assertTrue(path.contains("Collection_log_detail"));
-		Assert.assertFalse(path.contains("bossicons"));
+		Assert.assertEquals(IconResolver.resolveTaskTypeLocalIconPath(TaskTypes.COLLECTION_LOG), path);
+		Assert.assertTrue(path.startsWith(IconResources.TASK_ICONS_RESOURCE_PREFIX));
+		Assert.assertFalse(path.startsWith(IconResources.BOSS_ICONS_RESOURCE_PREFIX));
 	}
 }

@@ -21,7 +21,7 @@ repositories {
 }
 
 def runeLiteVersion = 'latest.release'
-def pluginMainClass = 'com.gridscape.GridScapePluginTest'
+def pluginMainClass = 'com.gridscape.GridScapeDevLauncher'
 
 dependencies {
 	compileOnly group: 'net.runelite', name:'client', version: runeLiteVersion

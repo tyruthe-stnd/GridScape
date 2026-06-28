@@ -62,11 +62,6 @@ public class GridScapePlugin extends Plugin
 	private static final String STATE_GROUP = com.gridscape.util.GridScapeConfigConstants.STATE_GROUP;
 	private static final String KEY_MIGRATION_DONE = "migrationFromLeagueScapeDone";
 
-	/** Registers Escape key to close the given window (dispose). Call after creating a JDialog/JFrame. */
-	public static void registerEscapeToClose(java.awt.Window window)
-	{
-		com.gridscape.util.GridScapeSwingUtil.registerEscapeToClose(window);
-	}
 	private static final String KEY_UNLOCKED_AREAS = "unlockedAreas";
 	/** Comma-separated list of usernames for which the Rules & Setup panel has been shown (first-time open). */
 	private static final String KEY_SETUP_OPENED_ACCOUNTS = "setupOpenedAccounts";
@@ -489,13 +484,7 @@ public class GridScapePlugin extends Plugin
 	public void openSetupDialog()
 	{
 		SwingUtilities.invokeLater(() -> {
-			java.awt.Frame owner = null;
-			if (client.getCanvas() != null)
-			{
-				java.awt.Window w = SwingUtilities.windowForComponent(client.getCanvas());
-				if (w instanceof java.awt.Frame)
-					owner = (java.awt.Frame) w;
-			}
+			java.awt.Frame owner = com.gridscape.task.ui.TaskTileCellFactory.resolveDialogOwner(null, client);
 			com.gridscape.config.GridScapeSetupFrame frame = new com.gridscape.config.GridScapeSetupFrame(
 				owner, this, areaGraphService, taskGridServiceProvider.get(), configManager, config,
 				pointsService, areaCompletionService, client, audioPlayer);
@@ -667,9 +656,7 @@ public class GridScapePlugin extends Plugin
 				worldUnlockDialogRef.toFront();
 				return;
 			}
-			java.awt.Frame owner = null;
-			java.awt.Window w = SwingUtilities.windowForComponent(client.getCanvas());
-			if (w instanceof java.awt.Frame) owner = (java.awt.Frame) w;
+			java.awt.Frame owner = com.gridscape.task.ui.TaskTileCellFactory.resolveDialogOwner(null, client);
 			JDialog dialog = new JDialog(owner, "World Unlock", false);
 			dialog.setUndecorated(true);
 			com.gridscape.worldunlock.WorldUnlockGridPanel panel = new com.gridscape.worldunlock.WorldUnlockGridPanel(
@@ -702,7 +689,7 @@ public class GridScapePlugin extends Plugin
 				}
 			});
 			worldUnlockDialogRef = dialog;
-			registerEscapeToClose(dialog);
+			com.gridscape.util.GridScapeSwingUtil.registerEscapeToClose(dialog);
 			dialog.setVisible(true);
 		});
 	}
@@ -716,9 +703,7 @@ public class GridScapePlugin extends Plugin
 				goalsDialogRef.toFront();
 				return;
 			}
-			java.awt.Frame owner = null;
-			java.awt.Window w = SwingUtilities.windowForComponent(client.getCanvas());
-			if (w instanceof java.awt.Frame) owner = (java.awt.Frame) w;
+			java.awt.Frame owner = com.gridscape.task.ui.TaskTileCellFactory.resolveDialogOwner(null, client);
 			JDialog dialog = new JDialog(owner, "Goals", false);
 			com.gridscape.worldunlock.GoalTrackingPanel panel = new com.gridscape.worldunlock.GoalTrackingPanel(
 				worldUnlockService, dialog::dispose, client, audioPlayer);
@@ -741,7 +726,7 @@ public class GridScapePlugin extends Plugin
 				}
 			});
 			goalsDialogRef = dialog;
-			registerEscapeToClose(dialog);
+			com.gridscape.util.GridScapeSwingUtil.registerEscapeToClose(dialog);
 			dialog.setVisible(true);
 		});
 	}
@@ -758,9 +743,7 @@ public class GridScapePlugin extends Plugin
 					((com.gridscape.worldunlock.GlobalTaskListPanel) c).syncTaskHubVisibilityAndPosition();
 				return;
 			}
-			java.awt.Frame owner = null;
-			java.awt.Window w = SwingUtilities.windowForComponent(client.getCanvas());
-			if (w instanceof java.awt.Frame) owner = (java.awt.Frame) w;
+			java.awt.Frame owner = com.gridscape.task.ui.TaskTileCellFactory.resolveDialogOwner(null, client);
 			JDialog dialog = new JDialog(owner, "Global tasks", false);
 			dialog.setUndecorated(true);
 			com.gridscape.worldunlock.GlobalTaskListPanel panel = new com.gridscape.worldunlock.GlobalTaskListPanel(
@@ -790,7 +773,7 @@ public class GridScapePlugin extends Plugin
 				}
 			});
 			globalTasksDialogRef = dialog;
-			registerEscapeToClose(dialog);
+			com.gridscape.util.GridScapeSwingUtil.registerEscapeToClose(dialog);
 			dialog.setVisible(true);
 			panel.syncTaskHubVisibilityAndPosition();
 		});

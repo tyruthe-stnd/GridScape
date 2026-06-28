@@ -64,7 +64,7 @@ public final class GlobalTaskHub extends JPanel
 {
 	private static final Color POPUP_BG = GridScapeColors.POPUP_BG;
 	private static final Color POPUP_TEXT = GridScapeColors.POPUP_TEXT;
-	private static final Color POPUP_BORDER = new Color(0x2a, 0x28, 0x24);
+	private static final Color POPUP_BORDER = GridScapeColors.POPUP_BORDER;
 	/** Tight inset around list row icon and text (px). */
 	private static final int TASK_TILE_ICON_MARGIN = 1;
 	/** Padding inside the hub chrome around header + list (px). */
@@ -816,22 +816,7 @@ public final class GlobalTaskHub extends JPanel
 
 		private void showBookmarkMenu(MouseEvent e)
 		{
-			TaskTile tile = row.tile;
-			int r = tile.getRow(), c = tile.getCol();
-			boolean bookmarked = service.isTaskHubBookmarked(r, c);
-			JPopupMenu menu = new JPopupMenu();
-			JMenuItem item = new JMenuItem(bookmarked ? "Remove bookmark" : "Add bookmark");
-			item.addActionListener(ev -> {
-				playSound.run();
-				if (bookmarked)
-					service.removeTaskHubBookmark(r, c);
-				else
-					service.addTaskHubBookmark(new GlobalTaskBookmark(
-						GlobalTaskListService.taskKeyFromName(tile.getDisplayName()), r, c, ""));
-				notifyParentRefresh.run();
-			});
-			menu.add(item);
-			menu.show(e.getComponent(), e.getX(), e.getY());
+			GridScapeSwingUtil.showTaskHubBookmarkMenu(e, service, row.tile, playSound, notifyParentRefresh);
 		}
 
 		@Override

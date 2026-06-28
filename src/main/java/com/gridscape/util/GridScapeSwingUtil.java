@@ -16,7 +16,25 @@ import javax.swing.JToggleButton;
 import javax.swing.KeyStroke;
 import javax.swing.Scrollable;
 import javax.swing.SwingConstants;
+import java.awt.BorderLayout;
+import java.awt.Point;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.Font;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JViewport;
+import javax.swing.SwingUtilities;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import com.gridscape.task.TaskTile;
+import com.gridscape.worldunlock.GlobalTaskListService;
+import com.gridscape.worldunlock.GlobalTaskBookmark;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+import net.runelite.api.Client;
 import net.runelite.client.util.ImageUtil;
+import com.gridscape.task.ui.TaskTileCellFactory;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -217,5 +235,128 @@ public final class GridScapeSwingUtil
 				KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
 				JComponent.WHEN_IN_FOCUSED_WINDOW);
 		}
+	}
+
+	public static void showTaskHubBookmarkMenu(MouseEvent e, GlobalTaskListService service, TaskTile tile,
+		Runnable onButtonPress, Runnable onChanged)
+	{
+		if (!e.isPopupTrigger()) return;
+		int r = tile.getRow(), c = tile.getCol();
+		boolean bookmarked = service.isTaskHubBookmarked(r, c);
+		JPopupMenu menu = new JPopupMenu();
+		JMenuItem item = new JMenuItem(bookmarked ? "Remove bookmark" : "Add bookmark");
+		item.addActionListener(ev -> {
+			if (onButtonPress != null) onButtonPress.run();
+			if (bookmarked)
+				service.removeTaskHubBookmark(r, c);
+			else
+				service.addTaskHubBookmark(new GlobalTaskBookmark(
+					GlobalTaskListService.taskKeyFromName(tile.getDisplayName()), r, c, ""));
+			if (onChanged != null) onChanged.run();
+		});
+		menu.add(item);
+		menu.show(e.getComponent(), e.getX(), e.getY());
+	}
+
+	public static java.awt.Frame resolveClientFrameOwner(Client client)
+	{
+		return TaskTileCellFactory.resolveDialogOwner(null, client);
+	}
+
+	/** Standard popup panel border/background used by grid panels and overlay dialogs. */
+	public static void applyPopupPanelChrome(JPanel panel)
+	{
+		panel.setLayout(new BorderLayout(8, 8));
+		panel.setBackground(GridScapeColors.POPUP_BG);
+		panel.setBorder(new CompoundBorder(
+			new LineBorder(GridScapeColors.POPUP_BORDER, 2),
+			new EmptyBorder(10, 12, 10, 12)));
+		panel.setOpaque(true);
+	}
+
+	/** Header row: optional points label (west), centered title, close button (east). */
+	public static JPanel newGridPanelHeader(JLabel pointsLabel, String title, BufferedImage xBtnImg,
+		Color textColor, Runnable onClose)
+	{
+		JPanel header = new JPanel(new BorderLayout(4, 0));
+		header.setOpaque(false);
+		header.setBorder(new EmptyBorder(0, 0, 8, 0));
+		JPanel titleRow = new JPanel(new BorderLayout(4, 0));
+		titleRow.setOpaque(false);
+		if (pointsLabel != null)
+		{
+			pointsLabel.setForeground(textColor);
+			titleRow.add(pointsLabel, BorderLayout.WEST);
+		}
+		JLabel titleLabel = new JLabel(title);
+		titleLabel.setForeground(textColor);
+		titleLabel.setFont(titleLabel.getFont().deriveFont(Font.BOLD, 16f));
+		titleLabel.setHorizontalAlignment(JLabel.CENTER);
+		titleRow.add(titleLabel, BorderLayout.CENTER);
+		JButton closeBtn = newPopupButtonWithIcon(xBtnImg, textColor);
+		closeBtn.addActionListener(e -> {
+			if (onClose != null) onClose.run();
+		});
+		titleRow.add(closeBtn, BorderLayout.EAST);
+		header.add(titleRow, BorderLayout.NORTH);
+		return header;
+	}
+
+	/** Returns the title row inside {@link #newGridPanelHeader} for window drag installation. */
+	public static JPanel titleRowFromHeader(JPanel header)
+	{
+		return (JPanel) header.getComponent(0);
+	}
+
+	public static void installGridScrollWheelZoom(JScrollPane scrollPane, float[] zoomHolder, float zoomMin,
+		float zoomMax, float zoomStep, Runnable refresh)
+	{
+		scrollPane.getViewport().addMouseWheelListener(e -> {
+			float prev = zoomHolder[0];
+			if (e.getWheelRotation() < 0)
+				zoomHolder[0] = Math.min(zoomMax, zoomHolder[0] + zoomStep);
+			else
+				zoomHolder[0] = Math.max(zoomMin, zoomHolder[0] - zoomStep);
+			if (zoomHolder[0] != prev)
+			{
+				e.consume();
+				SwingUtilities.invokeLater(refresh);
+			}
+		});
+	}
+
+	public static void installGridScrollDragPan(JScrollPane scrollPane, Point[] dragStart, boolean clearDragOnRelease)
+	{
+		scrollPane.getViewport().addMouseListener(new MouseAdapter()
+		{
+			@Override
+			public void mousePressed(MouseEvent e)
+			{
+				dragStart[0] = e.getPoint();
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e)
+			{
+				if (clearDragOnRelease)
+					dragStart[0] = null;
+			}
+		});
+		scrollPane.getViewport().addMouseMotionListener(new MouseMotionAdapter()
+		{
+			@Override
+			public void mouseDragged(MouseEvent e)
+			{
+				if (dragStart[0] == null) return;
+				JViewport viewport = scrollPane.getViewport();
+				Point vp = viewport.getViewPosition();
+				int dx = dragStart[0].x - e.getX();
+				int dy = dragStart[0].y - e.getY();
+				int nx = Math.max(0, Math.min(vp.x + dx, viewport.getViewSize().width - viewport.getExtentSize().width));
+				int ny = Math.max(0, Math.min(vp.y + dy, viewport.getViewSize().height - viewport.getExtentSize().height));
+				viewport.setViewPosition(new Point(nx, ny));
+				dragStart[0] = e.getPoint();
+			}
+		});
 	}
 }
