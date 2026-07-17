@@ -6,7 +6,6 @@ import com.gridscape.grid.GridPos;
 import com.gridscape.util.FrontierFogHelpers;
 import com.gridscape.util.GridClaimFocusAnimation;
 import com.gridscape.util.RingBonusPopup;
-import com.gridscape.util.ScaledImageCache;
 import com.gridscape.icons.IconCache;
 import com.gridscape.icons.IconResolver;
 import com.gridscape.icons.IconResources;
@@ -53,7 +52,6 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
-import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import net.runelite.api.Client;
@@ -92,7 +90,6 @@ public class GlobalTaskListPanel extends JPanel
 
 	private BufferedImage checkmarkImg;
 	private BufferedImage tileBg;
-	private BufferedImage interfaceBg;
 	private BufferedImage buttonRect;
 	private BufferedImage xBtnImg;
 	private BufferedImage defaultTaskIcon;
@@ -154,7 +151,6 @@ public class GlobalTaskListPanel extends JPanel
 
 		checkmarkImg = ImageUtil.loadImageResource(GridScapePlugin.class, "complete_checkmark.png");
 		tileBg = ImageUtil.loadImageResource(GridScapePlugin.class, "empty_button_square.png");
-		interfaceBg = ImageUtil.loadImageResource(GridScapePlugin.class, "interface_template.png");
 		buttonRect = ImageUtil.loadImageResource(GridScapePlugin.class, "empty_button_rectangle.png");
 		xBtnImg = ImageUtil.loadImageResource(GridScapePlugin.class, "x_button.png");
 		defaultTaskIcon = IconCache.loadDefaultTaskIcon();
@@ -165,7 +161,12 @@ public class GlobalTaskListPanel extends JPanel
 		fogBottomLeft = ImageUtil.loadImageResource(GridScapePlugin.class, "/com/gridscape/fog_tile_corner_bottom_left.png");
 		fogBottomRight = ImageUtil.loadImageResource(GridScapePlugin.class, "/com/gridscape/fog_tile_corner_bottom_right.png");
 
-		GridScapeSwingUtil.applyPopupPanelChrome(this);
+		setLayout(new BorderLayout(0, 0));
+		setOpaque(false);
+
+		JPanel inner = new JPanel(new BorderLayout(8, 8));
+		GridScapeFrameChromePanel chrome = GridScapeFrameChromePanel.wrapContent(inner);
+		add(chrome, BorderLayout.CENTER);
 
 		pointsLabel = new JLabel();
 		JPanel header = GridScapeSwingUtil.newGridPanelHeader(pointsLabel, "Global Tasks", xBtnImg, POPUP_TEXT, () -> {
@@ -173,7 +174,7 @@ public class GlobalTaskListPanel extends JPanel
 			if (onClose != null) onClose.run();
 		});
 		GridScapeSwingUtil.installUndecoratedWindowDrag(parentDialog, GridScapeSwingUtil.titleRowFromHeader(header));
-		add(header, BorderLayout.NORTH);
+		inner.add(header, BorderLayout.NORTH);
 
 		gridPanel = new JPanel();
 		gridPanel.setLayout(new GridBagLayout());
@@ -196,7 +197,7 @@ public class GlobalTaskListPanel extends JPanel
 		});
 		GridScapeSwingUtil.installGridScrollDragPan(scrollPane, dragStart, false);
 
-		add(scrollPane, BorderLayout.CENTER);
+		inner.add(scrollPane, BorderLayout.CENTER);
 
 		JPanel southPanel = new JPanel(new BorderLayout(8, 0));
 		southPanel.setOpaque(false);
@@ -234,7 +235,7 @@ public class GlobalTaskListPanel extends JPanel
 		zoomPanel.add(zoomOutBtn);
 		zoomPanel.add(zoomInBtn);
 		southPanel.add(zoomPanel, BorderLayout.EAST);
-		add(southPanel, BorderLayout.SOUTH);
+		inner.add(southPanel, BorderLayout.SOUTH);
 
 		refresh();
 	}
@@ -286,24 +287,9 @@ public class GlobalTaskListPanel extends JPanel
 			defaultTaskIcon,
 			bookmarkIconImg);
 
-		BufferedImage fill = ImageUtil.loadImageResource(GridScapePlugin.class, "fill_color.png");
-		BufferedImage bTop = ImageUtil.loadImageResource(GridScapePlugin.class, "border_top.png");
-		BufferedImage bBottom = ImageUtil.loadImageResource(GridScapePlugin.class, "border_bottom.png");
-		BufferedImage bLeft = ImageUtil.loadImageResource(GridScapePlugin.class, "border_left.png");
-		BufferedImage bRight = ImageUtil.loadImageResource(GridScapePlugin.class, "border_right.png");
-		BufferedImage cTopLeft = ImageUtil.loadImageResource(GridScapePlugin.class, "top_left_corner.png");
-		BufferedImage cTopRight = ImageUtil.loadImageResource(GridScapePlugin.class, "top_right_corner.png");
-		BufferedImage cBottomLeft = ImageUtil.loadImageResource(GridScapePlugin.class, "bottom_left_corner.png");
-		BufferedImage cBottomRight = ImageUtil.loadImageResource(GridScapePlugin.class, "bottom_right_corner.png");
-
-		GridScapeFrameChromePanel chrome = new GridScapeFrameChromePanel(
-			fill, cTopLeft, cTopRight, cBottomLeft, cBottomRight, bTop, bBottom, bLeft, bRight);
-		chrome.setLayout(new BorderLayout(0, 0));
 		JPanel hubInner = new JPanel(new BorderLayout(0, 0));
-		hubInner.setOpaque(false);
-		hubInner.setBorder(new EmptyBorder(chrome.getChromeInsets()));
 		hubInner.add(taskHubPanel, BorderLayout.CENTER);
-		chrome.add(hubInner, BorderLayout.CENTER);
+		GridScapeFrameChromePanel chrome = GridScapeFrameChromePanel.wrapContent(hubInner);
 
 		taskHubDialog = new JDialog(parentDialog, false);
 		taskHubDialog.setUndecorated(true);
@@ -373,14 +359,6 @@ public class GlobalTaskListPanel extends JPanel
 				}
 			}
 		});
-	}
-
-	@Override
-	protected void paintComponent(Graphics g)
-	{
-		super.paintComponent(g);
-		if (interfaceBg != null)
-			ScaledImageCache.drawScaled(g, interfaceBg, 0, 0, getWidth(), getHeight());
 	}
 
 	public void refresh()

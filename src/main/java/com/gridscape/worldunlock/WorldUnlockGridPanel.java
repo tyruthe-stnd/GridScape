@@ -24,8 +24,9 @@ import com.gridscape.grid.GridPos;
 import com.gridscape.util.FogTileCompositor;
 import com.gridscape.util.FrontierFogHelpers;
 import com.gridscape.util.GridClaimFocusAnimation;
-import com.gridscape.util.ScaledImageCache;
 import com.gridscape.task.ui.TaskTileCellFactory;
+import com.gridscape.util.GridScapeFrameChromePanel;
+import com.gridscape.util.ScaledImageCache;
 import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -86,7 +87,6 @@ public class WorldUnlockGridPanel extends JPanel
 	private BufferedImage padlockImg;
 	private BufferedImage checkmarkImg;
 	private BufferedImage tileBg;
-	private BufferedImage interfaceBg;
 	private BufferedImage buttonRect;
 	private BufferedImage xBtnImg;
 	/** Base fill for fog-only cells; not {@link #tileBg} (revealed tile button art). */
@@ -128,7 +128,6 @@ public class WorldUnlockGridPanel extends JPanel
 		padlockImg = ImageUtil.loadImageResource(GridScapePlugin.class, "padlock_icon.png");
 		checkmarkImg = ImageUtil.loadImageResource(GridScapePlugin.class, "complete_checkmark.png");
 		tileBg = ImageUtil.loadImageResource(GridScapePlugin.class, "empty_button_square.png");
-		interfaceBg = ImageUtil.loadImageResource(GridScapePlugin.class, "interface_template.png");
 		buttonRect = ImageUtil.loadImageResource(GridScapePlugin.class, "empty_button_rectangle.png");
 		xBtnImg = ImageUtil.loadImageResource(GridScapePlugin.class, "x_button.png");
 		fogTileBg = ImageUtil.loadImageResource(GridScapePlugin.class, "/com/gridscape/fog_tile_base.png");
@@ -137,7 +136,12 @@ public class WorldUnlockGridPanel extends JPanel
 		fogBottomLeft = ImageUtil.loadImageResource(GridScapePlugin.class, "/com/gridscape/fog_tile_corner_bottom_left.png");
 		fogBottomRight = ImageUtil.loadImageResource(GridScapePlugin.class, "/com/gridscape/fog_tile_corner_bottom_right.png");
 
-		GridScapeSwingUtil.applyPopupPanelChrome(this);
+		setLayout(new BorderLayout(0, 0));
+		setOpaque(false);
+
+		JPanel inner = new JPanel(new BorderLayout(8, 8));
+		GridScapeFrameChromePanel chrome = GridScapeFrameChromePanel.wrapContent(inner);
+		add(chrome, BorderLayout.CENTER);
 
 		pointsLabel = new JLabel();
 		JPanel header = GridScapeSwingUtil.newGridPanelHeader(pointsLabel, "World Unlock", xBtnImg, POPUP_TEXT, () -> {
@@ -145,7 +149,7 @@ public class WorldUnlockGridPanel extends JPanel
 			if (onClose != null) onClose.run();
 		});
 		GridScapeSwingUtil.installUndecoratedWindowDrag(parentDialog, GridScapeSwingUtil.titleRowFromHeader(header));
-		add(header, BorderLayout.NORTH);
+		inner.add(header, BorderLayout.NORTH);
 
 		gridPanel = new JPanel();
 		gridPanel.setLayout(new GridBagLayout());
@@ -166,7 +170,7 @@ public class WorldUnlockGridPanel extends JPanel
 			refresh();
 		});
 		GridScapeSwingUtil.installGridScrollDragPan(gridScrollPane, gridPanDragStart, true);
-		add(gridScrollPane, BorderLayout.CENTER);
+		inner.add(gridScrollPane, BorderLayout.CENTER);
 
 		JPanel south = new JPanel(new BorderLayout(8, 0));
 		south.setOpaque(false);
@@ -208,7 +212,7 @@ public class WorldUnlockGridPanel extends JPanel
 		zoomPanel.add(zoomOutBtn);
 		zoomPanel.add(zoomInBtn);
 		south.add(zoomPanel, BorderLayout.EAST);
-		add(south, BorderLayout.SOUTH);
+		inner.add(south, BorderLayout.SOUTH);
 
 		refresh();
 	}
@@ -229,14 +233,6 @@ public class WorldUnlockGridPanel extends JPanel
 	public Dimension getMaximumSize()
 	{
 		return new Dimension(WorldUnlockUiDimensions.PANEL_PREFERRED);
-	}
-
-	@Override
-	protected void paintComponent(Graphics g)
-	{
-		super.paintComponent(g);
-		if (interfaceBg != null)
-			ScaledImageCache.drawScaled(g, interfaceBg, 0, 0, getWidth(), getHeight());
 	}
 
 	public void refresh()

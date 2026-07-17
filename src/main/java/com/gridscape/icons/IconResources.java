@@ -60,6 +60,7 @@ public final class IconResources
 		boss.put("kraken", "game_icon_kraken.png");
 		boss.put("kree'arra", "game_icon_kreearra.png");
 		boss.put("kril_tsutsaroth", "game_icon_kriltsutsaroth.png");
+		boss.put("maggot_king", "game_icon_maggotking.png");
 		boss.put("moons_of_peril", "game_icon_lunarchests.png");
 		boss.put("the_mimic", "game_icon_mimic.png");
 		boss.put("nex", "game_icon_nex.png");

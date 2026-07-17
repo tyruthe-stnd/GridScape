@@ -1,5 +1,7 @@
 package com.gridscape.util;
 
+import com.gridscape.GridScapePlugin;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -7,6 +9,8 @@ import java.awt.Insets;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import net.runelite.client.util.ImageUtil;
 
 /**
  * OSRS-style tiled frame: {@code fill_color} in the center and {@code border_*} strips on edges.
@@ -27,6 +31,36 @@ public final class GridScapeFrameChromePanel extends JPanel
 	private final BufferedImage bLeft;
 	private final BufferedImage bRight;
 	private final Insets chromeInsets;
+
+	/** Loads standard frame assets from {@link GridScapePlugin} resources. */
+	public static GridScapeFrameChromePanel createFromResources()
+	{
+		return new GridScapeFrameChromePanel(
+			ImageUtil.loadImageResource(GridScapePlugin.class, "fill_color.png"),
+			ImageUtil.loadImageResource(GridScapePlugin.class, "top_left_corner.png"),
+			ImageUtil.loadImageResource(GridScapePlugin.class, "top_right_corner.png"),
+			ImageUtil.loadImageResource(GridScapePlugin.class, "bottom_left_corner.png"),
+			ImageUtil.loadImageResource(GridScapePlugin.class, "bottom_right_corner.png"),
+			ImageUtil.loadImageResource(GridScapePlugin.class, "border_top.png"),
+			ImageUtil.loadImageResource(GridScapePlugin.class, "border_bottom.png"),
+			ImageUtil.loadImageResource(GridScapePlugin.class, "border_left.png"),
+			ImageUtil.loadImageResource(GridScapePlugin.class, "border_right.png"));
+	}
+
+	/**
+	 * Chrome panel with an opaque-false inner content panel already inset by {@link #getChromeInsets()}.
+	 * Use the returned inner panel as the parent for header / body / south content.
+	 */
+	public static GridScapeFrameChromePanel wrapContent(JPanel inner)
+	{
+		GridScapeFrameChromePanel chrome = createFromResources();
+		chrome.setLayout(new BorderLayout(0, 0));
+		inner.setOpaque(false);
+		Insets insets = chrome.getChromeInsets();
+		inner.setBorder(new EmptyBorder(insets.top, insets.left, insets.bottom, insets.right));
+		chrome.add(inner, BorderLayout.CENTER);
+		return chrome;
+	}
 
 	public GridScapeFrameChromePanel(BufferedImage fill, BufferedImage tl, BufferedImage tr, BufferedImage bl, BufferedImage br,
 		BufferedImage bTop, BufferedImage bBottom, BufferedImage bLeft, BufferedImage bRight)

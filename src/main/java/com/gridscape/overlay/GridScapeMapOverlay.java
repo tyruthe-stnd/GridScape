@@ -13,6 +13,7 @@ import com.gridscape.util.FrontierFogHelpers;
 import com.gridscape.util.GridClaimFocusAnimation;
 import com.gridscape.util.PanelBoundsStore;
 import com.gridscape.util.RingBonusPopup;
+import com.gridscape.util.GridScapeFrameChromePanel;
 import com.gridscape.util.GridScapeSwingUtil;
 import com.gridscape.util.ScaledImageCache;
 import com.gridscape.data.AreaStatus;
@@ -811,7 +812,6 @@ public class GridScapeMapOverlay extends Overlay implements MouseListener
 		}
 		AreaStatus status = areaCompletionService.getAreaStatus(area.getId());
 
-		BufferedImage interfaceBg = ImageUtil.loadImageResource(GridScapePlugin.class, "interface_template.png");
 		BufferedImage buttonRect = ImageUtil.loadImageResource(GridScapePlugin.class, "empty_button_rectangle.png");
 		BufferedImage xBtnImg = ImageUtil.loadImageResource(GridScapePlugin.class, "x_button.png");
 		BufferedImage checkmarkImg = ImageUtil.loadImageResource(GridScapePlugin.class, "complete_checkmark.png");
@@ -838,29 +838,8 @@ public class GridScapeMapOverlay extends Overlay implements MouseListener
 				}
 			});
 
-			JPanel content = new JPanel()
-			{
-				@Override
-				protected void paintComponent(Graphics g)
-				{
-					super.paintComponent(g);
-					if (interfaceBg != null)
-					{
-						ScaledImageCache.drawScaled(g, interfaceBg, 0, 0, getWidth(), getHeight());
-					}
-					else
-					{
-						g.setColor(POPUP_BG);
-						g.fillRect(0, 0, getWidth(), getHeight());
-					}
-				}
-			};
-			content.setLayout(new java.awt.BorderLayout(8, 8));
-			content.setBackground(POPUP_BG);
-			content.setBorder(new javax.swing.border.CompoundBorder(
-				new javax.swing.border.LineBorder(POPUP_BORDER, 2),
-				new javax.swing.border.EmptyBorder(10, 12, 10, 12)));
-			content.setOpaque(true);
+			JPanel content = new JPanel(new java.awt.BorderLayout(8, 8));
+			GridScapeFrameChromePanel chrome = GridScapeFrameChromePanel.wrapContent(content);
 
 			// Header: title + close button
 			JPanel header = new JPanel(new java.awt.BorderLayout(4, 0));
@@ -994,8 +973,7 @@ public class GridScapeMapOverlay extends Overlay implements MouseListener
 			}
 			content.add(southPanel, java.awt.BorderLayout.SOUTH);
 
-			dialog.setContentPane(content);
-			dialog.getRootPane().setBorder(new javax.swing.border.LineBorder(POPUP_BORDER, 2));
+			dialog.setContentPane(chrome);
 			dialog.pack();
 			if (screenX != null && screenY != null)
 			{
@@ -1060,7 +1038,6 @@ public class GridScapeMapOverlay extends Overlay implements MouseListener
 
 	private static final class TaskGridAssets
 	{
-		private final BufferedImage interfaceBg;
 		private final BufferedImage buttonRect;
 		private final BufferedImage tileSquare;
 		private final BufferedImage xBtnImg;
@@ -1075,13 +1052,12 @@ public class GridScapeMapOverlay extends Overlay implements MouseListener
 		private final BufferedImage defaultTaskIcon;
 		private final Map<String, BufferedImage> taskIconCache;
 
-		private TaskGridAssets(BufferedImage interfaceBg, BufferedImage buttonRect, BufferedImage tileSquare,
+		private TaskGridAssets(BufferedImage buttonRect, BufferedImage tileSquare,
 			BufferedImage xBtnImg, BufferedImage checkmarkImg, BufferedImage padlockImg,
 			BufferedImage centerTileIconImg, BufferedImage fogTileBg, BufferedImage fogTopLeft,
 			BufferedImage fogTopRight, BufferedImage fogBottomLeft, BufferedImage fogBottomRight,
 			BufferedImage defaultTaskIcon, Map<String, BufferedImage> taskIconCache)
 		{
-			this.interfaceBg = interfaceBg;
 			this.buttonRect = buttonRect;
 			this.tileSquare = tileSquare;
 			this.xBtnImg = xBtnImg;
@@ -1114,7 +1090,6 @@ public class GridScapeMapOverlay extends Overlay implements MouseListener
 
 	private TaskGridAssets loadTaskGridAssets()
 	{
-		BufferedImage interfaceBg = ImageUtil.loadImageResource(GridScapePlugin.class, "interface_template.png");
 		BufferedImage buttonRect = ImageUtil.loadImageResource(GridScapePlugin.class, "empty_button_rectangle.png");
 		BufferedImage tileSquare = ImageUtil.loadImageResource(GridScapePlugin.class, "empty_button_square.png");
 		BufferedImage xBtnImg = ImageUtil.loadImageResource(GridScapePlugin.class, "x_button.png");
@@ -1129,7 +1104,7 @@ public class GridScapeMapOverlay extends Overlay implements MouseListener
 		BufferedImage fogBottomRight = ImageUtil.loadImageResource(GridScapePlugin.class, "/com/gridscape/fog_tile_corner_bottom_right.png");
 		BufferedImage defaultTaskIcon = loadTaskIcon();
 		Map<String, BufferedImage> taskIconCache = new ConcurrentHashMap<>();
-		return new TaskGridAssets(interfaceBg, buttonRect, tileSquare, xBtnImg, checkmarkImg, padlockImg,
+		return new TaskGridAssets(buttonRect, tileSquare, xBtnImg, checkmarkImg, padlockImg,
 			centerTileIconImg, fogTileBg, fogTopLeft, fogTopRight, fogBottomLeft, fogBottomRight,
 			defaultTaskIcon, taskIconCache);
 	}
@@ -1141,29 +1116,8 @@ public class GridScapeMapOverlay extends Overlay implements MouseListener
 		final float ZOOM_MAX = 2.0f;
 		final float ZOOM_STEP = 0.15f;
 
-		JPanel content = new JPanel()
-		{
-			@Override
-			protected void paintComponent(Graphics g)
-			{
-				super.paintComponent(g);
-				if (assets.interfaceBg != null)
-				{
-					ScaledImageCache.drawScaled(g, assets.interfaceBg, 0, 0, getWidth(), getHeight());
-				}
-				else
-				{
-					g.setColor(POPUP_BG);
-					g.fillRect(0, 0, getWidth(), getHeight());
-				}
-			}
-		};
-		content.setLayout(new java.awt.BorderLayout(8, 8));
-		content.setBackground(POPUP_BG);
-		content.setBorder(new javax.swing.border.CompoundBorder(
-			new javax.swing.border.LineBorder(POPUP_BORDER, 2),
-			new javax.swing.border.EmptyBorder(10, 12, 10, 12)));
-		content.setOpaque(true);
+		JPanel content = new JPanel(new java.awt.BorderLayout(8, 8));
+		GridScapeFrameChromePanel chrome = GridScapeFrameChromePanel.wrapContent(content);
 
 		// Header: title "[area name] tasks" + points + close button
 		JPanel header = new JPanel(new java.awt.BorderLayout(4, 0));
@@ -1271,7 +1225,7 @@ public class GridScapeMapOverlay extends Overlay implements MouseListener
 		southPanel.add(zoomPanel, java.awt.BorderLayout.EAST);
 		content.add(southPanel, java.awt.BorderLayout.SOUTH);
 
-		return new TaskGridDialogShell(content, gridPanel, scrollPane);
+		return new TaskGridDialogShell(chrome, gridPanel, scrollPane);
 	}
 
 	private Runnable buildTaskGridRefreshRunnable(String areaId, Area area, TaskGridAssets assets,

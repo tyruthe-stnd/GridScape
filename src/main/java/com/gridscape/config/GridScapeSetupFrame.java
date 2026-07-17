@@ -80,22 +80,8 @@ public class GridScapeSetupFrame extends JDialog
 		buttonRect = ImageUtil.loadImageResource(GridScapePlugin.class, "empty_button_rectangle.png");
 		BufferedImage xBtnImg = ImageUtil.loadImageResource(GridScapePlugin.class, "x_button.png");
 
-		BufferedImage fill = loadFrameAsset("fill_color.png");
-		BufferedImage tl = loadFrameAsset("top_left_corner.png");
-		BufferedImage tr = loadFrameAsset("top_right_corner.png");
-		BufferedImage bl = loadFrameAsset("bottom_left_corner.png");
-		BufferedImage br = loadFrameAsset("bottom_right_corner.png");
-		BufferedImage bTop = loadFrameAsset("border_top.png");
-		BufferedImage bBottom = loadFrameAsset("border_bottom.png");
-		BufferedImage bLeft = loadFrameAsset("border_left.png");
-		BufferedImage bRight = loadFrameAsset("border_right.png");
-
-		GridScapeFrameChromePanel chrome = new GridScapeFrameChromePanel(fill, tl, tr, bl, br, bTop, bBottom, bLeft, bRight);
-		chrome.setLayout(new BorderLayout(0, 0));
-
 		JPanel inner = new JPanel(new BorderLayout(0, 0));
-		inner.setOpaque(false);
-		inner.setBorder(new EmptyBorder(chrome.getChromeInsets()));
+		GridScapeFrameChromePanel chrome = GridScapeFrameChromePanel.wrapContent(inner);
 
 		// Title bar: drag region + x close (same behaviour as other GridScape popups: Esc via registerEscapeToClose on open)
 		JPanel titleBar = new JPanel(new BorderLayout(4, 0));
@@ -188,7 +174,6 @@ public class GridScapeSetupFrame extends JDialog
 
 		inner.add(titleBar, BorderLayout.NORTH);
 		inner.add(body, BorderLayout.CENTER);
-		chrome.add(inner, BorderLayout.CENTER);
 
 		setContentPane(chrome);
 
@@ -220,11 +205,6 @@ public class GridScapeSetupFrame extends JDialog
 			if (w == this) return true;
 		}
 		return false;
-	}
-
-	private static BufferedImage loadFrameAsset(String name)
-	{
-		return ImageUtil.loadImageResource(GridScapePlugin.class, name);
 	}
 
 	private static final Dimension TAB_BUTTON_SIZE = new Dimension(TAB_STRIP_WIDTH - 16, 28);
