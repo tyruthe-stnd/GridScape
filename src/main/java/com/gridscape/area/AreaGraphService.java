@@ -1,7 +1,6 @@
 package com.gridscape.area;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -44,28 +43,8 @@ public class AreaGraphService
 	private static final String KEY_CUSTOM_AREAS = "customAreas";
 	private static final String KEY_REMOVED_AREAS = "removedAreas";
 
-	private static final Gson GSON_PRETTY = new GsonBuilder().setPrettyPrinting().create();
-
 	private static final TypeToken<List<int[]>> LIST_OF_POINTS = new TypeToken<List<int[]>>() { };
 	private static final TypeToken<List<List<int[]>>> LIST_OF_POLYGONS = new TypeToken<List<List<int[]>>>() { };
-
-	private static final Gson GSON = new GsonBuilder()
-		.registerTypeAdapter(int[].class, new JsonDeserializer<int[]>()
-		{
-			@Override
-			public int[] deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException
-			{
-				JsonArray arr = json.getAsJsonArray();
-				int[] result = new int[arr.size()];
-				for (int i = 0; i < arr.size(); i++)
-				{
-					result[i] = arr.get(i).getAsInt();
-				}
-				return result;
-			}
-		})
-		.registerTypeAdapter(Area.class, new AreaPolygonsAdapter())
-		.create();
 
 	/** Handles Area JSON: reads "polygon" (legacy) or "polygons", always writes "polygons". */
 	private static class AreaPolygonsAdapter implements JsonDeserializer<Area>, JsonSerializer<Area>
@@ -135,6 +114,8 @@ public class AreaGraphService
 	}
 
 	private final ConfigManager configManager;
+	private final Gson gson;
+	private final Gson gsonPretty;
 
 	private volatile List<Area> areas = new ArrayList<>();
 	private final Set<String> unlockedAreaIds = new HashSet<>();
@@ -145,9 +126,27 @@ public class AreaGraphService
 	private final Map<Integer, Set<WorldPoint>> tilesInLockedAreasCache = new ConcurrentHashMap<>();
 
 	@Inject
-	public AreaGraphService(ConfigManager configManager)
+	public AreaGraphService(ConfigManager configManager, Gson gson)
 	{
 		this.configManager = configManager;
+		this.gson = gson.newBuilder()
+			.registerTypeAdapter(int[].class, new JsonDeserializer<int[]>()
+			{
+				@Override
+				public int[] deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException
+				{
+					JsonArray arr = json.getAsJsonArray();
+					int[] result = new int[arr.size()];
+					for (int i = 0; i < arr.size(); i++)
+					{
+						result[i] = arr.get(i).getAsInt();
+					}
+					return result;
+				}
+			})
+			.registerTypeAdapter(Area.class, new AreaPolygonsAdapter())
+			.create();
+		this.gsonPretty = gson.newBuilder().setPrettyPrinting().create();
 		reloadAreas();
 	}
 
@@ -178,7 +177,7 @@ public class AreaGraphService
 				log.warn("areas.json not found in resources");
 				return new ArrayList<>();
 			}
-			List<Area> list = GSON.fromJson(
+			List<Area> list = gson.fromJson(
 				new InputStreamReader(is, StandardCharsets.UTF_8),
 				new TypeToken<List<Area>>() { }.getType());
 			return list != null ? list : new ArrayList<>();
@@ -196,7 +195,7 @@ public class AreaGraphService
 		if (raw == null || raw.isEmpty()) return new ArrayList<>();
 		try
 		{
-			List<Area> list = GSON.fromJson(raw, new TypeToken<List<Area>>() { }.getType());
+			List<Area> list = gson.fromJson(raw, new TypeToken<List<Area>>() { }.getType());
 			return list != null ? list : new ArrayList<>();
 		}
 		catch (Exception e)
@@ -212,7 +211,7 @@ public class AreaGraphService
 		if (raw == null || raw.isEmpty()) return new HashSet<>();
 		try
 		{
-			List<String> list = GSON.fromJson(raw, new TypeToken<List<String>>() { }.getType());
+			List<String> list = gson.fromJson(raw, new TypeToken<List<String>>() { }.getType());
 			return list != null ? new HashSet<>(list) : new HashSet<>();
 		}
 		catch (Exception e)
@@ -224,7 +223,7 @@ public class AreaGraphService
 
 	private void persistRemovedAreaIds(Set<String> ids)
 	{
-		String json = GSON.toJson(new ArrayList<>(ids));
+		String json = gson.toJson(new ArrayList<>(ids));
 		configManager.setConfiguration(CONFIG_GROUP, KEY_REMOVED_AREAS, json);
 	}
 
@@ -300,7 +299,7 @@ public class AreaGraphService
 	/** Export current areas (built-in minus removed, plus custom) as pretty-printed JSON. */
 	public String exportAreasToJson()
 	{
-		return GSON_PRETTY.toJson(areas);
+		return gsonPretty.toJson(areas);
 	}
 
 	/**
@@ -318,7 +317,7 @@ public class AreaGraphService
 		List<Area> list;
 		try
 		{
-			list = GSON.fromJson(json, new TypeToken<List<Area>>() { }.getType());
+			list = gson.fromJson(json, new TypeToken<List<Area>>() { }.getType());
 		}
 		catch (JsonParseException e)
 		{
@@ -424,7 +423,7 @@ public class AreaGraphService
 
 	private void persistCustomAreas(List<Area> custom)
 	{
-		String json = GSON.toJson(custom);
+		String json = gson.toJson(custom);
 		configManager.setConfiguration(CONFIG_GROUP, KEY_CUSTOM_AREAS, json);
 	}
 

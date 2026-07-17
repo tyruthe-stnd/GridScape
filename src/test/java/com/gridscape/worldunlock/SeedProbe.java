@@ -1,5 +1,6 @@
 package com.gridscape.worldunlock;
 
+import com.google.gson.Gson;
 import com.gridscape.GridScapeConfig;
 import com.gridscape.util.GridScapeConfigConstants;
 import com.gridscape.points.PointsService;
@@ -68,7 +69,7 @@ public class SeedProbe
 				tasks.add(m);
 			}
 			when(taskGridService.getEffectiveDefaultTasks()).thenReturn(tasks);
-			GlobalTaskListService service = new GlobalTaskListService(configManager, config, pointsService, worldUnlockService, taskGridService);
+			GlobalTaskListService service = new GlobalTaskListService(configManager, config, pointsService, worldUnlockService, taskGridService, new Gson());
 			List<TaskTile> grid = service.buildGlobalGrid(seed);
 			long clCount = grid.stream().filter(t -> t.getRow() != 0 || t.getCol() != 0).filter(t -> "Collection Log".equals(t.getTaskType())).count();
 			if (clCount == 0) System.out.println("all-mining seed=" + seed);

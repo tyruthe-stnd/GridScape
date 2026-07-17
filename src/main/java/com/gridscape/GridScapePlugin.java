@@ -1,5 +1,6 @@
 package com.gridscape;
 
+import com.google.gson.Gson;
 import com.google.inject.Provides;
 import com.google.inject.Provider;
 import java.lang.reflect.Method;
@@ -71,6 +72,9 @@ public class GridScapePlugin extends Plugin
 
 	@Inject
 	private ConfigManager configManager;
+
+	@Inject
+	private Gson gson;
 
 	/** At most one of each floating panel; bounds persisted in {@link com.gridscape.util.PanelBoundsStore}. */
 	private volatile JDialog worldUnlockDialogRef;
@@ -396,9 +400,9 @@ public class GridScapePlugin extends Plugin
 		com.gridscape.points.PointsService pointsService,
 		com.gridscape.points.AreaCompletionService areaCompletionService,
 		com.gridscape.area.AreaGraphService areaGraphService,
-		Client client)
+		Client client, Gson gson)
 	{
-		return new com.gridscape.task.TaskGridService(configManager, config, pointsService, areaCompletionService, areaGraphService, client);
+		return new com.gridscape.task.TaskGridService(configManager, config, pointsService, areaCompletionService, areaGraphService, client, gson);
 	}
 
 	@Provides
@@ -427,9 +431,10 @@ public class GridScapePlugin extends Plugin
 		GridScapeConfig config,
 		com.gridscape.points.PointsService pointsService,
 		com.gridscape.task.TaskGridService taskGridService,
-		com.gridscape.area.AreaGraphService areaGraphService)
+		com.gridscape.area.AreaGraphService areaGraphService,
+		Gson gson)
 	{
-		return new com.gridscape.worldunlock.WorldUnlockService(configManager, config, pointsService, taskGridService, areaGraphService);
+		return new com.gridscape.worldunlock.WorldUnlockService(configManager, config, pointsService, taskGridService, areaGraphService, gson);
 	}
 
 	@Provides
@@ -438,9 +443,10 @@ public class GridScapePlugin extends Plugin
 		GridScapeConfig config,
 		com.gridscape.points.PointsService pointsService,
 		com.gridscape.worldunlock.WorldUnlockService worldUnlockService,
-		com.gridscape.task.TaskGridService taskGridService)
+		com.gridscape.task.TaskGridService taskGridService,
+		Gson gson)
 	{
-		return new com.gridscape.worldunlock.GlobalTaskListService(configManager, config, pointsService, worldUnlockService, taskGridService);
+		return new com.gridscape.worldunlock.GlobalTaskListService(configManager, config, pointsService, worldUnlockService, taskGridService, gson);
 	}
 
 	private void loadUnlockedAreas()
@@ -706,7 +712,7 @@ public class GridScapePlugin extends Plugin
 			java.awt.Frame owner = com.gridscape.task.ui.TaskTileCellFactory.resolveDialogOwner(null, client);
 			JDialog dialog = new JDialog(owner, "Goals", false);
 			com.gridscape.worldunlock.GoalTrackingPanel panel = new com.gridscape.worldunlock.GoalTrackingPanel(
-				worldUnlockService, dialog::dispose, client, audioPlayer);
+				worldUnlockService, dialog::dispose, client, audioPlayer, gson);
 			dialog.setContentPane(panel);
 			dialog.pack();
 			dialog.setSize(380, 300);

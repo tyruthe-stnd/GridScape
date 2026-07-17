@@ -37,17 +37,19 @@ public class GoalTrackingPanel extends JPanel
 	private final Runnable onClose;
 	private final Client client;
 	private final AudioPlayer audioPlayer;
+	private final Gson gson;
 	private final List<Goal> goals = new ArrayList<>();
 	private boolean goalsLoaded;
 
 	private JPanel listPanel;
 
-	public GoalTrackingPanel(WorldUnlockService worldUnlockService, Runnable onClose, Client client, AudioPlayer audioPlayer)
+	public GoalTrackingPanel(WorldUnlockService worldUnlockService, Runnable onClose, Client client, AudioPlayer audioPlayer, Gson gson)
 	{
 		this.worldUnlockService = worldUnlockService;
 		this.onClose = onClose;
 		this.client = client;
 		this.audioPlayer = audioPlayer;
+		this.gson = gson;
 		setLayout(new BorderLayout(8, 8));
 		setBackground(BG);
 		setBorder(new javax.swing.border.EmptyBorder(10, 12, 10, 12));
@@ -115,7 +117,6 @@ public class GoalTrackingPanel extends JPanel
 	{
 		if (goalsLoaded) return;
 		goals.clear();
-		Gson gson = new Gson();
 		Type listType = new TypeToken<List<Goal>>(){}.getType();
 		List<Goal> parsed = loadJson(ResourcePaths.GOALS_JSON, listType, gson);
 		if (parsed != null)

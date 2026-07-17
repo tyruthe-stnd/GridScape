@@ -1,5 +1,6 @@
 package com.gridscape.worldunlock;
 
+import com.google.gson.Gson;
 import com.gridscape.GridScapeConfig;
 import com.gridscape.grid.GridPos;
 import com.gridscape.points.PointsService;
@@ -68,7 +69,7 @@ public class GlobalTaskListServiceTest
 	public void setUp()
 	{
 		service = new GlobalTaskListService(configManager, config, pointsService,
-			worldUnlockService, taskGridService);
+			worldUnlockService, taskGridService, new Gson());
 	}
 
 	private TaskDefinition task(String displayName, int difficulty)

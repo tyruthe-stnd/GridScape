@@ -1,7 +1,6 @@
 package com.gridscape.task;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -134,31 +133,7 @@ public class TaskGridService
 		return obj;
 	};
 
-	private static final Gson GSON = new GsonBuilder()
-		.registerTypeAdapter(TaskDefinition.class, TASK_DESERIALIZER)
-		.create();
-
 	private static final java.lang.reflect.Type LIST_TASK_DEFINITION = new TypeToken<List<TaskDefinition>>(){}.getType();
-
-	/** Parses JSON from the stream into TasksData. Accepts both root array {@code [ ... ]} and object {@code {"defaultTasks": [...]}. */
-	private static TasksData parseTasksDataFromStream(InputStream in) throws Exception
-	{
-		@SuppressWarnings("deprecation")
-		JsonElement root = new JsonParser().parse(new InputStreamReader(in, StandardCharsets.UTF_8));
-		if (root == null) return null;
-		if (root.isJsonArray())
-		{
-			List<TaskDefinition> list = GSON.fromJson(root, LIST_TASK_DEFINITION);
-			TasksData data = new TasksData();
-			data.setDefaultTasks(list != null ? list : new ArrayList<>());
-			return data;
-		}
-		return GSON.fromJson(root, TasksData.class);
-	}
-
-	private static final Gson GSON_SERIALIZE = new GsonBuilder()
-		.registerTypeAdapter(TaskDefinition.class, TASK_SERIALIZER)
-		.create();
 
 	private final ConfigManager configManager;
 	private final GridScapeConfig config;
@@ -166,6 +141,8 @@ public class TaskGridService
 	private final AreaCompletionService areaCompletionService;
 	private final AreaGraphService areaGraphService;
 	private final Client client;
+	private final Gson gson;
+	private final Gson gsonSerialize;
 
 	private volatile TasksData tasksData;
 
@@ -189,7 +166,7 @@ public class TaskGridService
 	@Inject
 	public TaskGridService(ConfigManager configManager, GridScapeConfig config,
 		PointsService pointsService, AreaCompletionService areaCompletionService,
-		AreaGraphService areaGraphService, Client client)
+		AreaGraphService areaGraphService, Client client, Gson gson)
 	{
 		this.configManager = configManager;
 		this.config = config;
@@ -197,6 +174,28 @@ public class TaskGridService
 		this.areaCompletionService = areaCompletionService;
 		this.areaGraphService = areaGraphService;
 		this.client = client;
+		this.gson = gson.newBuilder()
+			.registerTypeAdapter(TaskDefinition.class, TASK_DESERIALIZER)
+			.create();
+		this.gsonSerialize = gson.newBuilder()
+			.registerTypeAdapter(TaskDefinition.class, TASK_SERIALIZER)
+			.create();
+	}
+
+	/** Parses JSON from the stream into TasksData. Accepts both root array {@code [ ... ]} and object {@code {"defaultTasks": [...]}. */
+	private TasksData parseTasksDataFromStream(InputStream in) throws Exception
+	{
+		@SuppressWarnings("deprecation")
+		JsonElement root = new JsonParser().parse(new InputStreamReader(in, StandardCharsets.UTF_8));
+		if (root == null) return null;
+		if (root.isJsonArray())
+		{
+			List<TaskDefinition> list = gson.fromJson(root, LIST_TASK_DEFINITION);
+			TasksData data = new TasksData();
+			data.setDefaultTasks(list != null ? list : new ArrayList<>());
+			return data;
+		}
+		return gson.fromJson(root, TasksData.class);
 	}
 
 	/**
@@ -271,7 +270,7 @@ public class TaskGridService
 		{
 			try
 			{
-				TasksData parsed = GSON.fromJson(override.trim(), TasksData.class);
+				TasksData parsed = gson.fromJson(override.trim(), TasksData.class);
 				if (parsed != null && parsed.getDefaultTasks() != null)
 					return parsed;
 			}
@@ -291,7 +290,7 @@ public class TaskGridService
 		try
 		{
 			com.google.gson.reflect.TypeToken<List<TaskDefinition>> typeToken = new com.google.gson.reflect.TypeToken<List<TaskDefinition>>(){};
-			List<TaskDefinition> list = GSON.fromJson(raw.trim(), typeToken.getType());
+			List<TaskDefinition> list = gson.fromJson(raw.trim(), typeToken.getType());
 			return list != null ? list : new ArrayList<>();
 		}
 		catch (Exception e)
@@ -304,7 +303,7 @@ public class TaskGridService
 	/** Saves custom tasks to config as JSON and invalidates the tasks cache. */
 	private void saveCustomTasksToConfig(List<TaskDefinition> list)
 	{
-		String json = GSON_SERIALIZE.toJson(list != null ? list : new ArrayList<>());
+		String json = gsonSerialize.toJson(list != null ? list : new ArrayList<>());
 		configManager.setConfiguration(STATE_GROUP, KEY_CUSTOM_TASKS, json);
 		invalidateTasksCache();
 	}
@@ -360,7 +359,7 @@ public class TaskGridService
 			clearTasksOverride();
 			return;
 		}
-		TasksData parsed = GSON.fromJson(tasksJson.trim(), TasksData.class);
+		TasksData parsed = gson.fromJson(tasksJson.trim(), TasksData.class);
 		if (parsed == null || parsed.getDefaultTasks() == null)
 			throw new IllegalArgumentException("Invalid tasks JSON: need defaultTasks array");
 		configManager.setConfiguration(STATE_GROUP, KEY_TASKS_OVERRIDE, tasksJson.trim());

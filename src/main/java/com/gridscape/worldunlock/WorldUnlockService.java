@@ -79,6 +79,7 @@ public class WorldUnlockService
 	private final PointsService pointsService;
 	private final TaskGridService taskGridService;
 	private final AreaGraphService areaGraphService;
+	private final Gson gson;
 
 	private List<WorldUnlockTile> tiles = new ArrayList<>();
 	private final Set<String> unlockedIds = new HashSet<>();
@@ -91,13 +92,14 @@ public class WorldUnlockService
 
 	@Inject
 	public WorldUnlockService(ConfigManager configManager, GridScapeConfig config, PointsService pointsService,
-		TaskGridService taskGridService, AreaGraphService areaGraphService)
+		TaskGridService taskGridService, AreaGraphService areaGraphService, Gson gson)
 	{
 		this.configManager = configManager;
 		this.config = config;
 		this.pointsService = pointsService;
 		this.taskGridService = taskGridService;
 		this.areaGraphService = areaGraphService;
+		this.gson = gson;
 	}
 
 	/** Load tiles from resource and persisted unlocked ids. Call once at startup when mode is WORLD_UNLOCK. */
@@ -111,7 +113,6 @@ public class WorldUnlockService
 		unlockedIds.clear();
 		areaIdToDiaryKey = null;
 		diaryKeyToAreaIds = null;
-		Gson gson = new Gson();
 		WorldUnlocksData data = loadJson(ResourcePaths.WORLD_UNLOCKS_JSON, WorldUnlocksData.class, gson);
 		if (data != null && data.getUnlocks() != null)
 		{
@@ -1242,7 +1243,7 @@ public class WorldUnlockService
 	private void ensureAreaMappingLoaded()
 	{
 		if (diaryKeyToAreaIds != null) return;
-		AreaMappingData data = loadJson(ResourcePaths.AREA_MAPPING_JSON, AreaMappingData.class, new Gson());
+		AreaMappingData data = loadJson(ResourcePaths.AREA_MAPPING_JSON, AreaMappingData.class, gson);
 		Map<String, List<String>> diaryToAreas = new HashMap<>();
 		Map<String, String> areaToDiary = new HashMap<>();
 		if (data != null && data.getAchievementDiaryAreaMapping() != null)

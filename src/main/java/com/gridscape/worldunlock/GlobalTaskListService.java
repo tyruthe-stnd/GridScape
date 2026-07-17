@@ -53,7 +53,6 @@ public class GlobalTaskListService
 	private static final String KEY_GLOBAL_LAYOUT_SEED = "globalTaskProgress_layoutSeed";
 	private static final String KEY_GLOBAL_TASK_HUB_BOOKMARKS = "globalTaskProgress_taskHubBookmarks";
 	private static final String KEY_GLOBAL_ELIGIBLE_SNAPSHOT = "globalTaskProgress_eligibleSnapshot";
-	private static final Gson BOOKMARK_GSON = new Gson();
 	private static final java.lang.reflect.Type BOOKMARK_LIST_TYPE = new TypeToken<List<GlobalTaskBookmark>>(){}.getType();
 	/** Max bonus points for completing one full ring on the global task grid. */
 	private static final String ID_SEP = ",";
@@ -86,17 +85,19 @@ public class GlobalTaskListService
 	private final PointsService pointsService;
 	private final WorldUnlockService worldUnlockService;
 	private final TaskGridService taskGridService;
+	private final Gson gson;
 
 	@Inject
 	public GlobalTaskListService(ConfigManager configManager, GridScapeConfig config,
 		PointsService pointsService, WorldUnlockService worldUnlockService,
-		TaskGridService taskGridService)
+		TaskGridService taskGridService, Gson gson)
 	{
 		this.configManager = configManager;
 		this.config = config;
 		this.pointsService = pointsService;
 		this.worldUnlockService = worldUnlockService;
 		this.taskGridService = taskGridService;
+		this.gson = gson;
 	}
 
 	/**
@@ -1217,7 +1218,7 @@ public class GlobalTaskListService
 			return new ArrayList<>();
 		try
 		{
-			List<GlobalTaskBookmark> list = BOOKMARK_GSON.fromJson(raw, BOOKMARK_LIST_TYPE);
+			List<GlobalTaskBookmark> list = gson.fromJson(raw, BOOKMARK_LIST_TYPE);
 			return list != null ? new ArrayList<>(list) : new ArrayList<>();
 		}
 		catch (Exception e)
@@ -1235,7 +1236,7 @@ public class GlobalTaskListService
 			configManager.unsetConfiguration(STATE_GROUP, KEY_GLOBAL_TASK_HUB_BOOKMARKS);
 			return;
 		}
-		configManager.setConfiguration(STATE_GROUP, KEY_GLOBAL_TASK_HUB_BOOKMARKS, BOOKMARK_GSON.toJson(bookmarks));
+		configManager.setConfiguration(STATE_GROUP, KEY_GLOBAL_TASK_HUB_BOOKMARKS, gson.toJson(bookmarks));
 	}
 
 	/** Adds a bookmark if the same (row,col) is not already stored. */
