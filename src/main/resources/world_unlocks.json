@@ -3379,6 +3379,14 @@
     },
     {
       "type": "quest",
+      "id": "the_blood_moon_rises",
+      "displayName": "The Blood Moon Rises",
+      "tier": 5,
+      "prerequisites": ["myreditch", "sins_of_the_father", "a_night_at_the_theatre"],
+      "taskLink": { "type": "taskFilter", "taskType": "Quest", "requirementsContains": "The Blood Moon Rises" }
+    },
+    {
+      "type": "quest",
       "id": "beneath_cursed_sands",
       "displayName": "Beneath Cursed Sands",
       "tier": 4,
@@ -3938,6 +3946,7 @@
     { "type": "boss", "id": "moons_of_peril", "displayName": "Moons of Peril", "tier": 2, "cost": 35, "prerequisites": ["perilous_moons"], "taskLink": { "type": "taskFilter", "taskType": "Boss", "requirementsContains": "Moons of Peril" } },
     { "type": "boss", "id": "zulrah", "displayName": "Zulrah", "tier": 3, "cost": 75, "prerequisites": ["isafdar"], "taskLink": { "type": "taskFilter", "taskType": "Boss", "requirementsContains": "Zulrah" } },
     { "type": "boss", "id": "vorkath", "displayName": "Vorkath", "tier": 3, "cost": 75, "prerequisites": ["Dragon Slayer II"], "taskLink": { "type": "taskFilter", "taskType": "Boss", "requirementsContains": "Vorkath" } },
+    { "type": "boss", "id": "maggot_king", "displayName": "Maggot King", "tier": 3, "cost": 75, "prerequisites": ["The Blood Moon Rises"], "taskLink": { "type": "taskFilter", "taskType": "Boss", "requirementsContains": "Maggot King" } },
     { "type": "boss", "id": "phantom_muspah", "displayName": "Phantom Muspah", "tier": 4, "cost": 100, "prerequisites": ["Secrets of the North"], "taskLink": { "type": "taskFilter", "taskType": "Boss", "requirementsContains": "Phantom Muspah" } },
     { "type": "boss", "id": "the_nightmare", "displayName": "The Nightmare & Phosani's Nightmare", "tier": 5, "cost": 125, "prerequisites": ["slepe"], "taskLink": { "type": "taskFilter", "taskType": "Boss", "requirementsContains": "The Nightmare" } },
     { "type": "boss", "id": "yama", "displayName": "Yama", "tier": 5, "cost": 125, "prerequisites": ["shayzien"], "taskLink": { "type": "taskFilter", "taskType": "Boss", "requirementsContains": "Yama" } },

@@ -2994,6 +2994,23 @@
                      }
     },
     {
+        "id":  "the_blood_moon_rises",
+        "displayName":  "The Blood Moon Rises",
+        "tier":  5,
+        "type":  "quest",
+        "cost":  115,
+        "prerequisites":  [
+                              "myreditch",
+                              "sins_of_the_father",
+                              "a_night_at_the_theatre"
+                          ],
+        "taskLink":  {
+                         "taskType":  "Quest",
+                         "requirementsContains":  "The Blood Moon Rises",
+                         "type":  "taskFilter"
+                     }
+    },
+    {
         "id":  "beneath_cursed_sands",
         "displayName":  "Beneath Cursed Sands",
         "tier":  4,

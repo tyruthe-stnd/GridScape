@@ -10872,6 +10872,60 @@
     "bossId": "vorkath"
   },
   {
+    "displayName": "Defeat Maggot King",
+    "taskType": "killCount",
+    "difficulty": 4,
+    "requirements": "maggot_king",
+    "onceOnly": true,
+    "area": "myreditch",
+    "bossId": "maggot_king"
+  },
+  {
+    "displayName": "Defeat Maggot King 5 times",
+    "taskType": "killCount",
+    "difficulty": 4,
+    "requirements": "Defeat Maggot King",
+    "onceOnly": true,
+    "area": "myreditch",
+    "bossId": "maggot_king"
+  },
+  {
+    "displayName": "Defeat Maggot King 10 times",
+    "taskType": "killCount",
+    "difficulty": 5,
+    "requirements": "Defeat Maggot King 5 times",
+    "onceOnly": true,
+    "area": "myreditch",
+    "bossId": "maggot_king"
+  },
+  {
+    "displayName": "Defeat Maggot King 25 times",
+    "taskType": "killCount",
+    "difficulty": 5,
+    "requirements": "Defeat Maggot King 10 times",
+    "onceOnly": true,
+    "area": "myreditch",
+    "bossId": "maggot_king"
+  },
+  {
+    "displayName": "Defeat Maggot King 50 times",
+    "taskType": "killCount",
+    "difficulty": 5,
+    "requirements": "Defeat Maggot King 25 times",
+    "onceOnly": true,
+    "area": "myreditch",
+    "bossId": "maggot_king"
+  },
+  {
+    "displayName": "Defeat Maggot King 100 times",
+    "taskType": "killCount",
+    "difficulty": 5,
+    "requirements": "Defeat Maggot King 50 times",
+    "onceOnly": true,
+    "area": "myreditch",
+    "bossId": "maggot_king"
+  },
+  {
     "displayName": "Defeat Phantom Muspah",
     "taskType": "killCount",
     "difficulty": 4,
@@ -12610,6 +12664,27 @@
     "area": "north_central_wilderness"
   },
   {
+    "displayName": "Catch a Letvek",
+    "taskType": "Hunter",
+    "difficulty": 3,
+    "requirements": "The Blood Moon Rises, 71-80",
+    "area": "myreditch"
+  },
+  {
+    "displayName": "Catch a Letvek 50 times",
+    "taskType": "Hunter",
+    "difficulty": 4,
+    "requirements": "The Blood Moon Rises, 71-80",
+    "area": "myreditch"
+  },
+  {
+    "displayName": "Catch a Letvek 100 times",
+    "taskType": "Hunter",
+    "difficulty": 5,
+    "requirements": "The Blood Moon Rises, 71-80",
+    "area": "myreditch"
+  },
+  {
     "displayName": "Catch a Fish Shoal",
     "taskType": "Hunter",
     "difficulty": 2,
@@ -13167,6 +13242,14 @@
     "areaRequirement": "all"
   },
   {
+    "displayName": "Slay a Venator on a Slayer Task",
+    "taskType": "Slayer",
+    "difficulty": 4,
+    "requirements": "The Blood Moon Rises, 71-80",
+    "area": "myreditch, burthorpe",
+    "areaRequirement": "all"
+  },
+  {
     "displayName": "Slay a Molanisk",
     "taskType": "Slayer",
     "difficulty": 1,
@@ -13683,6 +13766,13 @@
     "area": "shrouded_e"
   },
   {
+    "displayName": "Chop a Bloodwood Tree",
+    "taskType": "Woodcutting",
+    "difficulty": 4,
+    "requirements": "The Blood Moon Rises, Woodcutting 71-80",
+    "area": "myreditch"
+  },
+  {
     "displayName": "Chop a Redwood Tree",
     "taskType": "Woodcutting",
     "difficulty": 5,
@@ -13740,6 +13830,12 @@
     "taskType": "Fletching",
     "difficulty": 4,
     "requirements": "71-80"
+  },
+  {
+    "displayName": "Fletch some Seeking Arrows",
+    "taskType": "Fletching",
+    "difficulty": 4,
+    "requirements": "The Blood Moon Rises"
   },
   {
     "displayName": "Fletch a Hunter's sunlight crossbow",
@@ -16128,6 +16224,33 @@
     "onceOnly": true,
     "area": "fremennik_isles",
     "bossId": "vorkath"
+  },
+  {
+    "displayName": "Obtain the Maggot Marquess Pet",
+    "taskType": "Collection Log",
+    "difficulty": 5,
+    "requirements": "maggot_king",
+    "onceOnly": true,
+    "area": "myreditch",
+    "bossId": "maggot_king"
+  },
+  {
+    "displayName": "Obtain the Crimson Kisten",
+    "taskType": "Collection Log",
+    "difficulty": 4,
+    "requirements": "maggot_king",
+    "onceOnly": true,
+    "area": "myreditch",
+    "bossId": "maggot_king"
+  },
+  {
+    "displayName": "Obtain the Elder Venator Fang",
+    "taskType": "Collection Log",
+    "difficulty": 4,
+    "requirements": "maggot_king",
+    "onceOnly": true,
+    "area": "myreditch",
+    "bossId": "maggot_king"
   },
   {
     "displayName": "Obtain a Vorkath's head",
@@ -26656,6 +26779,27 @@
     "taskType": "Achievement Diary",
     "difficulty": 2,
     "area": "karamja"
+  },
+  {
+    "displayName": "Trap a Stymphike",
+    "taskType": "Achievement Diary",
+    "difficulty": 4,
+    "area": "myreditch",
+    "requirements": "The Blood Moon Rises"
+  },
+  {
+    "displayName": "Trap 50 Stymphikes",
+    "taskType": "Achievement Diary",
+    "difficulty": 4,
+    "area": "myreditch",
+    "requirements": "The Blood Moon Rises"
+  },
+  {
+    "displayName": "Trap 100 Stymphikes",
+    "taskType": "Achievement Diary",
+    "difficulty": 5,
+    "area": "myreditch",
+    "requirements": "The Blood Moon Rises"
   },
   {
     "displayName": "Catch a chinchompa in the Kourend Woodland.",
